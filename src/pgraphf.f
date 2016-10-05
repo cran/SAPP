@@ -63,13 +63,21 @@ cc      dimension w(3000),x1(3000),xt(300),sigma(3000)
 cc      data xmg/3000*0.0/
 cc      real*8 a(20),b,bm,zd(3000),xmgd(3000),xmgmax,wop,a55
 cc      real*8 ax(20),ay(20),ac(20),at(20),xx(3000),yy(3000),ymg(3000)
-      implicit real * 8 (a-h,o-z)
-      dimension xmg(nn),z(nn)
-      dimension x(nn),xtau(2*nn),y(2*nn)
-      dimension xl(nn-1),xx(nn-1,6),ui(nn-1),cum(nn-1),sui(nn-1)
-      dimension xrate(ipoint+1),xp(4)
-      dimension sigma(kmax), erres(kmax),errest(kmax)
-      dimension xtime(kmax),yvar(5,kmax),ydev(nn-1)
+cx      implicit real * 8 (a-h,o-z)
+cx      dimension xmg(nn),z(nn)
+cx      dimension z(nn)
+cx      dimension x(nn),xtau(2*nn),y(2*nn)
+cx      dimension xl(nn-1),xx(nn-1,6),ui(nn-1),cum(nn-1),sui(nn-1)
+cx      dimension xrate(ipoint+1),xp(4)
+cx      dimension sigma(kmax), erres(kmax),errest(kmax)
+cx      dimension xtime(kmax),yvar(5,kmax),ydev(nn-1)
+      integer :: nfunct, isi, nn, ipoint, kmax, kn, k, ier
+      real(8) :: z(nn), days, h, delta, dmax, xtau(2*nn), y(2*nn),
+     1           xl(nn-1), xx(nn-1,6), ydev(nn-1), ui(nn-1), cum(nn-1),
+     2           sui(nn-1), xp(4), xrate(ipoint+1), dlt, xtime(kmax),
+     3           yvar(5,kmax), sigma(kmax)
+      real(8) :: x(nn), erres(kmax), errest(kmax), tm, ttt, xmin, xmax,
+     1           t, tt
 c
 cc      call input(nfunct,isi,icnt,z,xmg,xmgd,yb,t,t0,t1,t2,a,ak,c1,p,
 cc     &           ak2,c2,p2,kkx,xmgmax,nn,ipoint,days,h,zd,delta,dmax,ns,
@@ -101,7 +109,8 @@ cc      call vtc(zd,nn,delta,dmax,tt,sigma,k,erres,errest)
       call vtc(z,nn,delta,dmax,tt,sigma,k,erres,errest,kmax)
 c
 cc      call vtcprt(sigma,k,delta,nn,tt,erres,errest)
-      call vtcprt(sigma,k,delta,nn,tt,erres,errest,xtime,yvar)
+cx      call vtcprt(sigma,k,delta,nn,tt,erres,errest,xtime,yvar)
+      call vtcprt(sigma,k,delta,nn,tt,erres,xtime,yvar)
 c
       if(nfunct.eq.0) go to 20
 cc      call vtc(x,nn,delta*nn/tt,dmax*nn/tt,float(nn),sigma,k,erres,erres
@@ -109,8 +118,9 @@ cc     &t)
 cc      call vtcprt(sigma,k,delta*nn/tt,nn,float(nn),erres,errest)
       call vtc(x,nn,delta*nn/tt,dmax*nn/tt,dble(nn),sigma,k,erres,
      & errest,kmax)
-      call vtcprt(sigma,k,delta*nn/tt,nn,dble(nn),erres,errest,xtime,
-     & yvar)
+cx      call vtcprt(sigma,k,delta*nn/tt,nn,dble(nn),erres,errest,xtime,
+cx     & yvar)
+      call vtcprt(sigma,k,delta*nn/tt,nn,dble(nn),erres,xtime,yvar)
    20 continue
 c  ---------------------------------------------
       return
@@ -121,9 +131,13 @@ cc      dimension z(1),xmg(1),x(6000),ix(6000),y(6000),xt(1)
 cc      dimension xnm(2000)
 cc      real*8 xmgmax
 cc      data xnm/2000*0.0/
-      implicit real * 8 (a-h,o-z)
+cx      implicit real * 8 (a-h,o-z)
 cx      dimension z(1),x(2*nn),ix(2*nn),y(2*nn)
-      dimension z(nn),x(2*nn),ix(2*nn),y(2*nn)
+cx      dimension z(nn),x(2*nn),ix(2*nn),y(2*nn)
+      integer :: nn, kn
+      real(8) :: z(nn), h, x(2*nn), y(2*nn)
+      integer :: ix(2*nn)
+      real(8) :: xx, shimiz
       i=1
       j=1
       k=0
@@ -150,7 +164,7 @@ cc      xnm(n+1)=xnm(n+1)+(x(k)-x(k-1))
       go to 10
    30 continue
       kn=k
-    1 format((1h ,10(f7.3,i4,1x)))
+cx    1 format((1h ,10(f7.3,i4,1x)))
 cc      open(7,file='out.pgPTnum')
 cc      write(7,*) h,tm
       do 40 i=1,kn
@@ -167,7 +181,9 @@ c   of poisson variables with mean v; see the equation (50) in
 c     r. shimizu(1984). "normal approximation for asymmetric distribu-
 c     tions (in japanese)".  proc. inst. statist. math., vol. 32, no.2.
 c
-      implicit real * 8 (a-h,o-z)
+cx      implicit real * 8 (a-h,o-z)
+      integer :: ix
+      real(8) :: h
 c
       shimiz=(33.d0*ix+29.d0-h-(32.d0*ix+31.d0)*(h/(ix+1.d0))**
      &       (1.d0/4.d0))/(9.d0*sqrt(ix+1.d0))
@@ -185,20 +201,24 @@ c     the theoretical stationary poisson process are shown in a
 c     separated graph with lines of error bounds.
 c
 cc      dimension z(1),x(3000),y(3000),w(3000)
-      implicit real * 8 (a-h,o-z)
+cx      implicit real * 8 (a-h,o-z)
 cx      dimension z(1),x(n+1),w(n-1)
-      dimension z(n),x(n+1),w(n-1)
-      dimension xx(n-1,6)
-      dimension xl(n-1)
-      dimension ydev(n-1)
-      dimension ui(n-1),cum(n-1),sui(n-1)
-      ier=0
+cx      dimension z(n),x(n+1),w(n-1)
+cx      dimension xx(n-1,6)
+cx      dimension xl(n-1)
+cx      dimension ydev(n-1)
+cx      dimension ui(n-1),cum(n-1),sui(n-1)
+      integer :: n, nfunct, isi, ier
+      real(8) :: z(n), ttt, xl(n-1), xx(n-1,6), ydev(n-1), ui(n-1),
+     1           cum(n-1), sui(n-1)
+      real(8) :: x(n+1), w(n-1), xmin
 c
+      ier=0
       do 100 i=2,n
       x(i-1)=z(i)-z(i-1)
       if(nfunct.eq.0) x(i-1)=x(i-1)*ttt/n
 cc      if(x(i-1).lt.0.0) write(6,2) i,z(i-1),z(i)
-    2 format(1h ,' error ',i5,2f15.5)
+cx    2 format(1h ,' error ',i5,2f15.5)
       if(x(i-1).lt.0.0) ier=i-1
       if(x(i-1).lt.0.0) x(i-1)=0.0
       w(i-1)=x(i-1)
@@ -218,7 +238,7 @@ cc      if(x(i-1).lt.0.0) write(6,2) i,z(i-1),z(i)
 cc      do 30 i=1,n1
 cc      y(i)=n1+1-i
 cc   30 continue
-    1 format(1h ,10f13.5)
+cx    1 format(1h ,10f13.5)
       do 50 i=1,n1+2
       if(nfunct.eq.0) x(i)=x(i)*n/ttt
    50 continue
@@ -240,7 +260,9 @@ cc      call unifrm(x,n1,xw,yw,ttt,w)
       end
 cc      function plsinv(n,k,z,isw)
       double precision function plsinv(n,k,z,isw)
-      real*8 a,b,c,d,z,uu,ud
+cx      real*8 a,b,c,d,z,uu,ud
+      integer :: n, k, isw
+      real(8) :: a, b, c, d, z, uu, ud
       a=1.d0-1.d0/(9.d0*(n-k+1))
       b=1.d0-1.d0/(9.d0*k)
       c=1.d0/(9.d0*(n-k+1))
@@ -259,9 +281,13 @@ c   this relates to the subroutine errplt.  error bars are drawed by
 c   the use of the inversion of the paulson's approximation.
 cc      dimension x(1),y(1)
 cc      dimension xx(3000,6),yy(3000),nc(6)
-      implicit real * 8 (a-h,o-z)
-      dimension xx(n,6)
-      real* 8 stderr(6)/0.15866d0,0.84134d0,0.022750d0,0.977250d0,
+cx      implicit real * 8 (a-h,o-z)
+cx      dimension xx(n,6)
+      integer :: n
+      real(8) :: xx(n,6)
+      real(8) :: stderr(6), plsinv
+cx      real* 8 stderr(6)/0.15866d0,0.84134d0,0.022750d0,0.977250d0,
+      data stderr /0.15866d0,0.84134d0,0.022750d0,0.977250d0,
      &                  0.0013499d0,0.9986501d0/
       do 50 i=1,6
       xx(1,i)=-log(stderr(i))/n
@@ -294,11 +320,14 @@ c   a transformation is made through the normal approximation of the
 c   random variables,  beta(k,n-k+1) = u(k)/(1-u(k)), which is called
 c   by name of the paulson's approximation.
 cc      dimension x(1),y(3000)
-      implicit real * 8 (a-h,o-z)
-      dimension x(n),y(n)
-      plson(n,k,v)=
-     &    -((1.-1./(9*k))-((n-k+1.)/k*v)**(1./3.)*(1.-1./(9*(n-k+1))))
-     &     /sqrt((1./(9*k))+((n-k+1.)/k*v)**(2./3.)*(1./(9*(n-k+1))))
+cx      implicit real * 8 (a-h,o-z)
+cx      dimension x(n),y(n)
+      integer :: n
+      real(8) :: x(n), y(n)
+      real(8) :: v, plson
+cx      plson(n,k,v)=
+cx     &    -((1.-1./(9*k))-((n-k+1.)/k*v)**(1./3.)*(1.-1./(9*(n-k+1))))
+cx     &     /sqrt((1./(9*k))+((n-k+1.)/k*v)**(2./3.)*(1./(9*(n-k+1))))
 cc      open(7,file='out.pgSurDev')
 cc      write(7,*)'errplt'
       do 10 k=1,n
@@ -307,14 +336,25 @@ cc      write(7,*)'errplt'
 cc      write(7,*) k,y(k)
    10 continue
 cc      close(7)
-    1 format(1h ,10f13.5)
+cx    1 format(1h ,10f13.5)
       return 
+      end
+      double precision function plson(n,k,v)
+      integer :: n, k
+      real(8) :: v
+      plson=
+     &    -((1.-1./(9*k))-((n-k+1.)/k*v)**(1./3.)*(1.-1./(9*(n-k+1))))
+     &     /sqrt((1./(9*k))+((n-k+1.)/k*v)**(2./3.)*(1./(9*(n-k+1))))
+      return
       end
 cc      subroutine unifrm(x,n,xw,yw,ttt,w)
       subroutine unifrm(x,n,ttt,w,xx,y,ww)
 cc      dimension x(1),xx(5000),y(5000),w(1),ww(5000)
-      implicit real * 8 (a-h,o-z)
-      dimension x(n),xx(n),y(n),w(n),ww(n)
+cx      implicit real * 8 (a-h,o-z)
+cx      dimension x(n),xx(n),y(n),w(n),ww(n)
+      integer :: n
+      real(8) :: x(n), ttt, w(n), xx(n), y(n), ww(n)
+      real(8) :: rmd, x1, x2
       rmd=(n+1)/ttt
 cc      open(7,file='out.pgInter1')
       x1=1.35810*sqrt(float(n))/n
@@ -335,15 +375,19 @@ cc      call unitsq(ww,n,xw,yw)
 cc      subroutine palmpr(x,n,t,t1,n1)
       subroutine palmpr(x,n,t,t1,n1,xp,xx,dlt)
 cc      dimension x(1),xx(1000),p(4)
-      implicit real * 8 (a-h,o-z)
+cx      implicit real * 8 (a-h,o-z)
 cx      dimension x(1),xx(n1+1),p(4)
-      dimension x(n),xx(n1+1),p(4)
-      character*1 xl(101),xmi,xii,xtt,xst,bl
-      dimension xp(4)
+cx      dimension x(n),xx(n1+1),p(4)
+cx      character*1 xl(101),xmi,xii,xtt,xst,bl
+cx      dimension xp(4)
+      integer :: n, n1
+      real(8) :: x(n), t, t1, xp(4), xx(n1+1), dlt
+      real(8) :: p(4), rmd, rmd1, xp1, xp2, xp3, xp4,
+     1           xmax, xmin, xm, x0
       data p/-2.57583,-1.95996,1.95996,2.57583/
-      data xmi,xii,xtt,xst,bl/'-','i','|','*',' '/
+cx      data xmi,xii,xtt,xst,bl/'-','i','|','*',' '/
 c     write(6,4)
-    4 format(1h )
+cx    4 format(1h )
       do 10 i=1,n1
       xx(i)=0.0
    10 continue
@@ -353,7 +397,8 @@ c     write(6,4)
       nc=nc+1
       do 30 j=i+1,n
       if(x(j)-x(i).gt.t1)go to 30
-      ii=(x(j)-x(i))*n1/t1+1
+cx      ii=(x(j)-x(i))*n1/t1+1
+      ii=int((x(j)-x(i))*n1/t1)+1
       if(ii.lt.1) ii=1
       xx(ii)=xx(ii)+1
    30 continue
@@ -392,42 +437,45 @@ cc      close(7)
       xm=(xmax+xmin)/2
       x0=0.0
 cc      write(6,1) xmin,xm,xmax
-    1 format('time span ',1x,e10.4,13x,e10.4,15x,e10.4)
-      do 60 i=1,101
-      xl(i)=bl
-   60 continue
-      xl(1)=xtt
-      xl(26)=xtt
-      xl(51)=xtt
+cx    1 format('time span ',1x,e10.4,13x,e10.4,15x,e10.4)
+cx      do 60 i=1,101
+cx      xl(i)=bl
+cx   60 continue
+cx      xl(1)=xtt
+cx      xl(26)=xtt
+cx      xl(51)=xtt
 cc      write(6,2) (xl(i),i=1,51)
-    2 format(13x,51a1)
-      do 70 i=1,101
-      xl(i)=xmi
-   70 continue
-      xl(1)=xii
+cx    2 format(13x,51a1)
+cx      do 70 i=1,101
+cx      xl(i)=xmi
+cx   70 continue
+cx      xl(1)=xii
 c     write(6,2) (xl(i),i=1,101)
 c     write(6,3) x0
 c   3 format(1h+,5x,e13.4,'-')
 cc      write(6,3) x0,(xl(i),i=1,51)
-    3 format(e12.4,' ',51a1)
+cx    3 format(e12.4,' ',51a1)
       rmd=n/t
-      do 80 i=1,n1
-      do 90 j=1,101
-      xl(j)=bl
-   90 continue
-      xl(1)=xii
-      do 100 j=1,4
-      ii=(xp(j)-xmin)/(xmax-xmin)*50+1
-      xl(ii)=xtt
-  100 continue
-      ii=(rmd-xmin)/(xmax-xmin)*50+1
-      xl(ii)=xtt
-      ii=xx(i)/xmax*50+1
-      xl(ii)=xst
-      xt1=t1*i/n1
+cx      do 80 i=1,n1
+cx      do 90 j=1,101
+cx      xl(j)=bl
+cx   90 continue
+cx      xl(1)=xii
+cx      do 100 j=1,4
+cx      ii=(xp(j)-xmin)/(xmax-xmin)*50+1
+cx      ii=int((xp(j)-xmin)/(xmax-xmin)*50)+1
+cx      xl(ii)=xtt
+cx  100 continue
+cx      ii=(rmd-xmin)/(xmax-xmin)*50+1
+cx      ii=int((rmd-xmin)/(xmax-xmin)*50)+1
+cx      xl(ii)=xtt
+cx      ii=xx(i)/xmax*50+1
+cx      ii=int(xx(i)/xmax*50)+1
+cx      xl(ii)=xst
+cx      xt1=t1*i/n1
 cc      write(6,5) xt1,(xl(j),j=1,51)
-    5 format(d12.4,1x,101a1)
-   80 continue
+cx    5 format(d12.4,1x,101a1)
+cx   80 continue
       return
       end
 cc      subroutine vtc(x,n,delta,dmax,t,sigma,k,erres,errest)
@@ -452,20 +500,30 @@ cc      real*8 a,sigm1,sigm2,ak,avar,amean,r,rmd,xx,rt,sig
 cc      dimension x(3000),a(3000),sigm1(3000),sigm2(3000),sigc0(3000)
 cc     &        ,ak(3000),avar(3000),sigma(3000),xx(3000),amean(3000)
 cc      dimension erres(3000),errest(3000)
-      implicit real * 8 (a-h,o-z)
-      dimension x(n),a(kmax),sigm1(kmax),sigm2(kmax),sigc0(kmax),
-     &   ak(kmax),avar(kmax),sigma(kmax),xx(16*kmax),amean(kmax)
-      dimension erres(kmax),errest(kmax)
+cx      implicit real * 8 (a-h,o-z)
+cx      dimension x(n),a(kmax),sigm1(kmax),sigm2(kmax),sigc0(kmax),
+cx     &   ak(kmax),avar(kmax),sigma(kmax),xx(16*kmax),amean(kmax)
+cx      dimension erres(kmax),errest(kmax)
+      integer :: n, k, kmax
+      real(8) :: x(n), delta, dmax, t, sigma(kmax), erres(kmax),
+     1           errest(kmax)
+      real(8) :: a(kmax), sigm1(kmax), sigm2(kmax), sigc0(kmax),
+     1           ak(kmax), avar(kmax), xx(16*kmax), amean(kmax),
+     2           dnn, rmd, rt, t0, sig, r
 c-----
 cc      nn=t/delta
       dnn=t/delta
       nn=idint(dnn)
 c-----
-      do 10 i=1,nn
-   10 xx(i)=0.0
+cx      do 10 i=1,nn
+cx   10 xx(i)=0.0
+      xx(1:nn)=0.0
       do 20 i=1,n
-      ii=x(i)/delta+1
-   20 xx(ii)=xx(ii)+1
+cx      ii=x(i)/delta+1
+      ii=int(x(i)/delta)+1
+cx   20 xx(ii)=xx(ii)+1
+      xx(ii)=xx(ii)+1
+   20 continue
       a(1)=nn
       a(2)=nn-1
       sigm1(1)=0.0
@@ -538,16 +596,21 @@ c-----
       return
       end
 cc      subroutine vtcprt(sigma,n,delta,nn,t,erres,errest)
-      subroutine vtcprt(sigma,n,delta,nn,t,erres,errest,x,y)
-      implicit real * 8 (a-h,o-z)
-      character*1 xl(101),xmi,xii,xtt,xst,bl,xo
+cx      subroutine vtcprt(sigma,n,delta,nn,t,erres,errest,x,y)
+      subroutine vtcprt(sigma,n,delta,nn,t,erres,x,y)
+cx      implicit real * 8 (a-h,o-z)
+cx      character*1 xl(101),xmi,xii,xtt,xst,bl,xo
 cx      dimension sigma(1),erres(1),errest(1)
 cc      dimension x(2000),y(5)
-      dimension sigma(n),erres(n),errest(n)
-      dimension x(n),y(5,n)
-      data xmi,xii,xtt,xst,bl,xo/'-','|','|','*',' ','o'/
+cx      dimension sigma(n),erres(n),errest(n)
+cx      dimension sigma(n),erres(n)
+cx      dimension x(n),y(5,n)
+      integer :: n, nn
+      real(8) :: sigma(n), delta, t, erres(n), x(n), y(5,n)
+      real(8) :: xmax, smin, smax, sm, x0
+cx      data xmi,xii,xtt,xst,bl,xo/'-','|','|','*',' ','o'/
 cc      write(6,4)
-    4 format(1h )
+cx    4 format(1h )
       xmax=4*delta*(n-2)
       n1=4*(n-2)+2
       smin=0.0
@@ -567,39 +630,41 @@ cc      write(7,*) n,n1
       sm=(smin+smax)/2
       x0=0
 cc      write(6,1) smin,sm,smax
-    1 format(19x,e10.4,13x,e10.4,15x,e10.4)
-      do 60 i=1,101
-      xl(i)=bl
-   60 continue
-      xl(1)=xtt
-      xl(26)=xtt
-      xl(51)=xtt
+cx    1 format(19x,e10.4,13x,e10.4,15x,e10.4)
+cx      do 60 i=1,101
+cx      xl(i)=bl
+cx   60 continue
+cx      xl(1)=xtt
+cx      xl(26)=xtt
+cx      xl(51)=xtt
 cc      write(6,2) (xl(i),i=1,51)
-    2 format(20x,101a1)
-      do 70 i=1,101
-      xl(i)=xmi
-   70 continue
-      xl(1)=xii
+cx    2 format(20x,101a1)
+cx      do 70 i=1,101
+cx      xl(i)=xmi
+cx   70 continue
+cx      xl(1)=xii
 c     write(6,2) (xl(i),i=1,101)
 c     write(6,3) x0
 c   3 format(1h+,5x,e13.4,'-')
 cc      write(6,3) x0,(xl(i),i=1,51)
-    3 format(1h ,5x,e13.4,' ',101a1)
-      im=(n/t-smin)/(smax-smin)*50+1
+cx    3 format(1h ,5x,e13.4,' ',101a1)
+cx      im=(n/t-smin)/(smax-smin)*50+1
+      im=int((n/t-smin)/(smax-smin)*50)+1
       do 80 i=1,n1
-      do 90 j=1,101
-      xl(j)=bl
-   90 continue
-      xl(1)=xii
-      xl(im)=xtt
+cx      do 90 j=1,101
+cx      xl(j)=bl
+cx   90 continue
+cx      xl(1)=xii
+cx      xl(im)=xtt
       i1=0
       if(i.eq.1) i1=1
       if(i.eq.2) i1=2
       if(mod(i,4).eq.0) i1=i/4+2
 c     if(i1.eq.0) go to 85
       if(i1.eq.0) go to 80
-      ii=(i*delta*nn/t-smin)/(smax-smin)*50+1
-      if(ii.gt.0.and.ii.le.50) xl(ii)=xo
+cx      ii=(i*delta*nn/t-smin)/(smax-smin)*50+1
+      ii=int((i*delta*nn/t-smin)/(smax-smin)*50)+1
+cx      if(ii.gt.0.and.ii.le.50) xl(ii)=xo
 cc      y(1)=i*delta*nn/t
       y(1,i1)=i*delta*nn/t
       do 100 j=1,4
@@ -607,15 +672,17 @@ cc      y(1)=i*delta*nn/t
       if(j.eq.2) k=-2
       if(j.eq.3) k=2
       if(j.eq.4) k=3
-      ii=(i*delta*nn/t+erres(i1)*k-smin)/(smax-smin)*50+1
-      if(ii.gt.0.and.ii.le.100) xl(ii)=xii
+cx      ii=(i*delta*nn/t+erres(i1)*k-smin)/(smax-smin)*50+1
+      ii=int((i*delta*nn/t+erres(i1)*k-smin)/(smax-smin)*50)+1
+cx      if(ii.gt.0.and.ii.le.100) xl(ii)=xii
 cc      y(j+1)=i*delta*nn/t+erres(i1)*k
       y(j+1,i1)=i*delta*nn/t+erres(i1)*k
   100 continue
-      ii=(sigma(i1)-smin)/(smax-smin)*50+1
-      xl(ii)=xst
+cx      ii=(sigma(i1)-smin)/(smax-smin)*50+1
+      ii=int((sigma(i1)-smin)/(smax-smin)*50)+1
+cx      xl(ii)=xst
 cc      write(7,*) x(i1),sigma(i1),(y(j),j=1,5)
-   85 continue
+cx   85 continue
 cc      if(i.ne.n1) write(6,2) (xl(j),j=1,51)
 cc      if(i.eq.n1) write(6,3) xmax,(xl(j),j=1,51)
    80 continue
@@ -627,8 +694,11 @@ cc      subroutine tmchg0(x,xt,zd,xmgd,tm,ttt,nn,inn,xmin,xmax,t)
       subroutine tmchg0(x,zd,tm,ttt,nn,inn,xmin,xmax,t)
 cc      dimension x(3000),xt(300)
 cc      real*8 zd(3000),x1,x2,xmgd(3000)
-      implicit real * 8 (a-h,o-z)
-      dimension x(nn),zd(nn),xt(200)
+cx      implicit real * 8 (a-h,o-z)
+cx      dimension x(nn),zd(nn),xt(200)
+      integer :: nn, inn
+      real(8) :: x(nn), zd(nn), tm, ttt, xmin, xmax, t
+      real(8) :: xt(200), yi, x1, x2
       do 11 i=1,200
       yi=365.25*i
       if(yi.gt.t) go to 12

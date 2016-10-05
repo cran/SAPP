@@ -2,11 +2,11 @@
 #include <Rdefines.h>
 #include "sapp.h"
 
-extern void F77_NAME(momorif)(double*, int*, double*, int*, double*, double*, double*, int*, int*, double*, double*, double*, double*, double*, double*, double*, double*, double*, double*, double*, int*, double*, double*, double*, double*, int*, int*);
+extern void F77_NAME(momorif)(double*, int*, double*, int*, double*, double*, int*, int*, double*, double*, double*, double*, double*, double*, double*, double*, double*, double*, double*, int*, double*, double*, double*, double*, int*, int*);
 
-SEXP momori(SEXP y, SEXP n, SEXP pai, SEXP np, SEXP zts, SEXP zte, SEXP tstart, SEXP ncount, SEXP nfunct, SEXP nlmax)
+SEXP momori(SEXP y, SEXP n, SEXP pai, SEXP np, SEXP zts, SEXP zte, SEXP ncount, SEXP nfunct, SEXP nlmax)
 {
-    double *d1,*d2,*d3,*d4,*d5,*d6,*d7,*d8,*d9,*d10,*d11,*d12,*d13,*d14,*d15,*d16,*d17,*d18, *d19, *d20;
+    double *d1,*d2,*d3,*d4,*d5,*d6,*d7,*d8,*d9,*d10,*d11,*d12,*d13,*d14,*d15,*d16,*d17,*d18, *d19;
     int *i1,*i2,*i3,*i4,*i5,*i6,*i7;
 
     SEXP ans = R_NilValue, ff = R_NilValue, x = R_NilValue, g = R_NilValue, pa = R_NilValue, ahaic = R_NilValue;
@@ -23,7 +23,6 @@ SEXP momori(SEXP y, SEXP n, SEXP pai, SEXP np, SEXP zts, SEXP zte, SEXP tstart, 
     i2 = INTEGER_POINTER(np);
     d3 = NUMERIC_POINTER(zts);
     d4 = NUMERIC_POINTER(zte);
-    d5 = NUMERIC_POINTER(tstart);
     i3 = INTEGER_POINTER(ncount);
     i4 = INTEGER_POINTER(nfunct);
     i7 = INTEGER_POINTER(nlmax);
@@ -53,25 +52,25 @@ SEXP momori(SEXP y, SEXP n, SEXP pai, SEXP np, SEXP zts, SEXP zte, SEXP tstart, 
     SET_VECTOR_ELT(ans, 16, nl = allocVector(INTSXP, 1));
 
 
-    d6 = NUMERIC_POINTER(ff);
-    d7 = NUMERIC_POINTER(x);
-    d8 = NUMERIC_POINTER(g);
-    d9 = NUMERIC_POINTER(pa);
-    d10 = NUMERIC_POINTER(ahaic);
-    d11 = NUMERIC_POINTER(t0);
-    d12 = NUMERIC_POINTER(ti);
-    d13 = NUMERIC_POINTER(ak);
-    d14 = NUMERIC_POINTER(c);
-    d15 = NUMERIC_POINTER(p);
-    d16 = NUMERIC_POINTER(cls);
+    d5 = NUMERIC_POINTER(ff);
+    d6 = NUMERIC_POINTER(x);
+    d7 = NUMERIC_POINTER(g);
+    d8 = NUMERIC_POINTER(pa);
+    d9 = NUMERIC_POINTER(ahaic);
+    d10 = NUMERIC_POINTER(t0);
+    d11 = NUMERIC_POINTER(ti);
+    d12 = NUMERIC_POINTER(ak);
+    d13 = NUMERIC_POINTER(c);
+    d14 = NUMERIC_POINTER(p);
+    d15 = NUMERIC_POINTER(cls);
     i5 = INTEGER_POINTER(id);
-    d17 = NUMERIC_POINTER(rmd);
-    d18 = NUMERIC_POINTER(x1);
-    d19 = NUMERIC_POINTER(h);
-    d20 = NUMERIC_POINTER(hf);
+    d16 = NUMERIC_POINTER(rmd);
+    d17 = NUMERIC_POINTER(x1);
+    d18 = NUMERIC_POINTER(h);
+    d19 = NUMERIC_POINTER(hf);
     i6 = INTEGER_POINTER(nl);
 
-    F77_CALL(momorif) (d1,i1,d2,i2,d3,d4,d5,i3,i4,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16,i5,d17,d18,d19,d20,i6,i7);
+    F77_CALL(momorif) (d1,i1,d2,i2,d3,d4,i3,i4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,i5,d16,d17,d18,d19,i6,i7);
 
     xff = REAL(ff);
     xx = REAL(x);
@@ -91,22 +90,22 @@ SEXP momori(SEXP y, SEXP n, SEXP pai, SEXP np, SEXP zts, SEXP zte, SEXP tstart, 
     xhf = REAL(hf);
     xnl = INTEGER(nl);
 
-    *xff = *d6;
-    for(i=0; i<nnp*2; i++) xx[i] = d7[i];
-    for(i=0; i<nnp*2; i++) xg[i] = d8[i];
-    for(i=0; i<nnp; i++) xpa[i] = d9[i];
-    for(i=0; i<nc; i++) xahaic[i] = d10[i];
-    *xt0 = *d11;
-    for(i=0; i<kn; i++) xti[i] = d12[i];
-    for(i=0; i<kn; i++) xak[i] = d13[i];
-    for(i=0; i<kn; i++) xc[i] = d14[i];
-    for(i=0; i<kn; i++) xp[i] = d15[i];
-    for(i=0; i<kn; i++) xcls[i] = d16[i];
+    *xff = *d5;
+    for(i=0; i<nnp*2; i++) xx[i] = d6[i];
+    for(i=0; i<nnp*2; i++) xg[i] = d7[i];
+    for(i=0; i<nnp; i++) xpa[i] = d8[i];
+    for(i=0; i<nc; i++) xahaic[i] = d9[i];
+    *xt0 = *d10;
+    for(i=0; i<kn; i++) xti[i] = d11[i];
+    for(i=0; i<kn; i++) xak[i] = d12[i];
+    for(i=0; i<kn; i++) xc[i] = d13[i];
+    for(i=0; i<kn; i++) xp[i] = d14[i];
+    for(i=0; i<kn; i++) xcls[i] = d15[i];
     for(i=0; i<nlm; i++) xid[i] = i5[i];
-    for(i=0; i<nlm; i++) xrmd[i] = d17[i];
-    for(i=0; i<nnp*nlm; i++) xx1[i] = d18[i];
-    for(i=0; i<nnp*nnp*2; i++) xh[i] = d19[i];
-    for(i=0; i<nnp*nnp*4; i++) xhf[i] = d20[i];
+    for(i=0; i<nlm; i++) xrmd[i] = d16[i];
+    for(i=0; i<nnp*nlm; i++) xx1[i] = d17[i];
+    for(i=0; i<nnp*nnp*2; i++) xh[i] = d18[i];
+    for(i=0; i<nnp*nnp*4; i++) xhf[i] = d19[i];
     *xnl = *i6;
 
     UNPROTECT(1);

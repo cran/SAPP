@@ -1,14 +1,15 @@
 Package: SAPP
-Version: 1.0.4
+Version: 1.0.7
 Title: Statistical Analysis of Point Processes
 Author: The Institute of Statistical Mathematics
 Maintainer: Masami Saga <msaga@mtb.biglobe.ne.jp>
-Depends: R (>= 2.14.0), graphics
+Depends: R (>= 2.14.0)
+Imports: graphics, grDevices
 Description: Functions for statistical analysis of point processes.
 License: GPL (>= 2)
-MailingList: Please send questions and comments regarding SAPP to
+MailingList: Please send comments and bug reports to
         ismrp@jasp.ism.ac.jp
-Packaged: 2014-07-31 13:20:56 UTC; msaga
 NeedsCompilation: yes
+Packaged: 2016-10-04 03:08:14 UTC; msaga
 Repository: CRAN
-Date/Publication: 2014-07-31 17:33:05
+Date/Publication: 2016-10-05 14:37:37

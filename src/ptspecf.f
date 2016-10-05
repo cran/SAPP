@@ -27,15 +27,19 @@ c        estimation applied to earthquake data, 1. cyclic poisson and
 c        self-exciting models."  ann. inst. statist. math., vol. 34,
 c        no. 1, pp. 189-207.
 c
-      implicit real*8 (a-h,o-z)
+cx      implicit real*8 (a-h,o-z)
 cc      dimension t(5000)
 cc      dimension h(5000),g(5000),s(5000)
 cc      dimension w(5000)
 cc      dimension tmpr(100),wt(200),ht(200),gt(200)
-      dimension t(n)
-      dimension h(nh+1),g(nh+1),s(nh+1)
-      dimension w(nh+1)
-      dimension tmpr(nt),wt(nt),ht(nt),gt(nt)
+cx      dimension t(n)
+cx      dimension h(nh+1),g(nh+1),s(nh+1)
+cx      dimension w(nh+1)
+cx      dimension tmpr(nt),wt(nt),ht(nt),gt(nt)
+      integer :: n, nh, nt, is
+      real(8) :: t(n), t0, tmpr(nt), tmp, prd, prb, r1, rwx, rwy,
+     1           phs, wt(nt), ht(nt), w(nh+1), h(nh+1), g(nh+1)
+      real(8) :: s(nh+1), gt(nt), pi, pi2, f, om, rpt
 cc      real*4 widthx,widthy
 cc      call input(t,n,t0,pi2,rpt,tmpr,tmp,prd,nh1,nt,is,ipl)
       nh1=nh+1
@@ -65,15 +69,19 @@ cc      call printr(nh1,w,s,g,nt,wt,ht,t0,tmp,isw1)
       return
       end
       subroutine period(h,g,w,n,t,nh1,ht,gt,wt,nt,rpt,t0,pi2,tmpr)
-      implicit real*8 (a-h,o-z)
+cx      implicit real*8 (a-h,o-z)
 cc      dimension t(5000)
 cc      dimension h(5000),g(5000)
 cc      dimension w(5000)
 cc      dimension tmpr(100),wt(200),ht(200),gt(200)
-      dimension t(n)
-      dimension h(nh1),g(nh1)
-      dimension w(nh1)
-      dimension tmpr(nt),wt(nt),ht(nt),gt(nt)
+cx      dimension t(n)
+cx      dimension h(nh1),g(nh1)
+cx      dimension w(nh1)
+cx      dimension tmpr(nt),wt(nt),ht(nt),gt(nt)
+      integer :: n, nh1, nt
+      real(8) :: h(nh1), g(nh1), w(nh1), t(n), ht(nt), gt(nt), wt(nt),
+     1           rpt, t0, pi2, tmpr(nt)
+      real(8) :: om, a, b, ram
       do 120 i=1,nh1
       om=(i-1)*rpt
       w(i)=(i-1)*rpt
@@ -107,8 +115,10 @@ cc      dimension tmpr(100),wt(200),ht(200),gt(200)
       return
       end
       subroutine smooth(s,h,nh1,is)
-      implicit real*8 (a-h,o-z)
-      dimension h(nh1),s(nh1)
+cx      implicit real*8 (a-h,o-z)
+cx      dimension h(nh1),s(nh1)
+      integer :: nh1, is
+      real(8) :: s(nh1), h(nh1)
       is1=2*is-1
       do 140 i=1,nh1
       ij=0

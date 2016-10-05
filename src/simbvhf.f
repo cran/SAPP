@@ -31,15 +31,24 @@ c     ieee information theory, vol. it-27, pp. 23-31.
 c  a. g. hawkes (1971). "spectra of some self-exciting andmutually
 c     exciting point processes."  biometrika, vol. 58, pp. 83-90.
 c
-      implicit real*8(a-h,o-z)
+cx      implicit real*8(a-h,o-z)
 cc      dimension xx(10000),yy(10000)
 cc      dimension axx(100),axy(100),axz(100),ayx(100),ayy(100),ayz(100)
 cc      dimension ei(100),ej(100),fi(100),fj(100),lf(51,51)
 cc      dimension ei2(100),ej2(100),fi2(100),fj2(100)
-      dimension xx(nnmax),yy(mmmax)
-      dimension axx(kxx),axy(kxy),axz(kxz),ayx(kyx),ayy(kyy),ayz(kyz)
-      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax),lf(kmax,kmax)
-      dimension ei2(kmax),ej2(kmax),fi2(kmax),fj2(kmax)
+cx      dimension xx(nnmax),yy(mmmax)
+cx      dimension axx(kxx),axy(kxy),axz(kxz),ayx(kyx),ayy(kyy),ayz(kyz)
+cx      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax),lf(kmax,kmax)
+cx      dimension ei2(kmax),ej2(kmax),fi2(kmax),fj2(kmax)
+      integer :: kxx, kxy, kxz, kyx, kyy, kyz, kmax,i1, j1, nnmax,
+     1           mmmax, ier
+      real(8) :: t, c, d, c2, d2, axx(kxx), axy(kxy), axz(kxz),
+     1           ayx(kyx), ayy(kyy), ayz(kyz), ptxmax, ptymax,
+     2           xx(nnmax), yy(mmmax), err
+      integer :: lf(kmax,kmax)
+      real(8) :: ei(kmax), ej(kmax), fi(kmax), fj(kmax), ei2(kmax),
+     1           ej2(kmax), fi2(kmax), fj2(kmax), fxxmax, fxymax,
+     2           fyxmax, fyymax
 c
 c
 cc      call input(kxx,kxy,kxz,kyx,kyy,kyz,t,c,d,c2,d2,axx,axy,axz,ayx,ayy
@@ -66,15 +75,24 @@ c
 cc     &                 ptymax,lf,i1,j1)
 cx     &                 ptymax,lf,i1,j1,err)
      &                 ptymax,nmax,mmax,lf,i1,j1,err,ier)
-      implicit real*8(a-h,o-z)
+cx      implicit real*8(a-h,o-z)
 cx      dimension axx(1),axy(1),axz(1),xx(1),yy(1),ei(1),ej(1),fi(1),fj(1)
 cx      dimension ayx(1),ayy(1),ayz(1),ei2(1),ej2(1),fi2(1),fj2(1)
-      dimension axx(kxx),axy(kxy),axz(kxz),xx(nmax),yy(mmax)
-      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax)
-      dimension ayx(kyx),ayy(kyy),ayz(kyz)
-      dimension ei2(kmax),ej2(kmax),fi2(kmax),fj2(kmax)
-      dimension lf(kmax,kmax)
-      real*4r
+cx      dimension axx(kxx),axy(kxy),axz(kxz),xx(nmax),yy(mmax)
+cx      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax)
+cx      dimension ayx(kyx),ayy(kyy),ayz(kyz)
+cx      dimension ei2(kmax),ej2(kmax),fi2(kmax),fj2(kmax)
+cx      dimension lf(kmax,kmax)
+cx      real*4r
+      integer :: kxx, kxy, kxz, kyx, kyy, kyz, kmax, nmax, mmax,
+     1           lf(kmax,kmax), i1, j1, ier
+      real(8) :: t, c, d, c2, d2, axx(kxx), axy(kxy), axz(kxz), 
+     1           ayx(kyx), ayy(kyy), ayz(kyz), fxxmax, fxymax, fyxmax,
+     2           fyymax, xx(nmax), yy(mmax), ei(kmax), ej(kmax), 
+     3           fi(kmax), fj(kmax), ei2(kmax), ej2(kmax), fi2(kmax),
+     4           fj2(kmax), ptxmax, ptymax, err
+      real(4) :: r
+      real(8) :: uity, duity, e, x, xity, yity, probx, prob
 c---
       ier=0
       err=0.0
@@ -127,7 +145,7 @@ cc      write(6,1) prob
       err=prob
       go to 40
    50 continue
-   60 continue
+cx   60 continue
 c----------------------
 cc      call unifor(r)
       call unifor(r,ir)
@@ -165,7 +183,7 @@ c--------------------
    80 continue
       i1=i
       j1=j
-    1 format(1h ,'warning: are ptxmax & ptymax correct? prob=',f10.5)
+cx    1 format(1h ,'warning: are ptxmax & ptymax correct? prob=',f10.5)
       return
       end
 cc      subroutine duf(i,j,x,duity,xx,yy,axx,axy,ayx,ayy,kxx,kxy,kyx,kyy,
@@ -175,13 +193,19 @@ c
 c     decreasing process except jumps, which is always greater than
 c     the intensity process in subroutine fx.
 c
-      implicit real * 8 (a-h,o-z)
+cx      implicit real * 8 (a-h,o-z)
 cx      dimension axx(1),axy(1),ei(1),ej(1),fi(1),fj(1)
 cx      dimension ayx(1),ayy(1),ei2(1),ej2(1),fi2(1),fj2(1)
 cx      dimension xx(1),yy(1)
-      dimension axx(kxx),axy(kxy),ei(1),ej(1),fi(1),fj(1)
-      dimension ayx(kyx),ayy(kyy),ei2(1),ej2(1),fi2(1),fj2(1)
-      dimension xx(i),yy(j)
+cx      dimension axx(kxx),axy(kxy),ei(1),ej(1),fi(1),fj(1)
+cx      dimension ayx(kyx),ayy(kyy),ei2(1),ej2(1),fi2(1),fj2(1)
+cx      dimension xx(i),yy(j)
+      integer :: i, j, kxx, kxy, kyx, kyy
+      real(8) :: x, duity, xx(i), yy(j), axx(kxx), axy(kxy), ayx(kyx),
+     1           ayy(kyy), c, d, c2, d2, ei(1), ej(1), fi(1), fj(1),
+     2           ei2(1), ej2(1), fi2(1), fj2(1), ptxmax, ptymax
+      real(8) :: cxp, cyp, cxp2, cyp2, bxx, cx, bxy, cy, byx, byy, dxxi,
+     1           ecdxxi, ecdyxi, dyyj, ecdxyj, ecdyyj, xity, yity
       ixf=1
       iyf=1
       ixf2=1
@@ -253,17 +277,24 @@ cc     &       kyx,kyy,kyz,c,d,c2,d2,lf,ei,ej,fi,fj,ei2,ej2,fi2,fj2,xx,yy)
 c
 c     intensity processes
 c
-      implicit real * 8 (a-h,o-z)
+ccx      implicit real * 8 (a-h,o-z)
 cc      dimension axx(1),axy(1),axz(1),ei(1),ej(1),fi(1),fj(1),lf(51,51)
 cx      dimension axx(1),axy(1),axz(1),ei(1),ej(1),fi(1),fj(1)
-      dimension lf(kmax,kmax)
+cx      dimension lf(kmax,kmax)
 cx      dimension ayx(1),ayy(1),ayz(1),ei2(1),ej2(1),fi2(1),fj2(1)
 cx      dimension xx(1),yy(1)
-      dimension axx(kxx),axy(kxy),axz(kxz)
-      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax)
-      dimension ayx(kyx),ayy(kyy),ayz(kyz)
-      dimension ei2(kmax),ej2(kmax),fi2(kmax),fj2(kmax)
-      dimension xx(i),yy(j)
+ccx      dimension axx(kxx),axy(kxy),axz(kxz)
+ccx      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax)
+ccx      dimension ayx(kyx),ayy(kyy),ayz(kyz)
+ccx      dimension ei2(kmax),ej2(kmax),fi2(kmax),fj2(kmax)
+ccx      dimension xx(i),yy(j)
+      integer :: i, j, kxx, kxy, kxz, kyx, kyy, kyz, kmax, lf(kmax,kmax)
+      real(8) :: x, xity, yity, axx(kxx), axy(kxy), axz(kxz),
+     1           ayx(kyx), ayy(kyy), ayz(kyz), c, d, c2, d2, ei(kmax),
+     2           ej(kmax), fi(kmax), fj(kmax), ei2(kmax), ej2(kmax),
+     3           fi2(kmax), fj2(kmax), xx(i), yy(j)
+      REAL(8) :: dxxi, ecdxxi, ff, ecdyxi, dyyj, eddxyj, eddyyj, ptx,
+     1           pty
 c
 cc      dxxi=x-xx(i)
       dxxi=x

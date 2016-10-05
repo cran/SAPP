@@ -41,12 +41,16 @@ c     essays in time series and allied processes (festscrift for prof.
 c     e. j. hannan), j. gani and m. b. priestley eds., j.appl. probab.
 c     vol. 23a, to appear.
 c
-      implicit real*8(a-h,o-z)
+cx      implicit real*8(a-h,o-z)
 cc      dimension xx(10000),yy(10000)
 cc      dimension axx(100),axy(100),axz(100)
 cc      dimension ei(100),ej(100),fi(100),fj(100),lf(51,51)
-      dimension xx(2*mm),yy(mm+1)
-      dimension axx(kxx),axy(kxy),axz(kxz)
+cx      dimension xx(2*mm),yy(mm+1)
+cx      dimension axx(kxx),axy(kxy),axz(kxz)
+      integer :: kxx, kxy, kxz, mm, kmax, i1, j1, ier
+      real(8) :: t, c, d, axx(kxx), axy(kxy), axz(kxz), yy(mm+1),
+     1           ptxmax, xx(2*mm), err
+      real(8) :: fxxmax, fxymax
 c
 cc      call input(kxx,kxy,kxz,t,c,d,axx,axy,axz,yy,mm,ptxmax,kmax)
 c
@@ -67,14 +71,21 @@ cc     &                 xx,yy,ei,ej,fi,fj,kmax,ptxmax,lf,i1,j1)
 cx     &                 xx,yy,kmax,ptxmax,i1,j1,err)
      &                 xx,yy,mm,kmax,ptxmax,i1,j1,err,ier)
 
-      implicit real*8(a-h,o-z)
+cx      implicit real*8(a-h,o-z)
 cc      dimension axx(1),axy(1),axz(1),xx(1),yy(1),ei(1),ej(1),fi(1),fj(1)
 cx      dimension axx(1),axy(1),axz(1),xx(1),yy(1)
-      dimension axx(kxx),axy(kxy),axz(kxz),xx(2*mm),yy(mm+1)
-      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax)
+cx      dimension axx(kxx),axy(kxy),axz(kxz),xx(2*mm),yy(mm+1)
+cx      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax)
 cc      dimension lf(51,51)
-      dimension lf(kmax,kmax)
-      real*4r
+cx      dimension lf(kmax,kmax)
+cx      real*4r
+      integer :: kxx, kxy, kxz, mm, kmax, i1, j1, ier
+      real(8) :: t, c, d, axx(kxx), axy(kxy), axz(kxz), fxxmax, fxymax,
+     1           xx(2*mm), yy(mm+1), ptxmax, err
+      integer :: lf(kmax,kmax)
+      real(4) :: r
+      real(8) :: ei(kmax), ej(kmax), fi(kmax), fj(kmax), x, uity, duity,
+     1           e, dmx, xity, probx, prob
 c
 c----------
       ier=0
@@ -110,11 +121,11 @@ c--------------------
 cc  130 call unifor(r)
   130 call unifor(r,ir)
 c--------------------
-   40 continue
+cx   40 continue
       e=-alog(r)/uity
       x=x+e
       if(x.gt.t) go to 80
-    6 format(2i3,7f10.5)
+cx    6 format(2i3,7f10.5)
       if(kxy.eq.0) go to 110
       if(x.le.yy(j+1)) go to 110
       x=yy(j+1)
@@ -124,7 +135,9 @@ cc      call fx(i,j,yy(j+1),dmx,axx,axy,axz,kxx,kxy,kxz,c,d,lf,ei,ej,
      &        fi,fj,xx,yy)
 c-----------------------------------------------------------------
       do 120 k=1,kxy
-  120 ej(k)=fj(k)
+cx  120 ej(k)=fj(k)
+      ej(k)=fj(k)
+  120 continue
       j=j+1
 c--------------------
       if(j.gt.mm) then
@@ -150,7 +163,7 @@ cc      write(6,1) prob
 cc      stop
       return
    50 continue
-   60 continue
+cx   60 continue
 c-----------------------
 cc      call unifor(r)
       call unifor(r,ir)
@@ -173,7 +186,7 @@ c--------------------
    80 continue
       i1=i
       j1=j
-    1 format(1h ,'warning: is ptmax correct?  prob=',f10.5)
+cx    1 format(1h ,'warning: is ptmax correct?  prob=',f10.5)
       return
       end
       subroutine duf(i,j,x,duity,xx,yy,axx,axy,kxx,kxy,c,d,ei,ej,fi,
@@ -182,13 +195,18 @@ c
 c     decreasing process except jumps, which is always greater than
 c     the intensity process in subroutine fx.
 c
-      implicit real * 8 (a-h,o-z)
+cx      implicit real * 8 (a-h,o-z)
 cc      dimension bxx(100),bxy(100)
-      dimension bxx(kxx),bxy(kxy)
+cx      dimension bxx(kxx),bxy(kxy)
 cx      dimension axx(1),axy(1),ei(1),ej(1),fi(1),fj(1)
 cx      dimension xx(1),yy(1)
-      dimension axx(kxx),axy(kxy),ei(1),ej(1),fi(1),fj(1)
-      dimension xx(i),yy(j)
+cx      dimension axx(kxx),axy(kxy),ei(1),ej(1),fi(1),fj(1)
+cx      dimension xx(i),yy(j)
+      integer :: i, j, kxx, kxy
+      real(8) :: x, duity, xx(i), yy(j), axx(kxx), axy(kxy), c, d,
+     1           ei(1), ej(1), fi(1), fj(1), ptxmax
+      real(8) :: bxx(kxx), bxy(kxy), cxp, cyp, cx, cy, dxxi, ecdxxi,
+     1           dyyj, ecdyyj, xity
       ixf=1
       iyf=1
       cxp=0.0
@@ -227,14 +245,19 @@ cc      subroutine fx(i,j,x,xity,axx,axy,axz,kxx,kxy,kxz,c,d,lf,ei,
 c
 c     intensity processes
 c
-      implicit real * 8 (a-h,o-z)
+cx      implicit real * 8 (a-h,o-z)
 cc      dimension axx(1),axy(1),axz(1),ei(1),ej(1),fi(1),fj(1),lf(51,51)
 cx      dimension axx(1),axy(1),axz(1),ei(1),ej(1),fi(1),fj(1)
-      dimension axx(kxx),axy(kxy),axz(kxz)
-      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax)
-      dimension lf(kmax,kmax)
+cx      dimension axx(kxx),axy(kxy),axz(kxz)
+cx      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax)
+cx      dimension lf(kmax,kmax)
 cx      dimension xx(1),yy(1)
-      dimension xx(i),yy(j)
+cx      dimension xx(i),yy(j)
+      integer :: i, j, kxx, kxy, kxz, kmax, lf(kmax,kmax)
+      real(8) :: x, xity, axx(kxx), axy(kxy), axz(kxz), c, d, ei(kmax),
+     1           ej(kmax), fi(kmax), fj(kmax), xx(i), yy(j)
+      real(8) :: dxxi, ecdxxi, ff, dyyj, ecdyyj, ptx
+
       if(i.eq.0) go to 30
       dxxi=x-xx(i)
       ecdxxi=0.0d00

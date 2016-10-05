@@ -4,8 +4,8 @@ cc      program main
 c
       include 'sapp_f.h'
 c
-      implicit real*8(a-h,o-z)
-      real*4 r
+cx      implicit real*8(a-h,o-z)
+cx      real*4 r
 cc      parameter(ndata=19999)
 cc      data bvalue,ctmg   / 1.0, 3.5 /
 cc      data a,b,c,d,p / 0.00200,.00400,.00300,2.40000,1.30000 /
@@ -13,7 +13,12 @@ c     data a,b,c,d,p / 0.02000,.04000,.00300,0.40000,1.30000 /
 cc      data nd / 1000 /
 c     data xm / ndata*0.0 /
 cc      dimension xx(ndata),xm(ndata),zz(ndata)
-      dimension xx(nd),xm(nd),zz(nd)
+cx      dimension xx(nd),xm(nd),zz(nd)
+      integer :: ic, nd
+      real(8) :: bvalue, tstart, ctmg, rfmg, a, b, c, d, p, xm(nd),
+     1           zz(nd), xx(nd), probx
+      real(4) :: r
+      real(8) :: x, xity, uity, e, zr, t
 cc      open(unit=2,file='etasim.open')
 cc      read(2,*) ic,bvalue
 cc      read(2,*) tstart,nd
@@ -36,7 +41,7 @@ cc      else
 cc        open(unit=10,file='work.etasim0')
 cc        read(10,1009) fmt
 cc        write(6,1009) fmt
- 1009   format(a)
+cx 1009   format(a)
 cc        i=1
 cc   50   continue
 cc        read(10,*, end=60) idum,e,en,xmi,zzi,depi
@@ -53,8 +58,8 @@ cc        nd=i-1
       endif
 cc      write(6,1002) nd
 cc      write(6,1001) (xm(i),i=1,nd)
- 1001 format(8f10.5)
- 1002 format(i10)
+cx 1001 format(8f10.5)
+cx 1002 format(i10)
 cc      write(6,*) 'b-value =',bvalue, 'cutoff magnitude=', ctmg
 cc      write(6,*) 'a,b,c,d,p,bvalue ='
 cc      write(6,1001) a,b,c,d,p,bvalue
@@ -114,25 +119,29 @@ cc     & write(1,*) 'ETAS simlated data: MAGS from [work.etas]'
       izr=0
 cc      write(1,1007) (i,zr,zr,xm(i),xx(i),zr,izr,izr,izr, i=1,nn)
 cc      close(unit=1)
- 1003 format(i5,24x,2f12.5)
- 1007 format(i5,5f12.5,i4,2i3)
- 1004 format('simulated data',' N,T=',i5,f9.3,';   M>=',f4.2,
-     &       ';   b-value=',f4.2)
- 1006 format(' ETAS parameter; mu,K_0,c,alpha,p =',5f8.5)
- 1005 format(1h ,6f13.4)
+cx 1003 format(i5,24x,2f12.5)
+cx 1007 format(i5,5f12.5,i4,2i3)
+cx 1004 format('simulated data',' N,T=',i5,f9.3,';   M>=',f4.2,
+cx     &       ';   b-value=',f4.2)
+cx 1006 format(' ETAS parameter; mu,K_0,c,alpha,p =',5f8.5)
+cx 1005 format(1h ,6f13.4)
 cc      stop
       return
       end
 c
 cc      subroutine fx(i,x,a,b,c,d,p,rfmg,xx,xm,xity)
       subroutine fx1(i,x,a,b,c,d,p,rfmg,xx,xm,xity)
-      implicit real*8(a-h,o-z)
+cx      implicit real*8(a-h,o-z)
 cx      dimension xx(1),xm(1)
-      dimension xx(i),xm(i)
+cx      dimension xx(i),xm(i)
+      integer :: i
+      real(8) :: x, a, b, c, d, p, rfmg, xx(i), xm(i), xity
       xity=a
 ctren xity=a-x*0.2821d-6
       do 10 j=1,i
-   10 xity=xity+b/(x-xx(j)+c)**p*exp(d*(xm(j)-rfmg))
+cx   10 xity=xity+b/(x-xx(j)+c)**p*exp(d*(xm(j)-rfmg))
+      xity=xity+b/(x-xx(j)+c)**p*exp(d*(xm(j)-rfmg))
+   10 continue
       return
       end
       subroutine pseud0(r)
@@ -140,7 +149,9 @@ c     generation of pseudo-random numbers
 c     data ir/584287/
       data ir/574289/
       ir=ir*48828125
-      if(ir) 10,20,20
+cx      if(ir) 10,20,20
+      if(ir.lt.0) go to 10
+      if(ir.ge.0) go to 20
    10 ir=(ir+2147483647)+1
    20 r=float(ir)*0.4656613e-9
       return

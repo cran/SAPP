@@ -1,7 +1,8 @@
 c--------------------------------------------------------------------
 c83-11-11-15:06:19/87-03-25-10:21 nhpossn fort 
 cc      program momori
-      subroutine momorif(xx,nni,xini,np,zts,zte,tstart,nc,nfuncti,
+cx      subroutine momorif(xx,nni,xini,np,zts,zte,tstart,nc,nfuncti,
+      subroutine momorif(xx,nni,xini,np,zts,zte,nc,nfuncti,
      & ff,x,g,pa,ahaic,t00,ti,ak,c,p,cls, id,rmd,xx1,h,hf,nl,nlmax)
 
 c-----------------------------------------------------------------------
@@ -22,33 +23,40 @@ c-----------------------------------------------------------------------
 c
       include 'sapp_f.h'
 c
-      implicit real * 8 (a-h,o-z) 
+cx      implicit real * 8 (a-h,o-z) 
 cc      real*4 time 
 cc      common/xyod/xdumy,xx(19999) 
 cc      common/y/y(50)
+      integer :: nni, np, nc, nfuncti, nlmax, id(nlmax), nl
+      real(8) :: xx(nni), xini(np+1), zts, zte, ff, x(np,2), g(np,2),
+     1           pa(np), ahaic(nc), t00, ti((np-1)/3), ak((np-1)/3),
+     2           c((np-1)/3),p((np-1)/3),cls((np-1)/3), rmd(nlmax),
+     3           xx1(np,nlmax), h(np,np,2), hf(np,np,2,2)
+      real(8) :: t, t0, t1, t2, t3
       common t,nn,nfunct 
       common/range/t0,t1,t2,t3
 cc      dimension xxxx(50),x(50),ahaic(30) 
 cc      dimension axxx(19999),amag(19999)
-      dimension x(np,2),pa(np),ahaic(nc),g(np,2)
-      dimension xx(nni),xini(np+1),ti((np-1)/3)
-      dimension ak((np-1)/3),c((np-1)/3),p((np-1)/3),cls((np-1)/3) 
-      dimension id(nlmax), rmd(nlmax), xx1(np,nlmax)
-      dimension h(np,np,2), hf(np,np,2,2)
+cx      dimension x(np,2),pa(np),ahaic(nc),g(np,2)
+cx      dimension xx(nni),xini(np+1),ti((np-1)/3)
+cx      dimension ak((np-1)/3),c((np-1)/3),p((np-1)/3),cls((np-1)/3) 
+cx      dimension id(nlmax), rmd(nlmax), xx1(np,nlmax)
+cx      dimension h(np,np,2), hf(np,np,2,2)
 c
       nn=nni
       nfunct=nfuncti
 c
       nl = 0
-      do 5 i = 1,nlmax
-    5 id(i) = 0
+cx      do 5 i = 1,nlmax
+cx    5 id(i) = 0
+      id(1:nlmax) = 0
 c
 cc      call input(nnnn,axxx,amag)
       t=zte-zts
       if(nfunct.lt.6) go to 155 
       t0=zts 
       t1=zte 
-      bmag=amx1 
+cx      bmag=amx1 
   155 continue 
 c 
       kaisu=1 
@@ -56,44 +64,53 @@ c
 c     if(nfunct.eq.6) kaisu=100 
       do 9753 ijkl=1,kaisu 
 cc      if(ijkl.ne.1) write(6,9751) 
- 9751 format(1h ) 
+cx 9751 format(1h ) 
       if(nn.eq.0) go to 9753
 cc      call repara(ijkl,nnn,xxxx,x)
 cc      call dav(nnn,x,ahaic)
 cc      call output(nnn,x,ahaic)
 cc      if(nfunct.ne.5) call sizes(nnn,x)
-      call repara(xini,np+1,ijkl,nnn,x)
+cx      call repara(xini,np+1,ijkl,nnn,x)
+      call repara(xini,np+1,nnn,x)
       call dav6(nni,xx,nnn,x,g,nc,ahaic,pa,
      &  id,rmd,xx1,h,hf(1,1,1,1),hf(1,1,1,2),nl,nlmax)
-      call output6(nnn,pa,nc,ahaic,ff)
+cx      call output6(nnn,pa,nc,ahaic,ff)
+      call output6(nnn,pa,ff)
       kn=(nnn-1)/3
       if(nfunct.ne.5) call sizes(nnn,pa,kn,t00,ti,ak,c,p,cls) 
 c     call clock(time) 
 c      write(6,9752) time 
- 9752 format(1h ,'time= ',f10.3) 
+cx 9752 format(1h ,'time= ',f10.3) 
  9753 continue 
- 9754 continue 
+cx 9754 continue 
       return 
       end 
 cc      subroutine repara(ijkl,nnn,xxxx,x)
-      subroutine repara(xini,n,ijkl,nnn,x) 
+cx      subroutine repara(xini,n,ijkl,nnn,x) 
+      subroutine repara(xini,n,nnn,x) 
 c----------------------------------------------------------------------- 
 card 7 nnn (i10) # of parameters 
 card 8 (x(i),i=1,n) (8f10.2) initial estimates 
 c----------------------------------------------------------------------- 
-      implicit real * 8 (a-h,o-z) 
+cx      implicit real * 8 (a-h,o-z) 
+      integer :: n, nnn
+      real(8) :: xini(n), x(n-1)
+      real(8) :: t, t0, t1, t2, t3
       common /range/t0,t1,t2,t3 
       common t,nn,nfunct 
 cc      dimension xxxx(50),x(50),xini(50)
-      dimension xxxx(n-1),x(n-1),xini(n) 
+cx      dimension xxxx(n-1),x(n-1),xini(n) 
+      real(8) :: xxxx(n-1)
 cc      n=5 
 cc      read(1,*) (xini(i),i=1,n) 
- 1010 format(7f10.4) 
+cx 1010 format(7f10.4) 
       nnn=n-1 
       do 41 i=1,nnn 
       xxxx(i)=xini(i) 
       if(i.eq.nnn) xxxx(i)=xini(n) 
-   41 x(i)=xxxx(i) 
+cx   41 x(i)=xxxx(i)
+      x(i)=xxxx(i)
+   41 continue
       do 45 i=1,nnn 
       if(nfunct.eq.5.or.nfunct.eq.6) x(i)=sqrt(x(i)) 
       if(nfunct.eq.9.and.x(i).ne.0.0) x(i)=log(x(i)) 
@@ -110,17 +127,22 @@ cc      subroutine dav(n,x,ahaic)
       subroutine dav6(nni,xx,n,x0,g,ncount,ahaic,x,
      &                     id,rmd,xx1,h,hf,hfi,nl,nlmax)
 
-      implicit real * 8 (a-h,o-z) 
-      external func5,func6,func9,func10 
+cx      implicit real * 8 (a-h,o-z) 
+      external func5,func6,func9,func10
+      integer :: nni, n, ncount, nlmax, id(nlmax), nl
+      real(8) :: xx(nni), x0(n,2), g(n,2), ahaic(ncount), x(n),
+     1           rmd(nlmax), xx1(n,nlmax), h(n,n,2), hf(n,n,2),
+     2           hfi(n,n,2)
+      real(8) :: t, t0, t1, t2, t3, f, aic
       common t,nn,nfunct 
       common/range/t0,t1,t2,t3 
 cc      common/y/y(50) 
       common/ddd/f,aic 
 cc      dimension x(50),ahaic(30)
-      dimension x(n),ahaic(ncount)
-      dimension xx(nni), x0(n,2), g(n,2)
-      dimension  id(nlmax), rmd(nlmax), xx1(n,nlmax)
-      dimension  h(n,n,2), hf(n,n,2), hfi(n,n,2)
+cx      dimension x(n),ahaic(ncount)
+cx      dimension xx(nni), x0(n,2), g(n,2)
+cx      dimension  id(nlmax), rmd(nlmax), xx1(n,nlmax)
+cx      dimension  h(n,n,2), hf(n,n,2), hfi(n,n,2)
 c
 cc      write(6,1020) n 
 cc      write(6,1030)  (x(i),i=1,n)
@@ -137,32 +159,44 @@ cc      if(nfunct.eq.5) call davidn(x,n,0,func5)
 cc      if(nfunct.eq.6) call davidn(x,n,0,func6) 
 cc      if(nfunct.eq.9) call davidn(x,n,0,func9) 
 cc      if(nfunct.eq.10) call davidn(x,n,0,func10) 
-      if(nfunct.eq.5) call davidn6(xx,nni,x,n,mm,0,func5,g(1,ii),
+cx      if(nfunct.eq.5) call davidn6(xx,nni,x,n,mm,0,func5,g(1,ii),
+      if(nfunct.eq.5) call davidn6(xx,nni,x,n,mm,func5,g(1,ii),
      &          id,rmd,xx1,h(1,1,ii),hf(1,1,ii),hfi(1,1,ii),nl,nlmax)
-      if(nfunct.eq.6) call davidn6(xx,nni,x,n,mm,0,func6,g(1,ii),
+cx      if(nfunct.eq.6) call davidn6(xx,nni,x,n,mm,0,func6,g(1,ii),
+      if(nfunct.eq.6) call davidn6(xx,nni,x,n,mm,func6,g(1,ii),
      &          id,rmd,xx1,h(1,1,ii),hf(1,1,ii),hfi(1,1,ii),nl,nlmax)
-      if(nfunct.eq.9) call davidn6(xx,nni,x,n,mm,0,func9,g(1,ii),
+cx      if(nfunct.eq.9) call davidn6(xx,nni,x,n,mm,0,func9,g(1,ii),
+      if(nfunct.eq.9) call davidn6(xx,nni,x,n,mm,func9,g(1,ii),
      &          id,rmd,xx1,h(1,1,ii),hf(1,1,ii),hfi(1,1,ii),nl,nlmax)
-      if(nfunct.eq.10) call davidn6(xx,nni,x,n,mm,0,func10,g(1,ii),
+cx      if(nfunct.eq.10) call davidn6(xx,nni,x,n,mm,0,func10,g(1,ii),
+      if(nfunct.eq.10) call davidn6(xx,nni,x,n,mm,func10,g(1,ii),
      &          id,rmd,xx1,h(1,1,ii),hf(1,1,ii),hfi(1,1,ii),nl,nlmax)
       do 25 jj=1,n
-   25   x0(jj,ii) = x(jj)
+cx   25   x0(jj,ii) = x(jj)
+        x0(jj,ii) = x(jj)
+   25 continue
    30 continue 
-   80 continue 
+cx   80 continue 
       ahaic(1)=aic 
       return 
- 1020 format(1h ,3x,'input data'/1h ,5x,'n=',i3) 
- 1030 format(1h ,                   5x,'x=',6e16.7) 
+cx 1020 format(1h ,3x,'input data'/1h ,5x,'n=',i3) 
+cx 1030 format(1h ,                   5x,'x=',6e16.7) 
       end 
 cc      subroutine output(n,x,ahaic)
-      subroutine output6(n,x,ncount,ahaic,ff)
-      implicit real * 8 (a-h,o-z) 
+cx      subroutine output6(n,x,ncount,ahaic,ff)
+      subroutine output6(n,x,ff)
+cx      implicit real * 8 (a-h,o-z)
+      integer :: n
+      real(8) :: x(n), ff
+      real(8) :: t, t0, t1, t2, t3, f, aic 
+      real(8) :: x0
       common t,nn,nfunct 
       common/range/t0,t1,t2,t3 
       common/ddd/f,aic 
 cc      common/y/y(50) 
 cc      dimension x(50),ahaic(30) 
-      dimension x(n),ahaic(ncount)
+cx      dimension x(n),ahaic(ncount)
+cx      dimension x(n)
       do 70 i=1,n 
       if(nfunct.ne.9.and.nfunct.ne.10) x(i)=x(i)**2 
       if(x(i).eq.0.0) go to 70 
@@ -178,19 +212,19 @@ cc      ncount=1
 cc      do 110 iii=1,ncount 
 cc      write(6,1080) iii,ahaic(iii) 
 cc  110 continue 
- 1080 format(1h ,i10,d20.10) 
+cx 1080 format(1h ,i10,d20.10) 
       return 
- 1000 format(3i10,2f15.6) 
- 1010 format(8f10.4) 
- 1020 format(1h ,3x,'input data'/1h ,5x,'n=',i3) 
- 1030 format(1h ,                   5x,'x=',6e16.7) 
- 1040 format(
-     2      /1h ,'neg max lklhd=',1 e16.7
-     3    /1h ,'max lklhd est.=',10e12.5/('                 ',10e12.5))
- 1050 format(4d20.13) 
- 1100 format(i10) 
- 1060 format(e25.15) 
- 1070 format(1h ,'  c = ',e25.15) 
+cx 1000 format(3i10,2f15.6) 
+cx 1010 format(8f10.4) 
+cx 1020 format(1h ,3x,'input data'/1h ,5x,'n=',i3) 
+cx 1030 format(1h ,                   5x,'x=',6e16.7) 
+cx 1040 format(
+cx     2      /1h ,'neg max lklhd=',1 e16.7
+cx     3    /1h ,'max lklhd est.=',10e12.5/('                 ',10e12.5))
+cx 1050 format(4d20.13) 
+cx 1100 format(i10) 
+cx 1060 format(e25.15) 
+cx 1070 format(1h ,'  c = ',e25.15) 
       end 
 cc      subroutine  linear( x,h,ram,ee,k,ig,funct ) 
       subroutine  linear6( xx,nn,x,h,ram,ee,k,ig,funct,
@@ -213,16 +247,21 @@ c        ram:     optimal step width
 c        e2:      minimum function value 
 c        ig:      error code 
 c 
-      implicit  real  *8 ( a-h,o-z ) 
-      integer  return,sub 
+cx      implicit  real  *8 ( a-h,o-z ) 
+cx      integer  return,sub
+      integer :: return, sub 
 cc      dimension  x(1) , h(1) , x1(50) 
 cc      dimension  g(50)
 cx      dimension  x(1) , h(1) , x1(k)
-      dimension  x(k) , h(k) , x1(k)
-      dimension  g(k)
-      dimension  xx(nn) 
+      integer :: nn, k, ig, nlmax, id(nlmax), nl
+      real(8) :: xx(nn), x(k), h(k), ram, ee, rmd(nlmax), xx1(k,nlmax)
+      real(8) :: x1(k), g(k), const2, hnorm, ram1, ram2, ram3, 
+     1           e1, e2, e3, a1, a2, a3, b1, b2
+cx      dimension  x(k) , h(k) , x1(k)
+cx      dimension  g(k)
+cx      dimension  xx(nn) 
 c
-      dimension id(nlmax),rmd(nlmax),xx1(k,nlmax)
+cx      dimension id(nlmax),rmd(nlmax),xx1(k,nlmax)
 c
       external funct 
       common     / ccc /  isw , ipr 
@@ -233,7 +272,9 @@ c
       const2 = 1.0d-60 
       hnorm = 0.d0 
       do 10  i=1,k 
-   10 hnorm = hnorm + h(i)**2 
+cx   10 hnorm = hnorm + h(i)**2 
+      hnorm = hnorm + h(i)**2
+   10 continue
       hnorm = dsqrt( hnorm ) 
 c 
       ram2 = ram 
@@ -241,25 +282,31 @@ c
       ram1 = 0.d0 
 c
        do 20  i=1,k 
-   20 x1(i) = x(i) + ram2*h(i)
+cx   20 x1(i) = x(i) + ram2*h(i)
+      x1(i) = x(i) + ram2*h(i)
+   20 continue
 cc      call  funct( k,x1,e2,g,ig ) 
       call  funct( nn,xx,k,x1,e2,g,ig ) 
 c     if(ipr.ge.7)  write(6,2)  ram2,e2 
 cc      if(ipr.ge.7)  write(6,8)  ram2,(x1(i)**2,i=1,k) 
-    8 format(1h ,'-ll=',d13.5,1x,4d12.5) 
+cx    8 format(1h ,'-ll=',d13.5,1x,4d12.5) 
       if( nl.lt.nlmax ) then
          nl = nl+1
          id(nl) = 8
          rmd(nl) = ram2
          do 21 i=1,k
-   21    xx1(i,nl) = x1(i)
+cx   21    xx1(i,nl) = x1(i)
+         xx1(i,nl) = x1(i)
+   21    continue
       end if
 c 
       if( ig .eq. 1 )  go to  50 
       if( e2 .gt. e1 )  go to 50 
    30 ram3 = ram2*2.d0 
       do 40  i=1,k 
-   40 x1(i) = x(i) + ram3*h(i)
+cx   40 x1(i) = x(i) + ram3*h(i)
+      x1(i) = x(i) + ram3*h(i)
+   40 continue
 cc      call  funct( k,x1,e3,g,ig ) 
       call  funct( nn,xx,k,x1,e3,g,ig ) 
       if( ig.eq.1 )  go to  500 
@@ -270,7 +317,9 @@ cc      if(ipr.ge.7)  write(6,8)  ram3,(x1(i)**2,i=1,k)
          id(nl) = 8
          rmd(nl) = ram3
          do 41 i=1,k
-   41    xx1(i,nl) = x1(i)
+cx   41    xx1(i,nl) = x1(i)
+         xx1(i,nl) = x1(i)
+   41    continue
       end if
       if( e3 .gt. e2 )  go to 70 
       ram1 = ram2 
@@ -284,7 +333,9 @@ c
       ram2 = ram3*0.1d0 
       if( ram2*hnorm .lt. const2 )  go to  400 
       do 60  i=1,k 
-   60 x1(i) = x(i) + ram2*h(i) 
+cx   60 x1(i) = x(i) + ram2*h(i) 
+      x1(i) = x(i) + ram2*h(i)
+   60 continue
 cc      call  funct( k,x1,e2,g,ig ) 
       call  funct( nn,xx,k,x1,e2,g,ig ) 
 c     if(ipr.ge.7)  write(6,4)  ram2,e2 
@@ -294,7 +345,9 @@ cc      if(ipr.ge.7)  write(6,8)  ram2,(x1(i)**2,i=1,k)
          id(nl) = 8
          rmd(nl) = ram2
          do 61 i=1,k
-   61    xx1(i,nl) = x1(i)
+cx   61    xx1(i,nl) = x1(i)
+         xx1(i,nl) = x1(i)
+   61    continue
       end if
       if( e2.gt.e1 )  go to 50 
 c 
@@ -304,7 +357,9 @@ cc   70 assign 80 to return
       go to 200 
 c 
    80 do 90  i=1,k 
-   90 x1(i) = x(i) + ram*h(i) 
+cx   90 x1(i) = x(i) + ram*h(i) 
+      x1(i) = x(i) + ram*h(i)
+   90 continue
 cc      call  funct( k,x1,ee,g,ig ) 
       call  funct( nn,xx,k,x1,ee,g,ig ) 
 c     if(ipr.ge.7)  write(6,5)  ram,ee 
@@ -314,7 +369,9 @@ cc      if(ipr.ge.7)  write(6,8)  ram,(x1(i)**2,i=1,k)
          id(nl) = 8
          rmd(nl) = ram
          do 91 i=1,k
-   91    xx1(i,nl) = x1(i)
+cx   91    xx1(i,nl) = x1(i)
+         xx1(i,nl) = x1(i)
+   91    continue
       end if
 c 
       ifg = 0 
@@ -357,7 +414,9 @@ cc      go to  sub,( 200,300 )
       if( sub .eq. 300 ) go to 300
 c 
   130 do 140  i=1,k 
-  140 x1(i) = x(i) + ram*h(i)
+cx  140 x1(i) = x(i) + ram*h(i)
+      x1(i) = x(i) + ram*h(i)
+  140 continue
 cc      call  funct( k,x1,ee,g,ig ) 
       call  funct( nn,xx,k,x1,ee,g,ig ) 
 c     if( ipr.ge.7 )  write(6,6)  ram,ee 
@@ -367,7 +426,9 @@ cc      if(ipr.ge.7)  write(6,8)  ram,(x1(i)**2,i=1,k)
          id(nl) = 8
          rmd(nl) = ram
          do 141 i=1,k
-  141    xx1(i,nl) = x1(i)
+cx  141    xx1(i,nl) = x1(i)
+         xx1(i,nl) = x1(i)
+  141    continue
       end if
 cc      assign 200 to sub 
       sub = 200
@@ -415,7 +476,9 @@ c ------------------------------------------------------------
 c 
   500 ram = (ram2+ram3)*0.5d0 
   510 do 520  i=1,k 
-  520 x1(i) = x(i) + ram*h(i) 
+cx  520 x1(i) = x(i) + ram*h(i) 
+      x1(i) = x(i) + ram*h(i)
+  520 continue
 cc      call  funct( k,x1,e3,g,ig )
       call  funct( nn,xx,k,x1,e3,g,ig ) 
 c     if( ipr.ge.7 )  write(6,7)  ram,e3 
@@ -425,7 +488,9 @@ cc      if(ipr.ge.7)  write(6,8)  ram,(x1(i)**2,i=1,k)
          id(nl) = 8
          rmd(nl) = ram2
          do 521 i=1,k
-  521    xx1(i,nl) = x1(i)
+cx  521    xx1(i,nl) = x1(i)
+         xx1(i,nl) = x1(i)
+  521    continue
       end if
       if( ig.eq.1 )  go to 540 
       if( e3.gt.e2 )  go to 530 
@@ -442,16 +507,17 @@ c
       go to 510 
 c 
 c ------------------------------------------------------------ 
-    1 format( 1h ,'lambda =',d18.10, 10x,'e1 =',d25.17 ) 
-    2 format( 1h ,'lambda =',d18.10, 10x,'e2 =',d25.17 ) 
-    3 format( 1h ,'lambda =',d18.10, 10x,'e3 =',d25.17 ) 
-    4 format( 1h ,'lambda =',d18.10, 10x,'e4 =',d25.17 ) 
-    5 format( 1h ,'lambda =',d18.10, 10x,'e5 =',d25.17 ) 
-    6 format( 1h ,'lambda =',d18.10, 10x,'e6 =',d25.17 ) 
-    7 format( 1h ,'lambda =',d18.10, 10x,'e7 =',d25.17 ) 
+cx    1 format( 1h ,'lambda =',d18.10, 10x,'e1 =',d25.17 ) 
+cx    2 format( 1h ,'lambda =',d18.10, 10x,'e2 =',d25.17 ) 
+cx    3 format( 1h ,'lambda =',d18.10, 10x,'e3 =',d25.17 ) 
+cx    4 format( 1h ,'lambda =',d18.10, 10x,'e4 =',d25.17 ) 
+cx    5 format( 1h ,'lambda =',d18.10, 10x,'e5 =',d25.17 ) 
+cx    6 format( 1h ,'lambda =',d18.10, 10x,'e6 =',d25.17 ) 
+cx    7 format( 1h ,'lambda =',d18.10, 10x,'e7 =',d25.17 ) 
       e n d 
 cc      subroutine  davidn( x,n,ihes,funct )
-      subroutine  davidn6( xx,nni,x,n,m,ihes,funct,g,
+cx      subroutine  davidn6( xx,nni,x,n,m,ihes,funct,g,
+      subroutine  davidn6( xx,nni,x,n,m,funct,g,
      &                          id,rmd,xx1,h,hf,hfi,nl,nlmax)
 c 
 c          minimization by davidon-fletcher-powell procedure 
@@ -471,34 +537,45 @@ c
 c          output: 
 c             x:       vector of minimizing solution 
 c 
-      implicit  real * 8  ( a-h , o-z ) 
+cx      implicit  real * 8  ( a-h , o-z ) 
 cc      dimension  x(50) , dx(50) , g(50) , g0(50) , y(50) 
 cc      dimension  h(50,50) , wrk(50) , s(50) 
 cc      dimension  ht(50,50),hf(50,50)
-      dimension  x(n) , dx(n) , g(m) , g0(n) , y(n)
-      dimension  h(n,n) , wrk(n) , s(n) 
-      dimension  hf(n,n)
+cx      dimension  x(n) , dx(n) , g(m) , g0(n) , y(n)
+cx      dimension  h(n,n) , wrk(n) , s(n) 
+cx      dimension  hf(n,n)
 c---
-      dimension  xx(nni), hfi(n,n)
-      dimension  id(nlmax), rmd(nlmax), xx1(n,nlmax) 
-c--- 
+cx      dimension  xx(nni), hfi(n,n)
+cx      dimension  id(nlmax), rmd(nlmax), xx1(n,nlmax) 
+c---
+      integer :: nni, n, m, nlmax, id(nlmax), nl
+      REAL(8) :: xx(nni), x(n), g(m), rmd(nlmax), xx1(n,nlmax), h(n,n),
+     1           hf(n,n), hfi(n,n)
+      real(8) :: f, aic, t, tau1, tau2, eps1, eps2
       external funct 
       common     / ccc /  isw , ipr 
       common     / ddd /   f , aic 
       common t,nn,nfunct 
       data  tau1 , tau2  /  1.0d-5 , 1.0d-5  / 
       data  eps1 , eps2  / 1.0d-5 , 1.0d-5  / 
+      real(8) :: dx(n), g0(n), y(n), wrk(n), s(n), ramda, const1, sum,
+     1           s1, s2, ss, ds2, stem, gtem, ed, xm, xmb, hdet
       ramda = 0.5d0 
       const1 = 1.0d-70 
 c 
 c          initial estimate of inverse of hessian 
-c 
+c
+      h(1:n,1:n) = 0.0d00 
+      s(1:n) = 0.0d00 
+      dx(1:n) = 0.0d00
       do  20   i=1,n 
-      do  10   j=1,n 
-   10 h(i,j) = 0.0d00 
-      s(i) = 0.0d00 
-      dx(i) = 0.0d00 
-   20 h(i,i) = 1.0d00 
+cx      do  10   j=1,n 
+cx   10 h(i,j) = 0.0d00 
+cx      s(i) = 0.0d00 
+cx      dx(i) = 0.0d00 
+cx   20 h(i,i) = 1.0d00 
+      h(i,i) = 1.0d00
+   20 continue
       isw = 0
 c
 cc      call  funct( n,x,xm,g,ig ) 
@@ -523,17 +600,25 @@ c      iteration
       if( ic .eq. 1 .and. icc .eq. 1 )  go to 120 
 c 
       do  40   i=1,n 
-   40 y(i) = g(i) - g0(i) 
+cx   40 y(i) = g(i) - g0(i) 
+      y(i) = g(i) - g0(i)
+   40 continue
       do  60   i=1,n 
       sum = 0.0d00 
       do  50   j=1,n 
-   50 sum = sum + y(j) * h(i,j) 
-   60 wrk(i) = sum 
+cx   50 sum = sum + y(j) * h(i,j) 
+      sum = sum + y(j) * h(i,j)
+   50 continue
+cx   60 wrk(i) = sum 
+      wrk(i) = sum
+   60 continue
       s1 = 0.0d00 
       s2 = 0.0d00 
       do  70   i=1,n 
       s1 = s1 + wrk(i) * y(i) 
-   70 s2 = s2 + dx(i) * y(i) 
+cx   70 s2 = s2 + dx(i) * y(i)
+      s2 = s2 + dx(i) * y(i)
+   70 continue
       if( s1.le.const1 .or. s2.le.const1 )  go to 900 
       if( s1 .le. s2 )     go to 100 
 c 
@@ -541,20 +626,28 @@ c          update the inverse of hessian matrix
 c 
 c               ---  davidon-fletcher-powell type correction  --- 
 c 
-      do  90   i=1,n 
+cx      do  90   i=1,n 
+      do  91   i=1,n
       do  90   j=i,n 
       h(i,j) = h(i,j) + dx(i)*dx(j)/s2 - wrk(i)*wrk(j)/s1 
-   90 h(j,i) = h(i,j) 
+cx   90 h(j,i) = h(i,j) 
+      h(j,i) = h(i,j)
+   90 continue
+   91 continue
       go to  120 
 c 
 c               ---  fletcher type correction  --- 
 c 
   100 continue 
       stem = s1 / s2 + 1.0d00 
-      do  110   i=1,n 
+cx      do  110   i=1,n 
+      do  111   i=1,n
       do  110   j=i,n 
       h(i,j) = h(i,j)- (dx(i)*wrk(j)+wrk(i)*dx(j)-dx(i)*dx(j)*stem)/s2 
-  110 h(j,i) = h(i,j) 
+cx  110 h(j,i) = h(i,j) 
+      h(j,i) = h(i,j)
+  110 continue
+  111 continue
 c 
 c 
 c 
@@ -563,26 +656,35 @@ c
       do  150   i=1,n 
       sum = 0.0d00 
       do  140   j=1,n 
-  140 sum = sum + h(i,j)*g(j) 
+cx  140 sum = sum + h(i,j)*g(j) 
+      sum = sum + h(i,j)*g(j)
+  140 continue
       ss = ss + sum * sum 
-  150 s(i) = -sum 
+cx  150 s(i) = -sum
+      s(i) = -sum
+  150 continue
 c 
 c 
       s1 = 0.0d00 
       s2 = 0.0d00 
       do  170   i=1,n 
       s1 = s1 + s(i)*g(i) 
-  170 s2 = s2 + g(i)*g(i) 
+cx  170 s2 = s2 + g(i)*g(i) 
+      s2 = s2 + g(i)*g(i)
+  170 continue
       ds2 = dsqrt(s2) 
       gtem = dabs(s1) / ds2 
 c     write(6,610)gtem,ds2 
       if( gtem .le. tau1  .and.  ds2 .le. tau2 )     go to  900 
-      if( s1 .lt. 0.0d00 )     go to  200 
+      if( s1 .lt. 0.0d00 )     go to  200
+      h(1:n,1:n) = 0.0d00 
       do  190   i=1,n 
-      do  180   j=1,n 
-  180 h(i,j) = 0.0d00 
+cx      do  180   j=1,n 
+cx  180 h(i,j) = 0.0d00 
       h(i,i) = 1.0d00 
-  190 s(i) = -s(i) 
+cx  190 s(i) = -s(i)
+      s(i) = -s(i)
+  190 continue
   200 continue 
 c 
       ed = xm 
@@ -606,7 +708,9 @@ cc      write( 6,330 )     ramda , f , s1 , s2
       dx(i) = s(i) * ramda 
       s1 = s1 + dx(i) * dx(i) 
       g0(i) = g(i) 
-  210 x(i) = x(i) + dx(i) 
+cx  210 x(i) = x(i) + dx(i) 
+      x(i) = x(i) + dx(i)
+  210 continue
       xmb = xm 
       isw = 0 
 c
@@ -615,7 +719,9 @@ cc      call  funct( n,x,xm,g,ig )
 c 
       s2 = 0.d0 
       do  220     i=1,n 
-  220 s2 = s2 + g(i)*g(i) 
+cx  220 s2 = s2 + g(i)*g(i) 
+      s2 = s2 + g(i)*g(i)
+  220 continue
       if( dsqrt(s2) .gt. tau2 )   go to  11111 
       if( xmb/xm-1.d0 .lt. eps1  .and.  dsqrt(s1) .lt. eps2 )  go to 900 
 11111 continue 
@@ -633,12 +739,12 @@ cc  651 write(6,610) (h(i,j),j=1,n)
 cc      if(nfunct.ne.6) return 
 cc      call fisher(x,n,hf)
 cc      write(6,605) 
-  605 format(/1h ,'***  fisher matrix  ***') 
+cx  605 format(/1h ,'***  fisher matrix  ***') 
 cc      do 654 i=1,n 
 cc  654 write(6,604) (hf(i,j),j=1,n)
 cc      call invdet(hf,hdet,n,50)
 cc      write(6,606) 
-  606 format(/1h ,'***  inverse fisher  ***') 
+cx  606 format(/1h ,'***  inverse fisher  ***') 
 cc      do 655 i=1,n 
 cc  655 write(6,604) (hf(i,j),j=1,n) 
 c
@@ -656,16 +762,16 @@ c
          call invdet(hfi,hdet,n,n)
       end if 
 c
-  602 format(/1h ,'***  estimated inverse hessian  ***') 
-  604 format(1h ,8d15.5/(1h ,8d15.5)) 
-  603 format(/1h ,'***  inverse hessian  ***') 
+cx  602 format(/1h ,'***  estimated inverse hessian  ***') 
+cx  604 format(1h ,8d15.5/(1h ,8d15.5)) 
+cx  603 format(/1h ,'***  inverse hessian  ***') 
 c-----------------------------------------------------------------------
       return 
-  330 format( 1h ,'lambda =',d15.7,5x,'-LL =',d23.15,2x,d9.2,2x,d9.2) 
-  340 format( 1h ,4x,'initial (-1)*Log-Likelihood =',d23.15) 
-  600 format(/1h ,'-----  x  -----' ) 
-  601 format(/1h ,'***  gradient  ***' ) 
-  610 format( 1h ,10d13.5 ) 
+cx  330 format( 1h ,'lambda =',d15.7,5x,'-LL =',d23.15,2x,d9.2,2x,d9.2) 
+cx  340 format( 1h ,4x,'initial (-1)*Log-Likelihood =',d23.15) 
+cx  600 format(/1h ,'-----  x  -----' ) 
+cx  601 format(/1h ,'***  gradient  ***' ) 
+cx  610 format( 1h ,10d13.5 ) 
       end 
 c 
 c 
@@ -683,17 +789,22 @@ c       outputs:
 c          x:     inverse of x 
 c          xdet:  determinant of x 
 c 
-      implicit  real * 8  ( a-h , o-z ) 
-      dimension x(mj,mj) 
+cx      implicit  real * 8  ( a-h , o-z ) 
+cx      dimension x(mj,mj) 
 cc      dimension  ids(100)
-      dimension  ids(mm) 
+cx      dimension  ids(mm)
+      integer :: mm, mj
+      real(8) :: x(mj,mj), xdet 
+      integer :: ids(mm)
+      real(8) :: xmaxp, xc
       xdet = 1.0d00 
       do 10 l=1,mm 
 c     pivoting at l-th stage 
       xmaxp=0.10000d-10 
       maxi=0 
       do 110 i=l,mm 
-    1 if( abs(xmaxp) .ge. abs(x(i,l)) )     go to 110 
+cx   1 if( abs(xmaxp) .ge. abs(x(i,l)) )     go to 110 
+      if( abs(xmaxp) .ge. abs(x(i,l)) )     go to 110 
       xmaxp=x(i,l) 
       maxi=i 
   110 continue 
@@ -706,20 +817,26 @@ c     row interchange
   121 do 14 j=1,mm 
       xc=x(maxi,j) 
       x(maxi,j)=x(l,j) 
-   14 x(l,j)=xc 
+cx   14 x(l,j)=xc
+      x(l,j)=xc
+   14 continue
       xdet=-xdet 
 c 120 xdet=xdet*xmaxp 
   120 continue 
       xc = 1.0d00 / xmaxp 
       x(l,l)=1.0d00 
       do 11 j=1,mm 
-   11 x(l,j)=x(l,j)*xc 
+cx   11 x(l,j)=x(l,j)*xc 
+      x(l,j)=x(l,j)*xc
+   11 continue
       do 12 i=1,mm 
       if(i.eq.l) go to 12 
       xc=x(i,l) 
       x(i,l) = 0.0d00 
       do 13 j=1,mm 
-   13 x(i,j)=x(i,j)-xc*x(l,j) 
+cx   13 x(i,j)=x(i,j)-xc*x(l,j) 
+      x(i,j)=x(i,j)-xc*x(l,j)
+   13 continue
    12 continue 
    10 continue 
       if(mm.gt.1) go to 123 
@@ -733,7 +850,9 @@ c     column interchange
       do 131 i=1,mm 
       xc=x(i,jj) 
       x(i,jj)=x(i,mmj) 
-  131 x(i,mmj)=xc 
+cx  131 x(i,mmj)=xc 
+      x(i,mmj)=xc
+  131 continue
   130 continue 
   140 return 
       end 
@@ -745,14 +864,19 @@ c-----------------------------------------------------------------------
 c     likelihood function of exp-decay poisson process 
 c     lammbda = a1 + a2*exp(-a3*t) 
 c----------------------------------------------------------------------- 
-      implicit real * 8 (a-h,o-z) 
+cx      implicit real * 8 (a-h,o-z)
+      integer :: nni, n, ifg
+      real(8) :: xx(nni), b(n), f, h(n)
+      real(8) :: t, ff, aic
 cc      common/xyod/xdumy,xx(19999) 
 cc      common/y/y(50) 
       common t,nn,nfunct 
       common/ddd/ff,aic 
 cc      dimension b(50),h(50),g(50)
-      dimension b(n),h(n),g(n)
-      dimension xx(nni) 
+cx      dimension b(n),h(n),g(n)
+cx      dimension xx(nni)
+      real(8) :: g(n), a1, a2, a3, uni, f1, gg1, gg2, gg3,
+     1          ramdai, sasump, gs1, gs2, gs3
       ifg=0 
       a1=b(1)**2 
       a2=b(2)**2 
@@ -800,10 +924,12 @@ c
       ff=f 
       na=0 
       do 800 i=1,n 
-  800 if(b(i).ne.0.0) na=na+1 
+cx  800 if(b(i).ne.0.0) na=na+1 
+      if(b(i).ne.0.0) na=na+1
+  800 continue
       aic=ff+na 
-    3 format(1h ,110x,d18.10) 
-    1 format(1h ,7d18.10) 
+cx    3 format(1h ,110x,d18.10) 
+cx    1 format(1h ,7d18.10) 
       return 
       end 
 c 
@@ -814,15 +940,20 @@ c-----------------------------------------------------------------------
 c     likelihood function of the omori's poisson process 
 c     lammbda = a1 + a2/(a3+t)**a4 
 c----------------------------------------------------------------------- 
-      implicit real * 8 (a-h,o-z) 
+cx      implicit real * 8 (a-h,o-z) 
+      integer :: nni, n, ifg
+      real(8) :: xx(nni), b(n), f, h(n)
+      real(8) :: ff, aic, t, t0, t1, t2, t3
 cc      common/xyod/xdumy,xx(19999) 
       common/ddd/ff,aic 
 cc      common/y/y(50) 
-      common/range/t0,t1,t2,t3 
+      common/range/t0,t1,t2,t3
 cc      common/grad/g(50) 
       common t,nn,nfunct 
 cc      dimension b(50),h(50)
-      dimension xx(nni),b(n),h(n),g(n)
+cx      dimension xx(nni),b(n),h(n),g(n)
+      real(8) :: g(n), a1, a2, a3, a4, uni, f1, gg1, gg2,
+     1           gg3, gg4, ramdai, sasump, gs1, gs2, gs3, gs4
       ifg=0
       a1=b(1)**2
       a2=b(2)**2
@@ -894,10 +1025,12 @@ c
       ff=f
       na=0
       do 800 i=1,n
-  800 if(b(i).ne.0.0) na=na+1
+cx  800 if(b(i).ne.0.0) na=na+1
+      if(b(i).ne.0.0) na=na+1
+  800 continue
       aic=ff+na
-    3 format(1h ,110x,d18.10)
-    1 format(1h ,7d18.10)
+cx    3 format(1h ,110x,d18.10)
+cx    1 format(1h ,7d18.10)
       return
   119 continue
       f=1.0d50
@@ -913,7 +1046,10 @@ c     lammbda = a1 + a2/(a3+t)**a4 + a5/(a6+t-t2)**a7 * i(t.gt.t2)
 c     a model for detecting the second aftershock 
 c     this is not succeeded at the moment (82/11/22) 
 c----------------------------------------------------------------------- 
-      implicit real * 8 (a-h,o-z) 
+cx      implicit real * 8 (a-h,o-z)
+      integer :: nni, n, ifg
+      real(8) :: xx(nni), b(n), f, h(n)
+      real(8) :: ff, aic, t, t0, t1, t2, t3
 cc      common/xyod/xdumy,xx(19999) 
       common/ddd/ff,aic 
 cc      common/y/y(50) 
@@ -921,7 +1057,10 @@ cc      common/y/y(50)
 cc      common/grad/g(50) 
       common t,nn,nfunct 
 cc      dimension b(50),h(50)
-      dimension xx(nni),b(n),h(n),g(n)
+cx      dimension xx(nni),b(n),h(n),g(n)
+      real(8) :: g(n), a1, a2, a3, a4, a5, a6, a7, uni, f1, t4,
+     1           gg1, gg2, gg3, gg4, gg5, gg6, gg7, ramdai,
+     2           sasump, sasumq, gs1, gs2, gs3, gs4, gs5, gs6, gs7
       ifg=0 
       a1=0.0 
       a1=b(1)**2 
@@ -1067,10 +1206,12 @@ c
       ff=f 
       na=0 
       do 800 i=1,n 
-  800 if(b(i).ne.0.0) na=na+1 
+cx  800 if(b(i).ne.0.0) na=na+1 
+      if(b(i).ne.0.0) na=na+1
+  800 continue
       aic=ff+na 
-    3 format(1h ,110x,d18.10) 
-    1 format(1h ,7d18.10) 
+cx    3 format(1h ,110x,d18.10) 
+cx    1 format(1h ,7d18.10) 
       return 
   119 continue 
       f=1.0d50 
@@ -1089,15 +1230,22 @@ c                  + a8/(a9+t-t3)**a10 * i(t.gt.t3)
 c     a model for detecting the third aftershock
 c     this is not succeeded at the moment (82/11/22) 
 c----------------------------------------------------------------------- 
-      implicit real * 8 (a-h,o-z) 
+cx      implicit real * 8 (a-h,o-z) 
 cc      common/xyod/xdumy,xx(19999) 
+      integer :: nni, n, ifg
+      real(8) :: xx(nni), b(n), f, h(n)
+      real(8) :: ff, aic, t, t0, t1, t2, t3
       common/ddd/ff,aic 
 cc      common/y/y(50) 
       common/range/t0,t1,t2,t3 
 cc      common/grad/g(50) 
       common t,nn,nfunct 
 cc      dimension b(50),h(50)
-      dimension xx(nni),b(n),h(n),g(n)
+cx      dimension xx(nni),b(n),h(n),g(n)
+      real(8) :: g(n), a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, uni,
+     1           f1, gg1, gg2, gg3, gg4, gg5, gg6, gg7, gg8, gg9, gg10,
+     2           ramdai, sasump, sasumq, sasumr, t02, t03, t13, t12,
+     3           gs1, gs2, gs3, gs4, gs5, gs6, gs7, gs8, gs9, gs10
       do 111 i=1,10 
       if(b(i).gt.270.d0) go to 50 
   111 continue 
@@ -1311,10 +1459,12 @@ c
       ff=f 
       na=0 
       do 800 i=1,n 
-  800 if(b(i).ne.0.0) na=na+1 
+cx  800 if(b(i).ne.0.0) na=na+1 
+      if(b(i).ne.0.0) na=na+1
+  800 continue
       aic=ff+na 
-    3 format(1h ,110x,d18.10) 
-    1 format(1h ,7d18.10) 
+cx    3 format(1h ,110x,d18.10) 
+cx    1 format(1h ,7d18.10) 
       go to 300 
   119 continue 
       f=1.0d50 
@@ -1325,40 +1475,34 @@ c
 c 
 c 
 c 
-      function sf1(x,q) 
-      implicit real * 8 (a-h,o-z) 
+cx      function sf1(x,q) 
+      double precision function sf1(x,q)
+cx      implicit real * 8 (a-h,o-z)
+      real(8) :: x, q
       sf1=x**(1.d0-q)/(1.d0-q) 
       return 
       end 
-      function sf11(x,q) 
-      implicit real * 8 (a-h,o-z) 
-      sf11=log(x) 
-      return 
-      end 
-      function sf2(x,q) 
-      implicit real * 8 (a-h,o-z) 
+cx      function sf2(x,q)
+      double precision function sf2(x,q)
+cx      implicit real * 8 (a-h,o-z) 
+      real(8) :: x, q, sf1
       sf2=sf1(x,q)*(log(x)-1.d0/(1.d0-q)) 
       return 
       end 
-      function sf21(x,q) 
-      implicit real * 8 (a-h,o-z) 
-      sf21=(log(x))**2/2.d0 
-      return 
-      end 
-      function sf3(x,q) 
-      implicit real * 8 (a-h,o-z) 
+cx      function sf3(x,q)
+      double precision function sf3(x,q)
+cx      implicit real * 8 (a-h,o-z) 
+      real(8) :: x, q, sf1, sf2
       sf3=sf1(x,q)*(log(x))**2-2.d0/(1.d0-q)*sf2(x,q) 
-      return 
-      end 
-      function sf31(x,q) 
-      implicit real * 8 (a-h,o-z) 
-      sf31=(log(x))**3/3.d0 
       return 
       end 
 c 
 c     real function gm*8 (x,q,c) 
-      real*8 function gm (x,q,c) 
-      implicit real * 8 (a-h,o-z) 
+cx      real*8 function gm (x,q,c) 
+      double precision function gm (x,q,c)
+cx      implicit real * 8 (a-h,o-z) 
+      real(8) :: x, q, c
+      real(8) :: gmi
       gm=0.0 
       if(x.eq.c) go to 20 
       gmi=x**(-q) 
@@ -1374,8 +1518,11 @@ c     gmi=gmi*x/i1
       end 
 c 
 c     real function dgm*8 (x,q,c) 
-      real*8 function dgm (x,q,c) 
-      implicit real*8(a-h,o-z) 
+cx      real*8 function dgm (x,q,c)
+      double precision function dgm (x,q,c)
+cx      implicit real*8(a-h,o-z) 
+      real(8) :: x, q, c
+      real(8) :: gm, dgmi
       dgm=0.0 
       if(x.eq.c) go to 30 
       dgmi=x**(-q) 
@@ -1400,11 +1547,15 @@ c-----------------------------------------------------------------------
 c     fisher information matrix of the modified omori model 
 c     lammbda = a1 + a2/(a3+t)**a4 
 c----------------------------------------------------------------------- 
-      implicit real * 8 (a-h,o-z) 
+cx      implicit real * 8 (a-h,o-z)
+      integer :: n
+      real(8) :: b(n), h(n,n)
+      real(8) :: t, t0, t1, t2, t3
       common/range/t0,t1,t2,t3 
       common t,nn,nfunct 
 cc      dimension b(50),h(50,50) 
-      dimension b(n),h(n,n) 
+cx      dimension b(n),h(n,n) 
+      real(8) :: a1, a2, a3, a4, sf1, sf2, sf3
       a1=b(1)**2 
       a2=b(2)**2 
       a3=b(3)**2 
@@ -1421,9 +1572,13 @@ c---- careful about q = 1 in the functions ---
       h(3,3)=a2*a4**2*(sf1(t1+a3,a4+2)-sf1(t0+a3,a4+2)) 
       h(3,4)=a2*a4*(sf2(t1+a3,a4+1)-sf2(t0+a3,a4+1)) 
       h(4,4)=a2*(sf3(t1+a3,a4)-sf3(t0+a3,a4)) 
-      do 10 i=1,4 
+cx      do 10 i=1,4 
+      do 11 i=1,4
       do 10 j=i,4 
-   10 h(j,i)=h(i,j) 
+cx   10 h(j,i)=h(i,j) 
+      h(j,i)=h(i,j)
+   10 continue
+   11 continue
       return 
       end 
 c 
@@ -1431,11 +1586,14 @@ c
 c 
 cc      subroutine sizes(n,x)
       subroutine sizes(n,x,kn,t00,ti,ak,c,p,cls) 
-      implicit real * 8 (a-h,o-z) 
+cx      implicit real * 8 (a-h,o-z) 
 cc      dimension x(50),cls(20),ti(20) 
 cc      dimension ak(20),p(20),c(20) 
-      dimension x(n),cls(kn),ti(kn)
-      dimension ak(kn),p(kn),c(kn) 
+      integer :: n, kn
+      real(8) :: x(n), t00, ti(kn), ak(kn), c(kn), p(kn), cls(kn)
+      real(8) :: t0, t1, t2, t3
+cx      dimension x(n),cls(kn),ti(kn)
+cx      dimension ak(kn),p(kn),c(kn) 
       common/range/t0,t1,t2,t3 
       ti(1)=t2 
 cc      ti(2)=t3 
@@ -1467,8 +1625,8 @@ cc      do 30 k=2,kn
 cc      write(6,4) ti(k-1),ak(k),c(k),p(k),cls(k) 
 cc   30 continue 
 cc   35 continue 
-    3 format(1h ,'    ti         k          c         p         cls') 
-    4 format(1h ,5e11.4) 
+cx    3 format(1h ,'    ti         k          c         p         cls') 
+cx    4 format(1h ,5e11.4) 
       return 
       end 
  

@@ -1,5 +1,8 @@
 useDynLib(SAPP)
 
+importFrom("grDevices", "dev.new")
+importFrom("graphics", "abline", "axis", "box", "lines", "par", "plot", "points", "segments", "title")
+
 export(etarpp, etarpp2, etasap, etasim1, etasim2, eptren, linlin, linsim, momori, pgraph, ptspec, respoi, respoi2, simbvh)
 
 S3method(print, eptren)

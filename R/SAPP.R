@@ -10,7 +10,7 @@ eptren <- function( data,mag=NULL,threshold=0.0,nparam,nsub,cycle=0,tmpfile=NULL
 # nparam                 #  maximum number of parameters
 # nsub                   #  number of subdivisions in either (0,t) or (0,cycle)
                          #  for the numerical integration of intensity.
-# cycle             　　　　      # > 0 : periodicity to be investigated in days
+# cycle                  # > 0 : periodicity to be investigated in days
   if( cycle == 0 ) nfunct = 1     #  trend  (exponential polynomial trend fitting)
   if( cycle > 0 )  nfunct = 2     #  cycle  (exponential fourier series fitting)
 
@@ -764,7 +764,6 @@ momori <- function( data, mag=NULL, threshold=0.0, tstart, tend, parami, tmpfile
 	as.integer(np),
 	as.double(zts),
 	as.double(zte),
-	as.double(tstart),
 	as.integer(ncount),
 	as.integer(nfunct),
 	as.integer(nlm) )
@@ -990,7 +989,7 @@ etasap <- function( time, mag, threshold=0.0, reference=0.0, parami, zts=0.0, ts
 #  }
 
   nfunct <- 9
-  if( approx == 0 ) nfunct <- 2
+  if( approx == 0 ) nfunct <- 4
   nlm <- nlmax
   if( is.null(tmpfile) )  nlm <- 0
 
@@ -1009,17 +1008,17 @@ etasap <- function( time, mag, threshold=0.0, reference=0.0, parami, zts=0.0, ts
 	as.integer(approx),
 	as.integer(nlm) )
 
-  p <- z[[2L]]
-  pa <- list(B=p[1], K=p[2], c=p[3], p=p[4], cls=p[5])
+  x <- z[[2L]]
+  pa <- list(mu=x[1], K=x[2], c=x[3], alpha=x[4], p=x[5])
 
-  if( nlm ) {
+  if( nlm > 0 ) {
     nl <- z[[8L]]
     id <- z[[5L]][1:nl]
     g <- z[[3L]]
     ee <- z[[6L]][1:nl]
     x0 <- array(z[[7L]], c(np,nlmax))
     x1 <- x0[1:np,1:nl]
-    print.process9(id, p, g, ee, x1, tmpfile)
+    print.process9(id, x, g, ee, x1, tmpfile)
   }
 
   if( plot == TRUE ) {
@@ -1042,8 +1041,6 @@ etasap <- function( time, mag, threshold=0.0, reference=0.0, parami, zts=0.0, ts
     abline(h = bottom)
   }
 
-  p <- z[[2L]]
-  pa <- list(B=p[1], K=p[2], c=p[3], p=p[4], cls=p[5])
   etasap.out <- list( ngmle=z[[1L]], aic2=z[[4L]], param=pa )
   return( etasap.out )
 }

@@ -6,20 +6,41 @@
              ****************************
 
 
+  SAPP_1.0.7
+ ============
+* Fixed problems in Fortran code according to the warning messages from gfortran with options -Wall -pedantic.
+
+
+  SAPP_1.0.6
+ ============
+* Fixed a bug in etasap().
+ The order of the elements in the output value "param" is wrong.
+
+  (Reported by Amato Kasahara)
+
+
+  SAPP_1.0.5
+ ============
+* Fixed a bug in etasap().
+ If approx = 0, the minimization function is not called.
+
+  (Reported by Amato Kasahara)
+
+
   SAPP_1.0.4
- ===========
+ ============
 * Corrected errors in inst/doc/index.html according to the error message of the W3C Markup Validator service.
 
 
   SAPP_1.0.3
- ===========
+ ============
  * Set the correct dimension for array bounds (1) and (*) in eptrenf.f, etasimf.f, comsub.f, linsimf.f, aftpoi.f, pgraphf.f and simbvhf.f.
 
  * Add an argument "ier" to the subroutine linsimf and simbvhf.
 
 
   SAPP_1.0.2
- ===========
+ ============
  * Fixed a bug in momori().
    In subroutine sizes, the size of the array "ti" in the declaration is unsuitable.
 
@@ -35,7 +56,7 @@
 
 
   SAPP_1.0.1
- ===========
+ ============
  * Delete an extra line with the unterminated string at the end of the file SAPP/data/res2003JUL26.R.
 
   (Reported by William Dunlap and Duncan Murdoch)
