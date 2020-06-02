@@ -25,9 +25,11 @@ cx      dimension xini(n)
       real(8) :: xx(nd), xmg(nd), xmag0, amx1, xini(n), zts, zte,
      1           tstart0, f, x(n), g(n), aic2, ee(nlmax), xx1(n,nlmax)
       real(8) :: t, tstart
-      common /range/tstart,ntstar
+cxx      common /range/tstart,ntstar
+      common /range3/ tstart,ntstar
       common /kkxy/kkx,kky,kkt
-      common t,nn,mm,iappr,nfunct
+cxx      common t,nn,mm,iappr,nfunct
+      common /etasap/ t,nn,mm,iappr,nfunct
 c
 cx      dimension  x(n), g(n)
 cx      dimension id(nlmax),ee(nlmax),xx1(n,nlmax)
@@ -84,8 +86,10 @@ cx      dimension  xx(nd),xmg(nd)
       real(8) :: t, tstart, smg, amct, bvl
       common /kkxy/kkx,kky,kkt
 cc      common /fukasa/dep(ldata)
-      common t,nn,mm,iappr,nfunct
-      common /range/tstart,ntstar
+cxx      common t,nn,mm,iappr,nfunct
+cxx      common /range/tstart,ntstar
+      common /etasap/ t,nn,mm,iappr,nfunct
+      common /range3/ tstart,ntstar
 cc      open(unit=1,file='etas.open')
 c     open(unit=1,file='./etaspc.open')
 c     open(unit=1,file='siminit.dat')
@@ -161,10 +165,12 @@ cx      dimension xx(ldata),xmg(ldata)
       real(8) :: xx(ldata), xmg(ldata), xmag0, xini(n), ff, x(n),
      1           g(n), aic20, ee(nlmax), x1(n,nlmax)
       real(8) :: t, f, aic2
-      common t,nn,mm,iappr,nfunct
+cxx      common t,nn,mm,iappr,nfunct
+      common /etasap/ t,nn,mm,iappr,nfunct
 cc      common/param/xini(npara),n
 cx      dimension xini(n)
-      common /ddd/ f,aic2
+cxx      common /ddd/ f,aic2
+      common /ddd3/ f,aic2
       common /kkxy/kkx,kky,kkt
 cc      dimension x(npara)
 cx      dimension x(n)
@@ -255,8 +261,9 @@ cx      dimension  id(nlmax), ee(nlmax), xx1(n,nlmax)
       integer :: nn, n, id(nlmax), nl, nlmax
       real(8) :: xx(nn), xmg(nn), x(n), g(n), ee(nlmax), xx1(n,nlmax)
       real(8) :: f, aic2, tau1, tau2, eps1, eps2
-      common /ccc/ isw,ipr
-      common /ddd/ f,aic2
+cxx      common /ccc/ isw,ipr
+cxx      common /ddd/ f,aic2
+      common /ddd3/ f,aic2
       data  tau1 , tau2  /  1.0d-5 , 1.0d-5  /
       data  eps1 , eps2  / 1.0d-5 , 1.0d-5  /
       real(8) :: dx(n), g0(n), y(n), h(n,n), wrk(n), s(n), ramda,
@@ -283,7 +290,7 @@ cx      dx(i) = 0.0d00
 cx   20 h(i,i) = 1.0d00
       h(i,i) = 1.0d00
    20 continue
-      isw = 0
+cxx      isw = 0
 c
 cc      call  funct( n,x,xm,g,ig )
       call funct( xx,xmg,nn,n,x,xm,g,ig )
@@ -418,7 +425,7 @@ cx  210 x(i) = x(i) + dx(i)
       x(i) = x(i) + dx(i)
   210 continue
       xmb = xm
-      isw = 0
+cxx      isw = 0
 c
 cc      call  funct( n,x,xm,g,ig )
       call funct( xx,xmg,nn,n,x,xm,g,ig )
@@ -482,15 +489,15 @@ cc      dimension  g(npara)
      1           xx1(k,nlmax)
 cx      dimension  x(k) , h(k) , x1(k)
 cx      dimension  g(k)
-      common /ccc/ isw,ipr
+cxx      common /ccc/ isw,ipr
 cx      dimension  xx(nn) , xmg(nn)
 cx      dimension  id(nlmax), eee(nlmax), xx1(k,nlmax)
       integer :: return, sub
       real(8) :: x1(k), g(k), const2, hnorm, ram1, ram2, ram3,
      1           e1, e2, e3, a1, a2, a3, b1, b2
 c
-      isw = 1
-      ipr=7
+cxx      isw = 1
+cxx      ipr=7
       if( ram .le. 1.0d-30 )  ram = 0.01d0
       const2 = 1.0d-60
       hnorm = 0.d0
@@ -755,9 +762,12 @@ cx      dimension xx(ldata),xmg(ldata)
       integer :: ldata, n, ifg
       real(8) :: xx(ldata), xmg(ldata), b(n), f, h(n)
       real(8) :: t, fff, aic2, tstart
-      common t,nn,mm,iappr
-      common /ddd/fff,aic2
-      common /range/tstart,ntstar
+cxx      common t,nn,mm,iappr
+cxx      common /ddd/fff,aic2
+cxx      common /range/tstart,ntstar
+      common /etasap/ t,nn,mm,iappr
+      common /ddd3/ fff,aic2
+      common /range3/ tstart,ntstar
       common /kkxy/kkx,kky,kkt
 cc      dimension b(npara),h(npara),ggt(npara),gt(npara),at(npara)
 cx      dimension b(n),h(n),ggt(n),gt(n),at(n)
@@ -781,6 +791,7 @@ c
       d3ff=0.0
       d4ff=0.0
       d5ff=0.0
+         d1fs=0.0
       do 110 k=1,kkt
 cx  110 at(k)=b(k+5)
       at(k)=b(k+5)
@@ -965,9 +976,12 @@ cc      common/xyod/xx(ldata),xmg(ldata),xmag0
       real(8) :: xx(ldata), xmg(ldata), b(n), f, h(n)
       real(8) :: t, fff, aic2, tstart
 cx      dimension xx(ldata),xmg(ldata)
-      common t,nn,mm,iappr
-      common /ddd/fff,aic2
-      common /range/tstart,ntstar
+cxx      common t,nn,mm,iappr
+cxx      common /ddd/fff,aic2
+cxx      common /range/tstart,ntstar
+      common /etasap/ t,nn,mm,iappr
+      common /ddd3/ fff,aic2
+      common /range3/ tstart,ntstar
 cc      dimension b(npara),h(npara)
 cx      dimension b(n),h(n)
 cx      dimension xi1(144),xi2(144),wx1(144),wx2(144)
@@ -1278,10 +1292,18 @@ c
       dgam=dgam+(i-1)*a(i)*x**(i-2)
       d2gam=d2gam+(i-1)*(i-2)*a(i)*x**(i-3)
    10 continue
-      if(id.eq.0) gam=gamm/fact
-      if(id.eq.1) gam=(dgam*fact-gamm*dfac)/fact**2
-      if(id.eq.2) gam=(d2gam*fact-gamm*d2fac)/fact**2
+cxx      if(id.eq.0) gam=gamm/fact
+cxx      if(id.eq.1) gam=(dgam*fact-gamm*dfac)/fact**2
+cxx      if(id.eq.2) gam=(d2gam*fact-gamm*d2fac)/fact**2
+cxx     &             -2*(dgam*fact-gamm*dfac)/fact**3 *dfac
+      if(id.eq.1) then
+         gam=(dgam*fact-gamm*dfac)/fact**2
+      else if(id.eq.2) then
+         gam=(d2gam*fact-gamm*d2fac)/fact**2
      &             -2*(dgam*fact-gamm*dfac)/fact**3 *dfac
+      else
+         gam=gamm/fact
+      end if
       dbgam=gam
       return
       end
@@ -1365,7 +1387,8 @@ cx   10 gam2=gam2+b(i)*x**(i-1)
       d2ga2=d2ga2+(i-1)*(i-2)*b(i)*x**(i-3)
    50 continue
 c
-      if(id.eq.0) gam=gam1/gam2/fact
+cxx      if(id.eq.0) gam=gam1/gam2/fact
+      gam=gam1/gam2/fact
       if(id.eq.1) gam=(dga1*gam2*fact-gam1*dga2*fact-gam1*gam2*dfac)
      & / (gam2*fact)**2
       if(id.eq.2) gam=(d2ga1*gam2*fact+dga1*dga2*fact+dga1*gam2*dfac

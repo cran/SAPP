@@ -4,7 +4,7 @@
 
 extern void F77_NAME(etarppf)(double*, double*, double*, int*, double*, int*, double*, double*, double*,  double*, int*);
 
-SEXP etarpp(SEXP time, SEXP mag, SEXP refer, SEXP nn, SEXP param, SEXP np, SEXP zts, SEXP zte, SEXP tstart)
+SEXP EtarppC(SEXP time, SEXP mag, SEXP refer, SEXP nn, SEXP param, SEXP np, SEXP zts, SEXP zte, SEXP tstart)
 {
     double *d1,*d2,*d3,*d4,*d5,*d6,*d7,*d8;
     int *i1,*i2,*i3;

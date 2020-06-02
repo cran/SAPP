@@ -7,14 +7,15 @@
   The response functions are parameterized by the Laguerre-type polynomials.
 }
 \usage{
-simbvh(interval,axx=NULL,axy=NULL,axz=NULL,ayx=NULL,ayy=NULL,ayz=NULL,
-       c,d,c2,d2,ptxmax,ptymax)
+simbvh(interval, axx = NULL, axy = NULL, axz = NULL, ayx = NULL, 
+       ayy = NULL, ayz = NULL, c, d, c2, d2, ptxmax, ptymax)
 }
 
 \arguments{
   \item{interval}{length of time interval in which events take place.}
-  \item{axx}{coefficients of Laguerre polynomial (lgp) of the transfer function (= response function) from the data events
-x to x (trf; x --> x).}
+  \item{axx}{coefficients of Laguerre polynomial (lgp) of the transfer function
+
+ (= response function) from the data events x to x (trf; x --> x).}
   \item{axy}{coefficients of lgp (trf; y --> x).}
   \item{ayx}{coefficients of lgp (trf; x --> y).}
   \item{ayy}{coefficients of lgp (trf; y --> y).}
@@ -40,13 +41,13 @@ x to x (trf; x --> x).}
   IEEE Information Theory, IT-27, pp.23-31.
 }
 \examples{
-simbvh(interval=20000,
-       axx=0.01623,
-       axy=0.007306,
-       axz=c(0.006187, -0.00000023),
-       ayz=c(0.0046786, -0.00000048, 0.2557e-10),
-       c=0.4032,d=0.0219,c2=1.0,d2=1.0,
-       ptxmax=0.0062,ptymax=0.08)
+simbvh(interval = 20000,
+       axx = 0.01623,
+       axy = 0.007306,
+       axz = c(0.006187, -0.00000023),
+       ayz = c(0.0046786, -0.00000048, 0.2557e-10),
+       c = 0.4032, d = 0.0219, c2 = 1.0, d2 = 1.0,
+       ptxmax = 0.0062, ptymax = 0.08)
 }
 
 \keyword{spatial}

@@ -263,6 +263,7 @@ cc      function plsinv(n,k,z,isw)
 cx      real*8 a,b,c,d,z,uu,ud
       integer :: n, k, isw
       real(8) :: a, b, c, d, z, uu, ud
+         plsinv=0.0d0
       a=1.d0-1.d0/(9.d0*(n-k+1))
       b=1.d0-1.d0/(9.d0*k)
       c=1.d0/(9.d0*(n-k+1))

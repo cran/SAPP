@@ -6,7 +6,7 @@
  in searching a cyclic component, for stationary Poisson Process.
 }
 \usage{
-ptspec( data, nfre, prdmin, prd, nsmooth=1, pprd, interval, plot=TRUE )
+ptspec(data, nfre, prdmin, prd, nsmooth = 1, pprd, interval, plot = TRUE)
 }
 \arguments{
   \item{data}{data of events.}
@@ -16,7 +16,7 @@ ptspec( data, nfre, prdmin, prd, nsmooth=1, pprd, interval, plot=TRUE )
   \item{nsmooth}{number for smoothing of periodogram.}
   \item{pprd}{particular periodicities to be investigated among others.}
   \item{interval}{length of observed time interval of events.}
-  \item{plot}{logical. If TRUE (default) the periodogram is plotted.}
+  \item{plot}{logical. If \code{TRUE} (default) the periodogram is plotted.}
 }
 \value{
   \item{f}{frequency.}
@@ -33,10 +33,12 @@ ptspec( data, nfre, prdmin, prd, nsmooth=1, pprd, interval, plot=TRUE )
 }
 \examples{
 data(Brastings)  # The Occurrence Times Data of 627 Blastings
-ptspec(Brastings, 1000, 0.5, 1.0,, c(2.0, 1.0, 0.5), 4600)
+ptspec(Brastings, nfre = 1000, prdmin = 0.5, prd = 1.0, pprd = c(2.0, 1.0, 0.5),
+       interval = 4600)
 
 data(PoissonData)  # to see the contrasting difference
-ptspec(PoissonData, 1000, 0.5, 1.0,, c(2.0, 1.0, 0.5), 5000)
+ptspec(PoissonData, nfre = 1000, prdmin = 0.5, prd =  1.0, pprd = c(2.0, 1.0, 0.5),
+       interval = 5000)
 }
 
 \keyword{spatial}

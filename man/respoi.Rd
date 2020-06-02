@@ -6,14 +6,14 @@
   Compute the residual of modified Omori Poisson process and display the cumulative curve and magnitude v.s. transformed time.
 }
 \usage{
-respoi(time,mag,param,zts,tstart,zte,threshold=0.0,plot=TRUE)
+respoi(time, mag, param, zts, tstart, zte, threshold = 0.0, plot = TRUE)
 
-respoi2(etas,param,zts,tstart,zte,threshold=0.0,plot=TRUE)
+respoi2(etas, param, zts, tstart, zte, threshold = 0.0, plot = TRUE)
 }
 \arguments{
-  \item{time}{the time measured from the main shock(t=0).}
+  \item{time}{the time measured from the main shock (t = 0).}
   \item{mag}{magnitude.}
-  \item{etas}{a etas-format dataset on 9 variables
+  \item{etas}{an etas-format dataset on 9 variables
 
              (no., longitude, latitude, magnitude, time, depth, year, month and days).}
   \item{param}{the four parameters \eqn{B}, \eqn{K}, \eqn{c} and \eqn{p}.}
@@ -21,7 +21,7 @@ respoi2(etas,param,zts,tstart,zte,threshold=0.0,plot=TRUE)
   \item{tstart}{the start of the target period.}
   \item{zte}{the end of the target period.}
   \item{threshold}{threshold magnitude.}
-  \item{plot}{logical. If TRUE (default) cumulative curve and magnitude v.s. transformed time \eqn{F(t_i)} are plotted.}
+  \item{plot}{logical. If \code{TRUE} (default) cumulative curve and magnitude v.s. transformed time \eqn{F(t_i)} are plotted.}
 }
 \details{
   The function \code{respoi} and \code{respoi2} compute the following output for displaying the goodness-of-fit of Omori-Utsu model to the data.
@@ -35,7 +35,7 @@ respoi2(etas,param,zts,tstart,zte,threshold=0.0,plot=TRUE)
   \code{respoi2} is equivalent to \code{respoi} except that input and output forms are different. When a etas-format dataset is given, \code{respoi2} returns the dataset with the format as described below.
 }
 \value{
-  \item{trans.time}{transformed time \eqn{F(t_i), i=1,2,...,N.}}
+  \item{trans.time}{transformed time \eqn{F(t_i), i = 1,2,...,N.}}
   \item{cnum}{cumulative number of events.}
   \item{resData}{a res-format dataset on 7 variables
 
@@ -51,12 +51,12 @@ data(main2003JUL26)  # The aftershock data of 26th July 2003 earthquake of M6.2
 
 # output transformed times and cumulative numbers
 x <- main2003JUL26
-respoi(x$time, x$magnitude, c(0,0.96021E+02,0.58563E-01,0.96611E+00),
-       0.0, 0.01, 18.68, 2.5)
+respoi(x$time, x$magnitude, param = c(0,0.96021e+02, 0.58563e-01, 0.96611e+00),
+       zts = 0.0, tstart = 0.01, zte = 18.68, threshold = 2.5)
 
 # output a res-format dataset
-respoi2(main2003JUL26, c(0,0.96021E+02,0.58563E-01,0.96611E+00),
-        0.0, 0.01, 18.68, 2.5)
+respoi2(main2003JUL26, param = c(0,0.96021e+02, 0.58563e-01, 0.96611e+00),
+        zts = 0.0, tstart = 0.01, zte = 18.68, threshold = 2.5)
 }
 
 \keyword{spatial}

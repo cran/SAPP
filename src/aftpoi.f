@@ -33,8 +33,10 @@ cc      common/y/y(50)
      2           c((np-1)/3),p((np-1)/3),cls((np-1)/3), rmd(nlmax),
      3           xx1(np,nlmax), h(np,np,2), hf(np,np,2,2)
       real(8) :: t, t0, t1, t2, t3
-      common t,nn,nfunct 
-      common/range/t0,t1,t2,t3
+cxx      common t,nn,nfunct 
+cxx      common/range/t0,t1,t2,t3
+      common /momori/ t,nn,nfunct 
+      common /range1/ t0,t1,t2,t3
 cc      dimension xxxx(50),x(50),ahaic(30) 
 cc      dimension axxx(19999),amag(19999)
 cx      dimension x(np,2),pa(np),ahaic(nc),g(np,2)
@@ -96,8 +98,10 @@ cx      implicit real * 8 (a-h,o-z)
       integer :: n, nnn
       real(8) :: xini(n), x(n-1)
       real(8) :: t, t0, t1, t2, t3
-      common /range/t0,t1,t2,t3 
-      common t,nn,nfunct 
+cxx      common /range/t0,t1,t2,t3 
+cxx      common t,nn,nfunct 
+      common /range1/ t0,t1,t2,t3 
+      common /momori/ t,nn,nfunct 
 cc      dimension xxxx(50),x(50),xini(50)
 cx      dimension xxxx(n-1),x(n-1),xini(n) 
       real(8) :: xxxx(n-1)
@@ -134,10 +138,13 @@ cx      implicit real * 8 (a-h,o-z)
      1           rmd(nlmax), xx1(n,nlmax), h(n,n,2), hf(n,n,2),
      2           hfi(n,n,2)
       real(8) :: t, t0, t1, t2, t3, f, aic
-      common t,nn,nfunct 
-      common/range/t0,t1,t2,t3 
-cc      common/y/y(50) 
-      common/ddd/f,aic 
+cxx      common t,nn,nfunct 
+cxx      common/range/t0,t1,t2,t3 
+      common /momori/ t,nn,nfunct 
+      common /range1/ t0,t1,t2,t3 
+cc      common/y/y(50)
+cxx      common/ddd/f,aic 
+      common /ddd1/ f,aic 
 cc      dimension x(50),ahaic(30)
 cx      dimension x(n),ahaic(ncount)
 cx      dimension xx(nni), x0(n,2), g(n,2)
@@ -190,9 +197,12 @@ cx      implicit real * 8 (a-h,o-z)
       real(8) :: x(n), ff
       real(8) :: t, t0, t1, t2, t3, f, aic 
       real(8) :: x0
-      common t,nn,nfunct 
-      common/range/t0,t1,t2,t3 
-      common/ddd/f,aic 
+cxx      common t,nn,nfunct 
+cxx      common/range/t0,t1,t2,t3 
+cxx      common/ddd/f,aic 
+      common /momori/ t,nn,nfunct 
+      common /range1/ t0,t1,t2,t3 
+      common /ddd1/ f,aic 
 cc      common/y/y(50) 
 cc      dimension x(50),ahaic(30) 
 cx      dimension x(n),ahaic(ncount)
@@ -264,10 +274,10 @@ c
 cx      dimension id(nlmax),rmd(nlmax),xx1(k,nlmax)
 c
       external funct 
-      common     / ccc /  isw , ipr 
+cxx      common     / ccc /  isw , ipr
 c 
-      isw = 1 
-      ipr=7 
+cxx      isw = 1 
+cxx      ipr=7 
       if( ram .le. 1.0d-30 )  ram = 0.01d0 
       const2 = 1.0d-60 
       hnorm = 0.d0 
@@ -552,10 +562,12 @@ c---
       REAL(8) :: xx(nni), x(n), g(m), rmd(nlmax), xx1(n,nlmax), h(n,n),
      1           hf(n,n), hfi(n,n)
       real(8) :: f, aic, t, tau1, tau2, eps1, eps2
-      external funct 
-      common     / ccc /  isw , ipr 
-      common     / ddd /   f , aic 
-      common t,nn,nfunct 
+      external funct
+cxx      common     / ccc /  isw , ipr 
+cxx      common     / ddd /   f , aic 
+cxx      common t,nn,nfunct 
+      common /ddd1/ f, aic 
+      common /momori/ t,nn,nfunct 
       data  tau1 , tau2  /  1.0d-5 , 1.0d-5  / 
       data  eps1 , eps2  / 1.0d-5 , 1.0d-5  / 
       real(8) :: dx(n), g0(n), y(n), wrk(n), s(n), ramda, const1, sum,
@@ -576,7 +588,7 @@ cx      dx(i) = 0.0d00
 cx   20 h(i,i) = 1.0d00 
       h(i,i) = 1.0d00
    20 continue
-      isw = 0
+cxx      isw = 0
 c
 cc      call  funct( n,x,xm,g,ig ) 
       call  funct( nni,xx,m,x,xm,g,ig ) 
@@ -712,7 +724,7 @@ cx  210 x(i) = x(i) + dx(i)
       x(i) = x(i) + dx(i)
   210 continue
       xmb = xm 
-      isw = 0 
+cxx      isw = 0 
 c
 cc      call  funct( n,x,xm,g,ig ) 
       call  funct( nni,xx,m,x,xm,g,ig ) 
@@ -869,9 +881,11 @@ cx      implicit real * 8 (a-h,o-z)
       real(8) :: xx(nni), b(n), f, h(n)
       real(8) :: t, ff, aic
 cc      common/xyod/xdumy,xx(19999) 
-cc      common/y/y(50) 
-      common t,nn,nfunct 
-      common/ddd/ff,aic 
+cc      common/y/y(50)
+cxx      common t,nn,nfunct 
+cxx      common/ddd/ff,aic 
+      common /momori/ t,nn,nfunct 
+      common /ddd1/ ff,aic 
 cc      dimension b(50),h(50),g(50)
 cx      dimension b(n),h(n),g(n)
 cx      dimension xx(nni)
@@ -945,11 +959,15 @@ cx      implicit real * 8 (a-h,o-z)
       real(8) :: xx(nni), b(n), f, h(n)
       real(8) :: ff, aic, t, t0, t1, t2, t3
 cc      common/xyod/xdumy,xx(19999) 
-      common/ddd/ff,aic 
-cc      common/y/y(50) 
-      common/range/t0,t1,t2,t3
+cxx      common/ddd/ff,aic 
+      common /ddd1/ ff,aic 
+cc      common/y/y(50)
+cxx      common/range/t0,t1,t2,t3
+      common /range1/ t0,t1,t2,t3
 cc      common/grad/g(50) 
-      common t,nn,nfunct 
+cxx      common t,nn,nfunct
+      common /momori/ t,nn,nfunct 
+
 cc      dimension b(50),h(50)
 cx      dimension xx(nni),b(n),h(n),g(n)
       real(8) :: g(n), a1, a2, a3, a4, uni, f1, gg1, gg2,
@@ -966,6 +984,8 @@ cx      dimension xx(nni),b(n),h(n),g(n)
       gg2=0.0
       gg3=0.0
       gg4=0.0
+         gs4=0.0
+CCC         sasump=0.0
       do 20 i=1,nn
       ramdai=a1+a2/(a3+xx(i))**a4
       if(ramdai.le.0.0) go to 50
@@ -978,11 +998,18 @@ cx      dimension xx(nni),b(n),h(n),g(n)
    20 continue
 c
 c
-      if(b(4).eq.uni) sasump=log(t1+a3)-log(t0+a3)
-      if(b(4).gt.uni) sasump=
-     & (uni/(t1+a3)**(a4-uni)-uni/(t0+a3)**(a4-uni))/(uni-a4)
-      if(b(4).lt.uni) sasump=
-     & ((t1+a3)**(uni-a4)-(t0+a3)**(uni-a4))/(uni-a4)
+cxx      if(b(4).eq.uni) sasump=log(t1+a3)-log(t0+a3)
+cxx      if(b(4).gt.uni) sasump=
+cxx     & (uni/(t1+a3)**(a4-uni)-uni/(t0+a3)**(a4-uni))/(uni-a4)
+cxx      if(b(4).lt.uni) sasump=
+cxx     & ((t1+a3)**(uni-a4)-(t0+a3)**(uni-a4))/(uni-a4)
+      if(b(4).gt.uni) then
+         sasump=(uni/(t1+a3)**(a4-uni)-uni/(t0+a3)**(a4-uni))/(uni-a4)
+      else if (b(4).lt.uni) then
+         sasump=((t1+a3)**(uni-a4)-(t0+a3)**(uni-a4))/(uni-a4)
+      else
+         sasump=log(t1+a3)-log(t0+a3)
+      end if
       gs1=t1-t0
       gs2=sasump
       if(b(4).ne.uni) gs3=a2*(uni/(t1+a3)**a4-uni/(t0+a3)**a4)
@@ -1050,12 +1077,15 @@ cx      implicit real * 8 (a-h,o-z)
       integer :: nni, n, ifg
       real(8) :: xx(nni), b(n), f, h(n)
       real(8) :: ff, aic, t, t0, t1, t2, t3
-cc      common/xyod/xdumy,xx(19999) 
-      common/ddd/ff,aic 
-cc      common/y/y(50) 
-      common/range/t0,t1,t2,t3 
-cc      common/grad/g(50) 
-      common t,nn,nfunct 
+cc      common/xyod/xdumy,xx(19999)
+cxx      common/ddd/ff,aic 
+      common /ddd1/ ff,aic 
+cc      common/y/y(50)
+cxx      common/range/t0,t1,t2,t3 
+      common /range1/ t0,t1,t2,t3 
+cc      common/grad/g(50)
+cxx      common t,nn,nfunct 
+      common /momori/ t,nn,nfunct 
 cc      dimension b(50),h(50)
 cx      dimension xx(nni),b(n),h(n),g(n)
       real(8) :: g(n), a1, a2, a3, a4, a5, a6, a7, uni, f1, t4,
@@ -1096,6 +1126,8 @@ c     if(a4.gt.5.0d00) go to 119
       gg5=0.0 
       gg6=0.0 
       gg7=0.0 
+         gs4=0.0
+         gs7=0.0
       if(a7*log(a6+t1-t2).gt.150.) go to 50 
       if(a4*log(a3).lt.-150.) go to 50 
       if(a4*log(a3+t1).gt.150.) go to 50 
@@ -1120,11 +1152,18 @@ c
    20 continue 
 c 
 c 
-      if(b(4).eq.uni) sasump=log(t1+a3)-log(t0+a3) 
-      if(b(4).gt.uni) sasump= 
-     & (uni/(t1+a3)**(a4-uni)-uni/(t0+a3)**(a4-uni))/(uni-a4) 
-      if(b(4).lt.uni) sasump= 
-     & ((t1+a3)**(uni-a4)-(t0+a3)**(uni-a4))/(uni-a4) 
+cxx      if(b(4).eq.uni) sasump=log(t1+a3)-log(t0+a3) 
+cxx      if(b(4).gt.uni) sasump= 
+cxx     & (uni/(t1+a3)**(a4-uni)-uni/(t0+a3)**(a4-uni))/(uni-a4) 
+cxx      if(b(4).lt.uni) sasump= 
+cxx     & ((t1+a3)**(uni-a4)-(t0+a3)**(uni-a4))/(uni-a4)
+      if(b(4).gt.uni) then
+         sasump=(uni/(t1+a3)**(a4-uni)-uni/(t0+a3)**(a4-uni))/(uni-a4) 
+      else if(b(4).lt.uni) then
+         sasump=((t1+a3)**(uni-a4)-(t0+a3)**(uni-a4))/(uni-a4)
+      else
+         sasump=log(t1+a3)-log(t0+a3) 
+      end if
       gs1=t1-t0 
       gs2=sasump 
       if(b(4).ne.uni) gs3=a2*(uni/(t1+a3)**a4-uni/(t0+a3)**a4) 
@@ -1141,12 +1180,19 @@ c
      &  *(-(t1+a3)**(uni-a4)*log(t1+a3)+(t0+a3)**(uni-a4)*log(t0+a3)) 
 c 
       t3=t1-t2 
-      t4=0.0 
-      if(b(7).eq.uni) sasumq=log(t3+a6)-log(t4+a6) 
-      if(b(7).gt.uni) sasumq= 
-     & (uni/(t3+a6)**(a7-uni)-uni/(t4+a6)**(a7-uni))/(uni-a7) 
-      if(b(7).lt.uni) sasumq= 
-     & ((t3+a6)**(uni-a7)-(t4+a6)**(uni-a7))/(uni-a7) 
+      t4=0.0
+cxx      if(b(7).eq.uni) sasumq=log(t3+a6)-log(t4+a6) 
+cxx      if(b(7).gt.uni) sasumq= 
+cxx     & (uni/(t3+a6)**(a7-uni)-uni/(t4+a6)**(a7-uni))/(uni-a7) 
+cxx      if(b(7).lt.uni) sasumq= 
+cxx     & ((t3+a6)**(uni-a7)-(t4+a6)**(uni-a7))/(uni-a7)
+      if(b(7).gt.uni) then
+         sasumq=(uni/(t3+a6)**(a7-uni)-uni/(t4+a6)**(a7-uni))/(uni-a7)
+      else if(b(7).lt.uni) then
+         sasumq=((t3+a6)**(uni-a7)-(t4+a6)**(uni-a7))/(uni-a7)
+      else
+         sasumq=log(t3+a6)-log(t4+a6) 
+      end if
       gs5=sasumq 
       if(b(7).ne.uni) gs6=a5*(uni/(t3+a6)**a7-uni/(t4+a6)**a7) 
       if(b(7).eq.uni) gs6=a5*(uni/(t3+a6)-uni/(t4+a6)) 
@@ -1235,11 +1281,14 @@ cc      common/xyod/xdumy,xx(19999)
       integer :: nni, n, ifg
       real(8) :: xx(nni), b(n), f, h(n)
       real(8) :: ff, aic, t, t0, t1, t2, t3
-      common/ddd/ff,aic 
+cxx      common/ddd/ff,aic 
+      common /ddd1/ ff,aic 
 cc      common/y/y(50) 
-      common/range/t0,t1,t2,t3 
-cc      common/grad/g(50) 
-      common t,nn,nfunct 
+cxx      common/range/t0,t1,t2,t3 
+      common /range1/ t0,t1,t2,t3 
+cc      common/grad/g(50)
+cxx      common t,nn,nfunct 
+      common /momori/ t,nn,nfunct 
 cc      dimension b(50),h(50)
 cx      dimension xx(nni),b(n),h(n),g(n)
       real(8) :: g(n), a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, uni,
@@ -1297,7 +1346,10 @@ cx      dimension xx(nni),b(n),h(n),g(n)
       gg7=0.0 
       gg8=0.0 
       gg9=0.0 
-      gg10=0.0 
+      gg10=0.0
+         gs4=0.0
+         gs7=0.0
+         gs10=0.0
       if(a7*log(a6+t1-t2).gt.150.) go to 50 
       if(a4*log(a3).lt.-150.) go to 50 
       if(a4*log(a3+t1).gt.150.) go to 50 
@@ -1330,12 +1382,19 @@ c
       f1=f1+log(ramdai) 
    20 continue 
 c 
-c 
-      if(b(4).eq.uni) sasump=log(t1+a3)-log(t0+a3) 
-      if(b(4).gt.uni) sasump= 
-     & (uni/(t1+a3)**(a4-uni)-uni/(t0+a3)**(a4-uni))/(uni-a4) 
-      if(b(4).lt.uni) sasump= 
-     & ((t1+a3)**(uni-a4)-(t0+a3)**(uni-a4))/(uni-a4) 
+c
+cxx      if(b(4).eq.uni) sasump=log(t1+a3)-log(t0+a3) 
+cxx      if(b(4).gt.uni) sasump= 
+cxx     & (uni/(t1+a3)**(a4-uni)-uni/(t0+a3)**(a4-uni))/(uni-a4) 
+cxx      if(b(4).lt.uni) sasump= 
+cxx     & ((t1+a3)**(uni-a4)-(t0+a3)**(uni-a4))/(uni-a4)
+      if(b(4).gt.uni) then
+         sasump=(uni/(t1+a3)**(a4-uni)-uni/(t0+a3)**(a4-uni))/(uni-a4) 
+      else if(b(4).lt.uni) then
+         sasump=((t1+a3)**(uni-a4)-(t0+a3)**(uni-a4))/(uni-a4)
+      else
+         sasump=log(t1+a3)-log(t0+a3) 
+      end if
       gs1=t1-t0 
       gs2=sasump 
       if(b(4).ne.uni) gs3=a2*(uni/(t1+a3)**a4-uni/(t0+a3)**a4) 
@@ -1352,12 +1411,21 @@ c
      &  *(-(t1+a3)**(uni-a4)*log(t1+a3)+(t0+a3)**(uni-a4)*log(t0+a3)) 
 c 
       t12=t1-t2 
-      t02=0.0 
-      if(b(7).eq.uni) sasumq=log(t12+a6)-log(t02+a6) 
-      if(b(7).gt.uni) sasumq= 
-     & (uni/(t12+a6)**(a7-uni)-uni/(t02+a6)**(a7-uni))/(uni-a7) 
-      if(b(7).lt.uni) sasumq= 
-     & ((t12+a6)**(uni-a7)-(t02+a6)**(uni-a7))/(uni-a7) 
+      t02=0.0
+cxx      if(b(7).eq.uni) sasumq=log(t12+a6)-log(t02+a6) 
+cxx      if(b(7).gt.uni) sasumq= 
+cxx     & (uni/(t12+a6)**(a7-uni)-uni/(t02+a6)**(a7-uni))/(uni-a7) 
+cxx      if(b(7).lt.uni) sasumq= 
+cxx     & ((t12+a6)**(uni-a7)-(t02+a6)**(uni-a7))/(uni-a7)
+      if(b(7).gt.uni) then
+         sasumq= 
+     &      (uni/(t12+a6)**(a7-uni)-uni/(t02+a6)**(a7-uni))/(uni-a7) 
+      else if(b(7).lt.uni) then
+         sasumq=((t12+a6)**(uni-a7)-(t02+a6)**(uni-a7))/(uni-a7)
+      else
+         sasumq=log(t12+a6)-log(t02+a6) 
+      end if
+
       gs5=sasumq 
       if(b(7).ne.uni) gs6=a5*(uni/(t12+a6)**a7-uni/(t02+a6)**a7) 
       if(b(7).eq.uni) gs6=a5*(uni/(t12+a6)-uni/(t02+a6)) 
@@ -1374,11 +1442,19 @@ c
 c 
       t13=t1-t3 
       t03=0.0 
-      if(b(10).eq.uni) sasumr=log(t13+a9)-log(t03+a9) 
-      if(b(10).gt.uni) sasumr= 
-     & (uni/(t13+a9)**(a10-uni)-uni/(t03+a9)**(a10-uni))/(uni-a10) 
-      if(b(10).lt.uni) sasumr= 
-     & ((t13+a9)**(uni-a10)-(t03+a9)**(uni-a10))/(uni-a10) 
+cxx      if(b(10).eq.uni) sasumr=log(t13+a9)-log(t03+a9) 
+cxx      if(b(10).gt.uni) sasumr= 
+cxx     & (uni/(t13+a9)**(a10-uni)-uni/(t03+a9)**(a10-uni))/(uni-a10) 
+cxx      if(b(10).lt.uni) sasumr= 
+cxx     & ((t13+a9)**(uni-a10)-(t03+a9)**(uni-a10))/(uni-a10) 
+      if(b(10).gt.uni) then
+         sasumr=
+     &      (uni/(t13+a9)**(a10-uni)-uni/(t03+a9)**(a10-uni))/(uni-a10)
+      else if(b(10).lt.uni) then
+         sasumr=((t13+a9)**(uni-a10)-(t03+a9)**(uni-a10))/(uni-a10) 
+      else
+         sasumr=log(t13+a9)-log(t03+a9)
+      end if 
       gs8=sasumr 
       if(b(10).ne.uni) gs9=a8*(uni/(t13+a9)**a10-uni/(t03+a9)**a10) 
       if(b(10).eq.uni) gs9=a8*(uni/(t13+a9)-uni/(t03+a9)) 
@@ -1551,8 +1627,10 @@ cx      implicit real * 8 (a-h,o-z)
       integer :: n
       real(8) :: b(n), h(n,n)
       real(8) :: t, t0, t1, t2, t3
-      common/range/t0,t1,t2,t3 
-      common t,nn,nfunct 
+cxx      common/range/t0,t1,t2,t3 
+cxx      common t,nn,nfunct 
+      common /range1/ t0,t1,t2,t3 
+      common /momori/ t,nn,nfunct 
 cc      dimension b(50),h(50,50) 
 cx      dimension b(n),h(n,n) 
       real(8) :: a1, a2, a3, a4, sf1, sf2, sf3
@@ -1594,7 +1672,8 @@ cc      dimension ak(20),p(20),c(20)
       real(8) :: t0, t1, t2, t3
 cx      dimension x(n),cls(kn),ti(kn)
 cx      dimension ak(kn),p(kn),c(kn) 
-      common/range/t0,t1,t2,t3 
+cxx      common/range/t0,t1,t2,t3 
+      common /range1/ t0,t1,t2,t3 
       ti(1)=t2 
 cc      ti(2)=t3 
       if(kn.ge.2) ti(2)=t3

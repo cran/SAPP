@@ -4,7 +4,7 @@
 
 extern void F77_NAME(simbvhf)( int*, int*, int*, int*, int*, int*, double*, double*, double*, double*, double*, double*, double*, double*, double*, double*, double*, double*, double*, int*, double*, double*, int*, int*, double*, int*, int*, int*);
 
-SEXP simbvh(SEXP kxx, SEXP kxy, SEXP kxz, SEXP kyx, SEXP kyy, SEXP kyz, SEXP t, SEXP coxx, SEXP coxy, SEXP coyx, SEXP coyy, SEXP axx, SEXP axy, SEXP axz, SEXP ayx, SEXP ayy, SEXP ayz, SEXP ptxmax, SEXP ptymax, SEXP kmax, SEXP nnmax, SEXP mmmax)
+SEXP SimbvhC(SEXP kxx, SEXP kxy, SEXP kxz, SEXP kyx, SEXP kyy, SEXP kyz, SEXP t, SEXP coxx, SEXP coxy, SEXP coyx, SEXP coyy, SEXP axx, SEXP axy, SEXP axz, SEXP ayx, SEXP ayy, SEXP ayz, SEXP ptxmax, SEXP ptymax, SEXP kmax, SEXP nnmax, SEXP mmmax)
 {
     double *d1,*d2,*d3,*d4,*d5,*d6,*d7,*d8,*d9,*d10,*d11,*d12,*d13,*d14,*d15,*d16;
     int *i1,*i2,*i3,*i4,*i5,*i6,*i7,*i8,*i9,*i10,*i11,*i12;

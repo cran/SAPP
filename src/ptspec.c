@@ -4,7 +4,7 @@
 
 extern void F77_NAME(ptspecf)( double*, int*, double*, double*, double*, double*, int*, int*, int*, double*, double*, double*, double*, double*, double*, double*, double*, double*, double*);
 
-SEXP ptspec(SEXP data, SEXP n, SEXP intval, SEXP pprd, SEXP prdm, SEXP prd, SEXP nfre, SEXP nt, SEXP  is)
+SEXP PtspecC(SEXP data, SEXP n, SEXP intval, SEXP pprd, SEXP prdm, SEXP prd, SEXP nfre, SEXP nt, SEXP  is)
 {
     double *d1,*d2,*d3,*d4,*d5,*d6,*d7,*d8,*d9,*d10,*d11,*d12,*d13,*d14,*d15;
     int *i1,*i2,*i3,*i4;

@@ -4,7 +4,7 @@
 
 extern void F77_NAME(linsimf)(int*, int*, int*, double*, double*, double*, double*, double*, double*, double*, int*, double*, int*, double*, int*, int*, double*, int*);
 
-SEXP linsim(SEXP kxx, SEXP kxy, SEXP kxz, SEXP t, SEXP c, SEXP d, SEXP ax, SEXP ay, SEXP at, SEXP yy, SEXP mm, SEXP ptmax, SEXP kmax)
+SEXP LinsimC(SEXP kxx, SEXP kxy, SEXP kxz, SEXP t, SEXP c, SEXP d, SEXP ax, SEXP ay, SEXP at, SEXP yy, SEXP mm, SEXP ptmax, SEXP kmax)
 {
     double *d1,*d2,*d3,*d4,*d5,*d6,*d7,*d8,*d9,*d10;
     int *i1,*i2,*i3,*i4,*i5,*i6,*i7,*i8;

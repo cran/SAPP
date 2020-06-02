@@ -5,8 +5,8 @@
   Compute the maximum likelihood estimates of five parameters of ETAS model. This function consists of two (exact and approximated) versions of the calculation algorithm for the maximization of likelihood.
 }
 \usage{
-etasap(time, mag, threshold=0.0, reference=0.0, parami,
-       zts=0.0, tstart, zte, approx=2, tmpfile=NULL, nlmax=1000, plot=TRUE)
+etasap(time, mag, threshold = 0.0, reference = 0.0, parami, zts = 0.0, 
+       tstart, zte, approx = 2, tmpfile = NULL, nlmax = 1000, plot = TRUE)
 }
 \arguments{
   \item{time}{the time measured from the main shock(t=0).}
@@ -17,13 +17,13 @@ etasap(time, mag, threshold=0.0, reference=0.0, parami,
   \item{zts}{the start of the precursory period.}
   \item{tstart}{the start of the target period.}
   \item{zte}{the end of the target period.}
-  \item{approx}{>0 : the level for approximation version, which is one of the five levels 1, 2, 4, 8 and 16.
+  \item{approx}{> 0 : the level for approximation version, which is one of the five levels 1, 2, 4, 8 and 16.
  The higher level means faster processing but lower accuracy. \cr
-                =0 : the exact version.}
-  \item{tmpfile}{write the process of maximum likelihood procedure to \eqn{tmpfile}.\cr
-                 If "" print the process to the standard output and if NULL (default) no report.}
+                = 0 : the exact version.}
+  \item{tmpfile}{a character string naming the file to write the process of maximum likelihood procedure.
+                 If "" print the process to the standard output and if \code{NULL} (default) no report.}
   \item{nlmax}{the maximum number of steps in the process of minimizing.} 
-  \item{plot}{logical. If TRUE (default) the graph of cumulative number and magnitude of earthquakes
+  \item{plot}{logical. If \code{TRUE} (default) the graph of cumulative number and magnitude of earthquakes
  against the ordinary time is plotted.}
 }
 \details{
@@ -31,7 +31,7 @@ etasap(time, mag, threshold=0.0, reference=0.0, parami,
  The total number of such earthquakes is denoted by \eqn{N}. The seismic activity includes primary activity of constant
  occurrence rate \eqn{\mu}{mu} in time (Poisson process). Each earthquake ( including aftershock of another earthquake)
  is followed by its aftershock activity, though only aftershocks of magnitude \eqn{M_z} and larger are included in the data.
- The aftershock activity is represented by the Omori-Usu formula in the time domain. The rate of aftershock occurrence
+ The aftershock activity is represented by the Omori-Utsu formula in the time domain. The rate of aftershock occurrence
  at time \eqn{t} following the \eqn{i}th earthquake (time: \eqn{t_i}, magnitude: \eqn{M_i}) is given by 
 
   \deqn{n_i(t) = K exp[\alpha(M_i-M_z)]/(t-t_i+c)^p,}{%
@@ -59,8 +59,9 @@ etasap(time, mag, threshold=0.0, reference=0.0, parami,
 \examples{
 data(main2003JUL26)  # The aftershock data of 26th July 2003 earthquake of M6.2 
 x <- main2003JUL26
-etasap(x$time, x$magnitude, 2.5, 6.2, 
-       c(0, 0.63348E+02, 0.38209E-01, 0.26423E+01, 0.10169E+01),, 0.01, 18.68)
+etasap(x$time, x$magnitude, threshold = 2.5, reference = 6.2, 
+       parami = c(0, 0.63348e+02, 0.38209e-01, 0.26423e+01, 0.10169e+01),
+       tstart = 0.01, zte = 18.68)
 }
 
 \keyword{spatial}

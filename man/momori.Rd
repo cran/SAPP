@@ -5,7 +5,8 @@
   Compute the maximum likelihood estimates (MLEs) of parameters in the Omori-Utsu (modified Omori) formula representing for the decay of occurrence rate of aftershocks with time.
 }
 \usage{
-momori(data,mag=NULL,threshold=0.0,tstart,tend,parami,tmpfile=NULL, nlmax=1000)
+momori(data, mag = NULL, threshold = 0.0, tstart, tend, parami,
+       tmpfile = NULL, nlmax = 1000)
 }
 \arguments{
   \item{data}{point process data.}
@@ -14,15 +15,15 @@ momori(data,mag=NULL,threshold=0.0,tstart,tend,parami,tmpfile=NULL, nlmax=1000)
   \item{tstart}{the start of the target period.}
   \item{tend}{the end of the target period.}
   \item{parami}{the initial estimates of the four parameters \eqn{B}, \eqn{K}, \eqn{c} and \eqn{p}.}
-  \item{tmpfile}{write the process of minimizing to \eqn{tmpfile}.\cr
-                 If "" print the process to the standard output and if NULL (default) no report.}
+  \item{tmpfile}{a character string naming the file to write the process of minimizing.
+                 If "" print the process to the standard output and if \code{NULL} (default) no report.}
   \item{nlmax}{the maximum number of steps in the process of minimizing.} 
 }
 \details{
   The modified Omori formula represent the delay law of aftershock activity in time.
   In this equation, \eqn{f(t)} represents the rate of aftershock occurrence at time \eqn{t}, where \eqn{t} is the time measured from the origin time of the main shock.
   \eqn{B}, \eqn{K}, \eqn{c} and \eqn{p} are non-negative constants.
-  \eqn{B} represents constant-rate background seismicity which may included in the aftershock data.
+  \eqn{B} represents constant-rate background seismicity which may be included in the aftershock data.
 
      \deqn{f(t) = B + K/(t+c)^p}
 
@@ -41,7 +42,7 @@ momori(data,mag=NULL,threshold=0.0,tstart,tend,parami,tmpfile=NULL, nlmax=1000)
 \value{
   \item{param}{the final estimates of the four parameters \eqn{B}, \eqn{K}, \eqn{c} and \eqn{p}.}
   \item{ngmle}{negative max likelihood.}
-  \item{aic}{AIC = -2\eqn{LL} + 2*(number of variables), and the number=4 in this case.}
+  \item{aic}{AIC = -2\eqn{LL} + 2*(number of variables), and the number = 4 in this case.}
   \item{plist}{list of parameters \eqn{t_i}, \eqn{K}, \eqn{c}, \eqn{p} and \eqn{cls}.}
 }
 \references{
@@ -52,8 +53,8 @@ momori(data,mag=NULL,threshold=0.0,tstart,tend,parami,tmpfile=NULL, nlmax=1000)
 \examples{
 data(main2003JUL26)  # The aftershock data of 26th July 2003 earthquake of M6.2 
 x <- main2003JUL26
-momori(x$time, x$magnitude, 2.5, 0.01, 18.68,
-       c(0,0.96021E+02,0.58563E-01,0.96611E+00))
+momori(x$time, x$magnitude, threshold = 2.5, tstart = 0.01, tend = 18.68,
+       parami = c(0,0.96021e+02, 0.58563e-01, 0.96611e+00))
 }
 
 \keyword{spatial}

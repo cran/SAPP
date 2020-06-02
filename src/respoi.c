@@ -4,7 +4,7 @@
 
 extern void F77_NAME(respoif)(double*, double*, double*, double*, double*, int*, double*, int*, double*, double*, double*, double*, double*, double*, double*, double*, int*, double*, double*, int*);
 
-SEXP respoi(SEXP time, SEXP mag, SEXP dep, SEXP xp, SEXP yp, SEXP nd, SEXP param, SEXP np, SEXP zts, SEXP zte, SEXP tstart, SEXP thresh)
+SEXP RespoiC(SEXP time, SEXP mag, SEXP dep, SEXP xp, SEXP yp, SEXP nd, SEXP param, SEXP np, SEXP zts, SEXP zte, SEXP tstart, SEXP thresh)
 {
     double *d1,*d2,*d3,*d4,*d5,*d6,*d7,*d8,*d9,*d10,*d11,*d12,*d13,*d14,*d15,*d16;
     int *i1,*i2,*i3,*i4;

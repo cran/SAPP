@@ -151,7 +151,8 @@ cc      common /rd1fn1/delta,rxz(20),sxz(4001,20),ns
       real(8) :: a(n), f, g(n), rxz, sxz
       real(8) :: delta, r, ff, aic, sd
       common /rd1fn1/delta
-      common     / ddd /  r , ff , aic , sd
+cxx      common     / ddd /  r , ff , aic , sd
+      common /ddd2/ r, ff, aic, sd
       dimension rxz(nmax),sxz(ns+1,nmax)
 cc      dimension g(1),gs(30),a(1)
 cx      dimension g(1),gs(n),a(1)
@@ -284,7 +285,8 @@ cc     &               it,ns,nnd
      1           rxs(nmax), sxs(ns+1,nmax)
       real(8) :: delta, tr, r, ff, aic, sd
       common /rd2fn2/delta,tr,it,nnd
-      common     / ddd /  r , ff , aic , sd
+cxx      common     / ddd /  r , ff , aic , sd
+      common /ddd2/ r, ff, aic, sd
 cx      dimension rxc(nmax),sxc(ns+1,nmax),rxs(nmax),sxs(ns+1,nmax)
 cc      dimension g(20),a(1)
 cx      dimension g(n),a(1)
@@ -391,8 +393,9 @@ cc      dimension  h(82,82) , wrk(82) , s(82)
 cx      dimension  x(n) , dx(n) , g(n) , g0(n) , y(n)
 cx      dimension  h(n,n) , wrk(n) , s(n)
 cx      dimension  rx(nmax,nfunct), sx(ns+1,nmax,nfunct)
-      common     / ccc /  isw,ipr
-      common     / ddd /  r , f , aic , sd
+cxx      common     / ccc /  isw,ipr
+cxx      common     / ddd /  r , f , aic , sd
+      common /ddd2/ r, f, aic, sd
 c
 cx      dimension  px(n)
 cx      dimension  id(nlmax), rmd(nlmax), eee(nlmax)
@@ -419,7 +422,7 @@ cx      dx(i) = 0.0d00
 cx   20 h(i,i) = 1.0d00
       h(i,i) = 1.0d00
    20 continue
-      isw = 0
+cxx      isw = 0
 c
 cc      call  funct( n,x,xm,g,ig )
       if( nfunct.eq.1 )  call  funct1( n,x,xm,g,ig,rx,sx,ns,nmax )
@@ -553,7 +556,7 @@ cx  210 x(i) = x(i) + dx(i)
       x(i) = x(i) + dx(i)
   210 continue
       xmb = xm
-      isw = 0
+cxx      isw = 0
 c
 cc      call  funct( n,x,xm,g,ig )
       if( nfunct.eq.1)  call  funct1( n,x,xm,g,ig,rx,sx,ns,nmax )
@@ -627,15 +630,15 @@ cc      dimension  g(82)
 cx      dimension  x(k) , h(k) , x1(k)
 cx      dimension  g(k)
 cx      dimension  rx(nmax,nfunct), sx(ns+1,nmax,nfunct)
-      common     / ccc /  isw , ipr
+cxx      common     / ccc /  isw , ipr
 c
 cx      dimension  rmd(nlmax), eee(nlmax), id(nlmax)
       integer :: return, sub
       real(8) :: x1(k), g(k), const2, hnorm, e1, e2, e3, ram1,
      1           ram2, ram3, a1, a2, a3, b1, b2 
 c
-      isw = 1
-      ipr = 7
+cxx      isw = 1
+cxx      ipr = 7
       if( ram .le. 1.0d-30 )  ram = 0.01d0
       const2 = 1.0d-60
       hnorm = 0.d0
@@ -873,7 +876,8 @@ cx      implicit real * 8 (a-h,o-z)
       integer :: n, nfunct
       real(8) :: x(n), aic, xa(n), t
       real(8) :: r, xm, aicc, sd
-      common     / ddd /  r , xm , aicc , sd
+cxx      common     / ddd /  r , xm , aicc , sd
+      common /ddd2/ r, xm, aicc, sd
 cx      dimension x(1),xa(1)
 cx      dimension x(n),xa(n)
       if(nfunct.eq.2) go to 20

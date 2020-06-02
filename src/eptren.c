@@ -4,7 +4,7 @@
 
 extern void F77_NAME(eptrenf)(double*, double*, int*, int*, int*, int*, double*, double*, double*, double*, int*,  double*, double*, double*, double*, int*, double*, double*, int*, int*, int*, int*);
 
-SEXP eptren(SEXP y, SEXP t, SEXP n, SEXP nfunct, SEXP npara, SEXP nsub, SEXP cycle, SEXP nmax, SEXP np, SEXP nlmax)
+SEXP EptrenC(SEXP y, SEXP t, SEXP n, SEXP nfunct, SEXP npara, SEXP nsub, SEXP cycle, SEXP nmax, SEXP np, SEXP nlmax)
 {
     double *d1,*d2,*d3,*d4,*d5,*d6,*d7,*d8,*d9,*d10,*d11,*d12;
     int *i1,*i2,*i3,*i4,*i5,*i6,*i7,*i8,*i9,*i10;

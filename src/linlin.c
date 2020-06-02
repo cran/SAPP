@@ -4,7 +4,7 @@
 
 extern void F77_NAME(linlinf)(int*, double*, int*, double*, int*, int*, double*, double*, int*, int*, int*, int*, int*,  int*, double*, double*, double*, double*, double*, double*, double*, double*, double*, double*, double*, int*, double*, double*, int*, int*);
 
-SEXP linlin(SEXP n, SEXP x, SEXP opt, SEXP t, SEXP nn, SEXP mm, SEXP xx, SEXP yy, SEXP kkx, SEXP kky, SEXP kmax, SEXP kkc, SEXP kkt, SEXP nlmax)
+SEXP LinlinC(SEXP n, SEXP x, SEXP opt, SEXP t, SEXP nn, SEXP mm, SEXP xx, SEXP yy, SEXP kkx, SEXP kky, SEXP kmax, SEXP kkc, SEXP kkt, SEXP nlmax)
 {
     double *d1,*d2,*d3,*d4,*d5,*d6,*d7,*d8,*d9,*d10,*d11,*d12,*d13,*d14,*d15,*d16,*d17;
     int *i1,*i2,*i3,*i4,*i5,*i6,*i7,*i8,*i9,*i10,*i11,*i12,*i13;

@@ -6,9 +6,25 @@
              ****************************
 
 
+  SAPP_1.0.8
+ ============
+* Fixed the LTO (Link-Time Optimization) issues reported in CRAN Packages Check Results.
+
+* Fixed problems in CRAN Packages Check Results:
+ checking compiled code ... NOTE
+ File `SAPP/libs/SAPP.so':
+  Found no calls to: `R_registerRoutines', `R_useDynamicSymbols'
+
+* Fixed problems in Fortran code according to the warning messages from gfortran
+ with options '-fpic  -g -O2 -Wall -mtune=native -c'. 
+
+* Revised the guide, which has been referred to as the vignette "SAPP".
+
+
   SAPP_1.0.7
  ============
-* Fixed problems in Fortran code according to the warning messages from gfortran with options -Wall -pedantic.
+* Fixed problems in Fortran code according to the warning messages from gfortran
+ with options '-Wall -pedantic'.
 
 
   SAPP_1.0.6
@@ -29,12 +45,14 @@
 
   SAPP_1.0.4
  ============
-* Corrected errors in inst/doc/index.html according to the error message of the W3C Markup Validator service.
+* Corrected errors in inst/doc/index.html according to the error message of the
+ W3C Markup Validator service.
 
 
   SAPP_1.0.3
  ============
- * Set the correct dimension for array bounds (1) and (*) in eptrenf.f, etasimf.f, comsub.f, linsimf.f, aftpoi.f, pgraphf.f and simbvhf.f.
+ * Set the correct dimension for array bounds (1) and (*) in eptrenf.f,
+ etasimf.f, comsub.f, linsimf.f, aftpoi.f, pgraphf.f and simbvhf.f.
 
  * Add an argument "ier" to the subroutine linsimf and simbvhf.
 
@@ -42,27 +60,34 @@
   SAPP_1.0.2
  ============
  * Fixed a bug in momori().
-   In subroutine sizes, the size of the array "ti" in the declaration is unsuitable.
+   In subroutine sizes, the size of the array "ti" in the declaration is
+ unsuitable.
 
   (Reported by Brian Ripley)
 
  * Fixed a bug in pgraph().
-   In subroutine palmpr, the size of the array "xx" in the declaration is unsuitable.
+   In subroutine palmpr, the size of the array "xx" in the declaration is
+ unsuitable.
 
  * Add C wrapper functions to call Fortran subroutines.
 
- * Write to "tmpfile" in R function (eptren(), linlin(), etasap() and momori()) insted of in Fortran subroutine.
-   Add "nlmax" to arguments of function eptren(), linlin(), etasap() and momori().
+ * Write to "tmpfile" in R function (eptren(), linlin(), etasap() and momori())
+ insted of in Fortran subroutine.
+   Add "nlmax" to arguments of function eptren(), linlin(), etasap() and
+ momori().
 
 
   SAPP_1.0.1
  ============
- * Delete an extra line with the unterminated string at the end of the file SAPP/data/res2003JUL26.R.
+ * Delete an extra line with the unterminated string at the end of the file
+ SAPP/data/res2003JUL26.R.
 
   (Reported by William Dunlap and Duncan Murdoch)
 
  * Fixed a bug in eptren(). 
    In subroutine eptrenf, declare the dimension of array "amg".
 
- * Add an argument "kmax" to the subroutines linlinf, dav, linear, davidn, funct (linlinf.f) and comfac (comsub.f).
-   In those subroutines, declare the dimension of array "lf" as the dynamic array lf(kmax,kmax).
+ * Add an argument "kmax" to the subroutines linlinf, dav, linear, davidn, funct
+ (linlinf.f) and comfac (comsub.f).
+   In those subroutines, declare the dimension of array "lf" as the dynamic
+ array lf(kmax,kmax).

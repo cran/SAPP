@@ -214,8 +214,8 @@ cx      implicit  real  *8 ( a-h,o-z )
 cx      integer  return,sub
 cc      dimension  x(1) , h(1) , x1(50)
 cc      dimension  g(50)
-      integer :: isw, ipr
-      common     / ccc /  isw , ipr
+cxx      integer :: isw, ipr
+cxx      common     / ccc /  isw , ipr
 cc      external funct
 cx      dimension  x(k) , h(k) , x1(k)
 cx      dimension  g(k)
@@ -232,8 +232,8 @@ cx      dimension  rmd(nlmax), eee(nlmax), id(nlmax)
       REAL(8) :: x1(k), g(k), const2, hnorm, ram1, ram2, ram3,
      1           e1, e2, e3, a1, a2, a3, b1, b2
 c
-      isw = 1
-      ipr = 7
+cxx      isw = 1
+cxx      ipr = 7
       if( ram .le. 1.0d-30 )  ram = 0.01d0
       const2 = 1.0d-60
       hnorm = 0.d0
@@ -495,8 +495,8 @@ cx      dimension  h(n,n) , wrk(n) , s(n)
 cx      dimension  xx(nn),yy(nn)
 cc      dimension  r(31,31)
 cx      dimension  lf(kmax,kmax)
-      integer :: isw, ipr
-      common     / ccc /  isw,ipr
+cxx      integer :: isw, ipr
+cxx      common     / ccc /  isw,ipr
 cc      common     / ddd /  r , f , aic , sd
 cx      dimension  px(n)
 cx      dimension  id(nlmax), rmd(nlmax), ee(nlmax)

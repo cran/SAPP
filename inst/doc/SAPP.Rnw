@@ -1,0 +1,167 @@
+\documentclass[a4paper,12pt]{article}
+
+% \VignetteIndexEntry{A Guide to SAPP}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{bm}
+\usepackage[colorlinks=true, linkcolor=black, citecolor=blue]{hyperref}
+\usepackage[square,sort,comma,numbers]{natbib}
+
+\textheight=24cm
+\textwidth=16cm
+\topmargin=0cm
+\oddsidemargin=0mm
+\evensidemargin=0mm
+
+\title{SAPP \\ Statistical Analysis of Point Processes with R}
+\author{The Institute of Statistical Mathematics}
+\date{Jun 1, 2010}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+\bibliographystyle{plain}
+\maketitle
+
+\section{Introduction}
+SASeis(Statistical Analysis of Seismicity) is a general software collection for statistical analysis of series of events and seismicity. This program package collects the updated versions of TIMSAC84-SASE (TIMSAC84-SASE version 2), SASeis for Windows (SASeis-W), SASeis Visual Basic (IASPEI-SASeis-VB) and SASeis2006. The source files of TIMSAC84-SASE Version 2 and SASeis2006 are written in FORTRAN77. Programs in TIMSAC84-SASE version2 and SASeis2006 only output numerical files for graphics and especially can be used in free statistical software R.
+
+Each of the software packages TIMSAC84-SASE Version 2 and SASeis2006 are published in Computer Science Monographs 
+\cite{RefCSM32, RefCSM33}. TIMSAC84-SASE Version 2 is an updated version of TIMSAC84-SASE by Ogata and Katsura, which is published in Part2 of TIMSANC84 \cite{RefCSM23}. The programs in the original TIMSAC package for point-process analysis were developed for the PCDOS (Utsu and Ogata, 1997) \cite{Ref1997}. The main features of the updation is that the calculation outputs are simplified by removing the GPSL language for plotting the figures.
+
+In SASeis2006 parameter values in the Omori-Utsu formula and the ETAS (Epidemic Type Aftershock Sequence) model are estimated. The Omori-Utsu formula is an empirical relation for the temporal decay of aftershock rates. The ETAS model is an extension of the Omori-Utsu formula,  and 
+it can be used to appropriately evaluate background seismic activity and represent characteristics of seismic activity of the region. The residual between the aftershock activity and the theoretical curve can be used for the diagnostic analysis or the detection of anomalies in the aftershock sequence.
+
+\vspace{0.5cm}
+This research is partly supported by "Function and Induction Research Project" held by the Transdisciplinary Research
+ Integration Center at the Research Organization of Information and Sciences, Japan.
+ 
+\section{R functions in the SAPP package}
+In this section functions and point process models are briefly described. 
+For further information and examples, see the help documentation.
+
+\subsection{R functions of TIMSAC84-SASE Version 2}
+\begin{description}
+\item[ptspec()] : \\
+The periodogram of point process data with the significant bands (0.90, 0.95 and 0.99) assuming the stationary Poisson processes.
+\item[linlin()] : \\
+Maximum likelihood estimates of linear intensity models of self-exciting point process with another point process input, cyclic and trend components.
+\item[simbvh()] : \\
+Simulation of bi-variate Hawkes' mutually exciting point processes.
+\item[linsim()] : \\
+Simulation of a self-exciting point process whose intensity also includes a component triggered by another given point process data and a non-stationary Poisson trend.
+\end{description}
+
+\subsection{R functions of SASeis2006}
+\begin{description}
+\item[momori()] :\\
+Maximum likelihood estimates (MLEs) of parameters in the Omori-Uts (modified Omori) formula for the decay of occurrence rate of aftershocks with time, which is formulated as a non-stationary Poisson process.
+\item[eptren()] : \\
+Maximum likelihood estimates of parameters in a non-stationary Poisson process with a rates function being an  exponential polynomial or an exponential Fourier series. The optimal order of the polynomial or series can be determined by the minimized AIC.
+\item[etasap()] : \\
+Maximum likelihood estimates of parameters in the ETAS model for general seismicity and aftershock sequences.
+\item[etasim()] : \\
+Simulation of earthquake data set based on the ETAS model.
+\item[pgraph()] : \\
+To display some elementary statistical features of dataset of a point process or its residual point process.
+\item[respoi()] : \\
+Occurrence times of earthquakes are transformed using the Omori-Utsu formula with the MLEs. This is called as the residual data and can be used for the diagnostic analysis or the detection of anomalies in the aftershock sequence. 
+\item[etarpp()] : \\
+Occurrence times of earthquakes are transformed using the ETAS model with the MLEs. This is called as the residual data and can be used for the diagnostic analysis or the detection of anomalies in the aftershock sequence.
+\end{description}
+
+\subsection{an exponential polynomial and an exponential Fourier series (eptren)}
+The trend component of the conditional intensity function is given by the exponential polynomial
+\begin{equation}
+   f(t) = exp \{A_1 + A_2t + A_3t^2 + ... \} 
+\end{equation}
+and the time varying rate of occurrence of earthquakes in a region is given by the exponential Fourier series
+\begin{equation}
+   f(t) = exp\{A_1 + A_2cos(2 \pi t/P) + B_2sin(2 \pi t/P)+A_3cos(4 \pi t/P) + B_3sin(4 \pi t/P)+...\}. 
+\end{equation}
+Parameters $A_1,A_2,...,A_n$ in (1) and $A_1, A_2, B_2,..., A_N, B_N$ in (2) are estimated by the maximum likelihood procedure.
+These two models belong to the family of non-stationary Poisson processes.  The optimal order $n$ can be determined by minimizing the value of the Akaike Information Criterion (AIC). Since a non-stationary Poisson process is assumed in the data, we need careful interpretation of the results when the model is applied to data containing earthquake clusters such as aftershocks, foreshocks,  and earthquake swarms.
+
+\subsection{a linear intensity model of self-exciting point process (linlin, linsim)}
+A linear intensity model of self-exciting point process with another point process input, cyclic and trend components is represented by 
+\[
+f(t) = P(t) + Q(t) + \Sigma g(t-t_i) + \Sigma h(t-u_j).
+\]
+The summation is done for all $i$ satisfying $t_i < t$ and all $j$ satisfying $u_j < t$.
+The cyclic part is given by  the Fourier series
+\[
+P(t) = C(1)cos(2 \pi t/P) + C(2)sin(2 \pi t/P) + ...  
+\]
+\[
+\hspace{5cm} + C(K_C-1)cos(K_C \pi t/P)  + C(K_C)sin(K_C \pi t/P), 
+\]
+the trend is given by usual polynomials
+\[
+Q(t) = T(1) + T(2)t + ... + T(K_T)t^{K_T-1}. 
+\]
+The response functions to the self-exciting and the external input are given by the Laguerre-type polynomial
+\[
+g(s) = exp(-Cs)\{ A(1) + A(2)s + ... + A(K_A)s^{K_A-1} \}, 
+\]
+and
+\[
+h(s) = exp(-Ds)\{ B(1) + B(2)s + ... + B(K_B)s^{K_B-1} \} 
+\] 
+respectively, where the scaling parameters in the exponential function, say C and D, can be different. 
+Optimal orders $K_C, K_T, K_A, K_B$ of respective components can be determined by AIC. Other parameters $C(1),...,C(K_C)$, $T(1),...,T(K_T)$, $A(1),...,A(K_A)$, $B(1),...,B(K_B)$, $C$ and $D$ are estimated by the maximum likelihood procedure.
+
+\subsection{The Omori-Utsu formula (momori, respoi)}
+The Omori-Utsu formula represent the decay law of aftershock activity in time. The rate of aftershock occurrence at time $t$ is given by
+\[
+f(t) = \mu + K / (t+c)^p, 
+\]
+where $t$ is the time measured from the origin time of the main shock. $\mu, k, c$ and $p$ are non-negative constants. $\mu$ represents constant-rate background seismicity which may be included in the aftershock data. 
+Assuming that the aftershock occurrence is a non-stationary Poisson process, these parameters are estimated by the maximum likelihood procedure.
+
+The cumulative number of earthquakes at time $t$ since $t_0$ is given by the integration of $f(t)$ with respect to the time $t$,
+\[
+F(t) = \mu(t-t_0) + K \{ c^{1-p} - (t-t_i+c)^{1-p} \} / (p-1), 
+\]
+where the summation of $i$ is taken for all data event.
+
+\subsection{The ETAS model (etasap, etarpp)}
+The ETAS model is a point-process model representing the activity of earthquakes of magnitude $M_z$ and larger occurring in a certain region during a certain interval of time. The seismic activity includes primary activity of constant occurrence rate $\mu$ in time (Poisson process). Each earthquake (including aftershock of another earthquake) is followed by its aftershock activity, though only aftershocks of magnitude $M_z$ and larger are included in the data. The rate of aftershock occurrence at time $t$ following the $i$-th earthquake (time: $t_i$ < $t$, magnitude: $M_i$) is given by
+\[
+n_i(t) = K exp [ \alpha(M_i - M_z) ] / (t - t_i + c)^p, 
+\]
+where $K, \alpha, c$ and $p$ are constants, which are common to all aftershock sequences in the region.
+The rate of occurrence of the whole earthquake series at time $t$ becomes
+\[
+\lambda(t) = \mu + \Sigma_i n_i(t). 
+\]
+The summation is done for all $i$ satisfying $t_i < t$. Five parameters $\mu, K, c, \alpha$ and $p$ represent characteristics of seismic activity of the region.
+
+The cumulative number of earthquakes at time $t$ since $t_0$ is given by the integration of $\lambda(t)$ with respect to the time $t$,
+\[
+\Lambda(t) = \mu(t-t_0) + K \Sigma_i exp [\alpha(M_i-M_z)] \{ c^{1-p} - (t-t_i+c)^{1-p} \} / (p-1), 
+\]
+where the summation of $i$ is taken for all data event. 
+
+\begin{thebibliography}{5}
+\bibitem{RefCSM23}
+H. Akaike, T. Ozaki, M. Ishiguro, Y. Ogata, G. Kitagawa, Y. Tamura, E. Arahata, K. Katsura and R. Tamura, (1985) \newblock TIMSAC-84  Part 2,\textit{Computer Science Monographs, No.23},
+\newblock The Institute of Statistical Mathematics, Tokyo.
+
+\bibitem{RefCSM32}
+Y. Ogata, K. Katsura and J. Zhuang (2006)
+\newblock Statistical Analysis of Series of Events (TIMSAC84-SASE) Version 2,
+\newblock \textit{Computer Science Monographs, No.32}, 
+\newblock The Institute of Statistical Mathematics, Tokyo.
+
+\bibitem{RefCSM33}
+Y. Ogata, (2006)
+\newblock Statistical Analysis of Seismicity - updated version (SASeis2006), 
+\newblock \textit{Computer Science Monographs, No.33},
+\newblock The Institute of Statistical Mathematics, Tokyo.
+
+\bibitem{Ref1997}
+H. Utsu and Y. Ogata (1997)
+\newblock Computer program package: Statistical Analysis of point processes for Seismicity,  SASeis, \textit{IASPEI Software Library for personal computers}, the International Association of Seismology and Physics of Earth's Interior in collaboration with the American Seismological Society, Vol. 6, pp. 13-94.
+\end{thebibliography}
+
+\end{document}

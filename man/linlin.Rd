@@ -7,8 +7,8 @@
 }
 
 \usage{
-linlin(external, self.excit, interval, c, d, ax=NULL, ay=NULL, ac=NULL,
-       at=NULL, opt=0, tmpfile=NULL, nlmax=1000)
+linlin(external, self.excit, interval, c, d, ax = NULL, ay = NULL, ac = NULL,
+       at = NULL, opt = 0, tmpfile = NULL, nlmax = 1000)
 }
 
 \arguments{
@@ -23,8 +23,8 @@ linlin(external, self.excit, interval, c, d, ax=NULL, ay=NULL, ac=NULL,
   \item{at}{coefficients of trend.}
   \item{opt}{0 : minimize the likelihood with fixed exponential coefficient \eqn{c}\cr
              1 : not fixed \eqn{d}.}
-  \item{tmpfile}{write the process of minimizing to \eqn{tmpfile}.\cr
-                 If "" print the process to the standard output and if NULL (default) no report.}
+  \item{tmpfile}{a character string naming the file to write the process of minimizing.
+                 If "" print the process to the standard output and if \code{NULL} (default) no report.}
   \item{nlmax}{the maximum number of steps in the process of minimizing.} 
 }
 
@@ -52,7 +52,7 @@ linlin(external, self.excit, interval, c, d, ax=NULL, ay=NULL, ac=NULL,
  The cyclic part is given by the Fourier series, the trend is given by usual polynomial.
 The response functions of the self-exciting and the input are given by the Laguerre type polynomials (lgp), 
 where the scaling parameters in the exponential function, say \eqn{c} and \eqn{d}, can be different. 
-However it is advised to estimate \eqn{c} first without the input component, and then to estimate \eqn{d} with the fixed \eqn{c} 
+However, it is advised to estimate \eqn{c} first without the input component, and then to estimate \eqn{d} with the fixed \eqn{c} 
 (this means that the gradient corresponding to the \eqn{c} is set to keep \eqn{0}), which are good initial estimates for 
 the \eqn{c} and \eqn{d} of the mixed self-exciting and input model.
  
@@ -80,8 +80,8 @@ Especially 0.0 is not suitable.
 \examples{
 data(PProcess)  # point process data 
 data(SelfExcit) # self-exciting point process data
-linlin(PProcess[1:69], SelfExcit, 20000, 0.13, 0.026,
-       c(0.035,-0.0048), c(0.0,0.00017),, c(0.007,-.00000029))
+linlin(PProcess[1:69], SelfExcit, interval = 20000, c = 0.13, d = 0.026,
+       ax = c(0.035, -0.0048), ay = c(0.0, 0.00017), at = c(0.007, -.00000029))
 }
 
 \keyword{spatial}
