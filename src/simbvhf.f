@@ -1,10 +1,10 @@
 cc      program simbvh
       subroutine simbvhf(kxx,kxy,kxz,kyx,kyy,kyz,t,c,d,c2,d2,axx,axy,
 cx     & axz,ayx,ayy,ayz,ptxmax,ptymax,kmax,xx,yy,i1,j1,err,nnmax,mmmax)
-     & axz,ayx,ayy,ayz,ptxmax,ptymax,kmax,xx,yy,i1,j1,err,nnmax,mmmax,
-     & ier)
+     & axz,ayx,ayy,ayz,ptxmax,ptymax,kmax,xx,yy,i1,j1,err,ier,
+     & nnmax,mmmax)
 c
-      include 'sapp_f.h'
+      include 'sapp.h'
 c
 c     this program performs the simulation of bi-variate hawkes'
 c  mutually exciting point processes.  the response functions are
@@ -40,15 +40,15 @@ cx      dimension xx(nnmax),yy(mmmax)
 cx      dimension axx(kxx),axy(kxy),axz(kxz),ayx(kyx),ayy(kyy),ayz(kyz)
 cx      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax),lf(kmax,kmax)
 cx      dimension ei2(kmax),ej2(kmax),fi2(kmax),fj2(kmax)
-      integer :: kxx, kxy, kxz, kyx, kyy, kyz, kmax,i1, j1, nnmax,
-     1           mmmax, ier
-      real(8) :: t, c, d, c2, d2, axx(kxx), axy(kxy), axz(kxz),
-     1           ayx(kyx), ayy(kyy), ayz(kyz), ptxmax, ptymax,
-     2           xx(nnmax), yy(mmmax), err
-      integer :: lf(kmax,kmax)
-      real(8) :: ei(kmax), ej(kmax), fi(kmax), fj(kmax), ei2(kmax),
-     1           ej2(kmax), fi2(kmax), fj2(kmax), fxxmax, fxymax,
-     2           fyxmax, fyymax
+      integer kxx, kxy, kxz, kyx, kyy, kyz, kmax,i1, j1, nnmax, mmmax,
+     1        ier
+      double precision t, c, d, c2, d2, axx(kxx), axy(kxy), axz(kxz),
+     1                 ayx(kyx), ayy(kyy), ayz(kyz), ptxmax, ptymax,
+     2                 xx(nnmax), yy(mmmax), err
+      integer lf(kmax,kmax)
+      double precision ei(kmax), ej(kmax), fi(kmax), fj(kmax),
+     1                 ei2(kmax), ej2(kmax), fi2(kmax), fj2(kmax),
+     2                 fxxmax, fxymax, fyxmax, fyymax
 c
 c
 cc      call input(kxx,kxy,kxz,kyx,kyy,kyz,t,c,d,c2,d2,axx,axy,axz,ayx,ayy
@@ -84,15 +84,16 @@ cx      dimension ayx(kyx),ayy(kyy),ayz(kyz)
 cx      dimension ei2(kmax),ej2(kmax),fi2(kmax),fj2(kmax)
 cx      dimension lf(kmax,kmax)
 cx      real*4r
-      integer :: kxx, kxy, kxz, kyx, kyy, kyz, kmax, nmax, mmax,
-     1           lf(kmax,kmax), i1, j1, ier
-      real(8) :: t, c, d, c2, d2, axx(kxx), axy(kxy), axz(kxz), 
-     1           ayx(kyx), ayy(kyy), ayz(kyz), fxxmax, fxymax, fyxmax,
-     2           fyymax, xx(nmax), yy(mmax), ei(kmax), ej(kmax), 
-     3           fi(kmax), fj(kmax), ei2(kmax), ej2(kmax), fi2(kmax),
-     4           fj2(kmax), ptxmax, ptymax, err
-      real(4) :: r
-      real(8) :: uity, duity, e, x, xity, yity, probx, prob
+      integer kxx, kxy, kxz, kyx, kyy, kyz, kmax, nmax, mmax,
+     1        lf(kmax,kmax), i1, j1, ier
+      double precision t, c, d, c2, d2, axx(kxx), axy(kxy), axz(kxz),
+     1                 ayx(kyx), ayy(kyy), ayz(kyz), fxxmax, fxymax,
+     2                 fyxmax, fyymax, xx(nmax), yy(mmax), ei(kmax),
+     3                 ej(kmax), fi(kmax), fj(kmax), ei2(kmax),
+     4                 ej2(kmax), fi2(kmax), fj2(kmax), ptxmax, ptymax,
+     5                 err
+      real r
+      double precision uity, duity, e, x, xity, yity, probx, prob
 c---
       ier=0
       err=0.0
@@ -200,12 +201,14 @@ cx      dimension xx(1),yy(1)
 cx      dimension axx(kxx),axy(kxy),ei(1),ej(1),fi(1),fj(1)
 cx      dimension ayx(kyx),ayy(kyy),ei2(1),ej2(1),fi2(1),fj2(1)
 cx      dimension xx(i),yy(j)
-      integer :: i, j, kxx, kxy, kyx, kyy
-      real(8) :: x, duity, xx(i), yy(j), axx(kxx), axy(kxy), ayx(kyx),
-     1           ayy(kyy), c, d, c2, d2, ei(1), ej(1), fi(1), fj(1),
-     2           ei2(1), ej2(1), fi2(1), fj2(1), ptxmax, ptymax
-      real(8) :: cxp, cyp, cxp2, cyp2, bxx, cx, bxy, cy, byx, byy, dxxi,
-     1           ecdxxi, ecdyxi, dyyj, ecdxyj, ecdyyj, xity, yity
+      integer i, j, kxx, kxy, kyx, kyy
+      double precision x, duity, xx(i), yy(j), axx(kxx), axy(kxy),
+     1                 ayx(kyx), ayy(kyy), c, d, c2, d2, ei(1), ej(1),
+     2                 fi(1), fj(1), ei2(1), ej2(1), fi2(1), fj2(1),
+     3                 ptxmax, ptymax
+      double precision cxp, cyp, cxp2, cyp2, bxx, cx, bxy, cy, byx, byy,
+     1                 dxxi, ecdxxi, ecdyxi, dyyj, ecdxyj, ecdyyj, xity,
+     2                 yity
       ixf=1
       iyf=1
       ixf2=1
@@ -288,13 +291,14 @@ ccx      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax)
 ccx      dimension ayx(kyx),ayy(kyy),ayz(kyz)
 ccx      dimension ei2(kmax),ej2(kmax),fi2(kmax),fj2(kmax)
 ccx      dimension xx(i),yy(j)
-      integer :: i, j, kxx, kxy, kxz, kyx, kyy, kyz, kmax, lf(kmax,kmax)
-      real(8) :: x, xity, yity, axx(kxx), axy(kxy), axz(kxz),
-     1           ayx(kyx), ayy(kyy), ayz(kyz), c, d, c2, d2, ei(kmax),
-     2           ej(kmax), fi(kmax), fj(kmax), ei2(kmax), ej2(kmax),
-     3           fi2(kmax), fj2(kmax), xx(i), yy(j)
-      REAL(8) :: dxxi, ecdxxi, ff, ecdyxi, dyyj, eddxyj, eddyyj, ptx,
-     1           pty
+      integer i, j, kxx, kxy, kxz, kyx, kyy, kyz, kmax, lf(kmax,kmax)
+      double precision x, xity, yity, axx(kxx), axy(kxy), axz(kxz),
+     1                 ayx(kyx), ayy(kyy), ayz(kyz), c, d, c2, d2,
+     2                 ei(kmax), ej(kmax), fi(kmax), fj(kmax),
+     3                 ei2(kmax), ej2(kmax), fi2(kmax), fj2(kmax),
+     4                 xx(i), yy(j)
+      double precision dxxi, ecdxxi, ff, ecdyxi, dyyj, eddxyj, eddyyj,
+     1                 ptx, pty
 c
 cc      dxxi=x-xx(i)
       dxxi=x

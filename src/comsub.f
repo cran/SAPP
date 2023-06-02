@@ -1,4 +1,4 @@
-      INCLUDE 'sapp_f.h'
+      INCLUDE 'sapp.h'
 C------------------------------------------------- 
 C     cycle   ---  ptspec, linlin
 C     comfac  ---  linsim, linlin, simbvh
@@ -11,9 +11,9 @@ cc      subroutine cycle(xx,nn,prd)
 cx      implicit real*8(a-h,o-z)
 cc      dimension xx(10000)
 cx      dimension xx(nn)
-      integer :: nn
-      real(8) :: xx(nn), prd, prb, r1, rwx, rwy, phs
-      real(8) :: pai, r2
+      integer nn
+      double precision xx(nn), prd, prb, r1, rwx, rwy, phs
+      double precision pai, r2
       rwx=0.0
       rwy=0.0
       pai=3.14159265358979d0
@@ -43,7 +43,7 @@ c     n & m should be interpreted to be n-1 & m-1, respectively.
 c
 cc      dimension lf(51,51)
 cx      dimension lf(kmax,kmax)
-      integer :: kmax, lf(kmax,kmax)
+      integer kmax, lf(kmax,kmax)
 
       lf(1,1)=1
       lf(2,1)=1
@@ -67,9 +67,9 @@ c
 cx      implicit real*8 (a-h,o-z)
 cx      dimension ax(1)
 cx      dimension ax(kx)
-      integer :: kx
-      real(8) :: ax(kx), c, fmax
-      real(8) :: x, fx 
+      integer kx
+      double precision ax(kx), c, fmax
+      double precision x, fx 
       fmax=0.0
       if(kx.eq.0) go to 120
       do 100 i=1,1000
@@ -94,8 +94,8 @@ cc      subroutine unifor(r)
       subroutine unifor(r,ir)
 c     generation of pseudo-random numbers
 cc      data ir/584287/
-      integer :: ir
-      real(4) :: r
+      integer ir
+      real r
       ir=ir*48828125
 cx      if(ir) 10,20,20
       if(ir.lt.0) go to 10
@@ -115,8 +115,8 @@ c
 cx      implicit real*8(a-h,o-z)
 cx      dimension axz(1)
 cx      dimension axz(kxz)
-      integer :: kxz
-      real(8) :: x, ptx, axz(kxz)
+      integer kxz
+      double precision x, ptx, axz(kxz)
       ptx=0.0
       do 10 i=1,kxz
       ptx=ptx+axz(i)*x**(i-1)

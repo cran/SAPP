@@ -2,7 +2,7 @@ cc      program eptren
       subroutine eptrenf(xx,t,nn,nfunct,nb,ni,cycle,xa,aic,aicmin,
      & imin,xval,fval,px,g,id,rmd,eee,nl,nmax,np,nlmax)
 c
-      include 'sapp_f.h'
+      include 'sapp.h'
 c
 c     this program carries out maximum likelihood estimates of
 c   intensity rates of either exponential plynomial or exponential
@@ -44,12 +44,12 @@ c
 cx      dimension px(nmax,nb),g(nmax,nb)
 cx      dimension id(nlmax),rmd(nlmax),eee(nlmax)
 c
-      integer :: nn, nfunct, nb, ni, imin, nlmax, id(nlmax), nl,
-     1           nmax, np
-      real(8) :: xx(nn), t, cycle, xa(nmax,nb), aic(nb), aicmin,
-     1           xval(np), fval(np), px(nmax,nb), g(nmax,nb),
-     2           rmd(nlmax), eee(nlmax)
-      real(8) :: x(nmax), amg(nn), rx(nmax,nfunct), sx(ni+1,nmax,nfunct)
+      integer nn, nfunct, nb, ni, imin, nlmax, id(nlmax), nl, nmax, np
+      double precision xx(nn), t, cycle, xa(nmax,nb), aic(nb), aicmin,
+     1                 xval(np), fval(np), px(nmax,nb), g(nmax,nb),
+     2                 rmd(nlmax), eee(nlmax)
+      double precision x(nmax), amg(nn), rx(nmax,nfunct),
+     1                 sx(ni+1,nmax,nfunct)
 
       nl = 0
 cx      do 5 i = 1,nlmax
@@ -98,9 +98,9 @@ c           delta:  length of subdivision by the selected points
 CX      implicit real * 8(a-h,o-z)
 cc      common /rd1fn1/delta,rxz(20),sxz(4001,20),ns
 cc      dimension rxz(20),sxz(4001,20)
-      integer :: nn, nb, ni, ns
-      real(8) :: t, xx(nn), rxz(nb), sxz(ni+1,nb)
-      real(8) :: delta
+      integer nn, nb, ni, ns
+      double precision t, xx(nn), rxz(nb), sxz(ni+1,nb)
+      double precision delta
       common /rd1fn1/delta
 cx      dimension rxz(nb),sxz(ni+1,nb)
 cx      dimension xx(1)
@@ -147,9 +147,9 @@ c        ifg: index for restrictions
 c
 cx      implicit real * 8 (a-h,o-z)
 cc      common /rd1fn1/delta,rxz(20),sxz(4001,20),ns
-      integer :: n, ifg, ns, nmax
-      real(8) :: a(n), f, g(n), rxz, sxz
-      real(8) :: delta, r, ff, aic, sd
+      integer n, ifg, ns, nmax
+      double precision a(n), f, g(n), rxz, sxz
+      double precision delta, r, ff, aic, sd
       common /rd1fn1/delta
 cxx      common     / ddd /  r , ff , aic , sd
       common /ddd2/ r, ff, aic, sd
@@ -157,7 +157,7 @@ cxx      common     / ddd /  r , ff , aic , sd
 cc      dimension g(1),gs(30),a(1)
 cx      dimension g(1),gs(n),a(1)
 cx      dimension g(n),gs(n),a(n)
-      real(8) :: gs(n), fxx, ssxx, rmd, exprm, exprmd
+      double precision gs(n), fxx, ssxx, rmd, exprm, exprmd
       ifg=0
       fxx=0.0
       do 20 j=1,n
@@ -217,10 +217,10 @@ c
 cx      implicit real * 8(a-h,o-z)
 cc      common /rd2fn2/delta,rxc(20),sxc(4001,20),rxs(20),sxs(4001,20),tr,
 cc     &               it,ns,nnd
-      integer :: nn, nb, ni, ns
-      real(8) :: t, xx(nn), cycle, rxc(nb), sxc(ni+1,nb), rxs(nb),
-     1           sxs(ni+1,nb)
-      real(8) :: delta, tr, pi
+      integer nn, nb, ni, ns
+      double precision t, xx(nn), cycle, rxc(nb), sxc(ni+1,nb), rxs(nb),
+     1                 sxs(ni+1,nb)
+      double precision delta, tr, pi
       common /rd2fn2/delta,tr,it,nnd
 cx      dimension rxc(1),sxc(ni+1,nb*2-1),rxs(1),sxs(ni+1,nb*2-1)
 cx      dimension xx(1)
@@ -280,10 +280,10 @@ c
 cx      implicit real * 8 (a-h,o-z)
 cc      common /rd2fn2/delta,rxc(20),sxc(4001,20),rxs(20),sxs(4001,20),tr,
 cc     &               it,ns,nnd
-      integer :: n, ifg, ns, nmax
-      real(8) :: a(n), f, g(n), rxc(nmax), sxc(ns+1,nmax),
-     1           rxs(nmax), sxs(ns+1,nmax)
-      real(8) :: delta, tr, r, ff, aic, sd
+      integer n, ifg, ns, nmax
+      double precision a(n), f, g(n), rxc(nmax), sxc(ns+1,nmax),
+     1                 rxs(nmax), sxs(ns+1,nmax)
+      double precision delta, tr, r, ff, aic, sd
       common /rd2fn2/delta,tr,it,nnd
 cxx      common     / ddd /  r , ff , aic , sd
       common /ddd2/ r, ff, aic, sd
@@ -293,8 +293,8 @@ cx      dimension g(n),a(1)
 cc      dimension gs(20),gc(20),gcp(20),gsp(20)
 cx      dimension g(n),a(n)
 cx      dimension gs(n/2),gc(n/2),gcp(n/2),gsp(n/2)
-      real(8) :: gs(n/2), gc(n/2), gcp(n/2), gsp(n/2), fxx, ssxx, ssxxp,
-     1           rmd, exprm, exprmd
+      double precision gs(n/2), gc(n/2), gcp(n/2), gsp(n/2), fxx, ssxx,
+     1                 ssxxp, rmd, exprm, exprmd
       ifg=0
       fxx=a(1)*nnd
       n2=(n-1)/2
@@ -386,10 +386,10 @@ c
 cx      implicit  real * 8  ( a-h , o-z )
 cc      dimension  x(82) , dx(82) , g(82) , g0(82) , y(82)
 cc      dimension  h(82,82) , wrk(82) , s(82)
-      integer :: n, nfunct, ns, nmax, nlmax, id(nlmax), nl
-      real(8) :: x(n), rx(nmax,nfunct), sx(ns+1,nmax,nfunct),
-     1           px(n), g(n), rmd(nlmax), eee(nlmax)
-      real(8) :: r , f , aic , sd
+      integer n, nfunct, ns, nmax, nlmax, id(nlmax), nl
+      double precision x(n), rx(nmax,nfunct), sx(ns+1,nmax,nfunct),
+     1                 px(n), g(n), rmd(nlmax), eee(nlmax)
+      double precision r , f , aic , sd
 cx      dimension  x(n) , dx(n) , g(n) , g0(n) , y(n)
 cx      dimension  h(n,n) , wrk(n) , s(n)
 cx      dimension  rx(nmax,nfunct), sx(ns+1,nmax,nfunct)
@@ -399,9 +399,9 @@ cxx      common     / ddd /  r , f , aic , sd
 c
 cx      dimension  px(n)
 cx      dimension  id(nlmax), rmd(nlmax), eee(nlmax)
-      real(8) :: dx(n), g0(n), y(n), h(n,n), wrk(n), s(n),
-     1           tau1, tau2, eps1, eps2, ramda, const1, xm,
-     2           sum, s1, s2, ss, stem, ds2, gtem, ed, xmb
+      double precision dx(n), g0(n), y(n), h(n,n), wrk(n), s(n),
+     1                 tau1, tau2, eps1, eps2, ramda, const1, xm, sum,
+     2                 s1, s2, ss, stem, ds2, gtem, ed, xmb
 c
 cc      external funct
       data  tau1 , tau2  /  1.0d-5 , 1.0d-5  /
@@ -624,18 +624,18 @@ cx      implicit  real  *8 ( a-h,o-z )
 cx      integer  return,sub
 cc      dimension  x(100) , h(100) , x1(82)
 cc      dimension  g(82)
-      integer :: k, ig, nfunct, ns, nmax, nlmax, id(nlmax), nl
-      real(8) :: x(k), h(k), ram, ee, rx(nmax,nfunct),
-     1           sx(ns+1,nmax,nfunct), rmd(nlmax), eee(nlmax)
+      integer k, ig, nfunct, ns, nmax, nlmax, id(nlmax), nl
+      double precision x(k), h(k), ram, ee, rx(nmax,nfunct),
+     1                 sx(ns+1,nmax,nfunct), rmd(nlmax), eee(nlmax)
 cx      dimension  x(k) , h(k) , x1(k)
 cx      dimension  g(k)
 cx      dimension  rx(nmax,nfunct), sx(ns+1,nmax,nfunct)
 cxx      common     / ccc /  isw , ipr
 c
 cx      dimension  rmd(nlmax), eee(nlmax), id(nlmax)
-      integer :: return, sub
-      real(8) :: x1(k), g(k), const2, hnorm, e1, e2, e3, ram1,
-     1           ram2, ram3, a1, a2, a3, b1, b2 
+      integer return, sub
+      double precision x1(k), g(k), const2, hnorm, e1, e2, e3,
+     1                 ram1, ram2, ram3, a1, a2, a3, b1, b2
 c
 cxx      isw = 1
 cxx      ipr = 7
@@ -873,9 +873,9 @@ cx    7 format( 1h ,'lambda =',d18.10, 10x,'e7 =',d25.17 )
       e n d
       subroutine fincal(n,x,aic,xa,t,nfunct)
 cx      implicit real * 8 (a-h,o-z)
-      integer :: n, nfunct
-      real(8) :: x(n), aic, xa(n), t
-      real(8) :: r, xm, aicc, sd
+      integer n, nfunct
+      double precision x(n), aic, xa(n), t
+      double precision r, xm, aicc, sd
 cxx      common     / ddd /  r , xm , aicc , sd
       common /ddd2/ r, xm, aicc, sd
 cx      dimension x(1),xa(1)
@@ -902,10 +902,10 @@ cx      implicit real * 8 (a-h,o-z)
 cc      dimension xx(1),amg(1),aic(1),xa(100,20)
 cx      dimension xx(1),amg(1),aic(1),xa(nmax,n)
 cx      dimension xval(1),fval(1)
-      integer :: nn, n, nfunct, imin, nmax, np 
-      real(8) :: xx(nn), amg(nn), t, xa(nmax,n), aic(n), cycle, acmin,
-     1           xval(np),fval(np)
-      real(8) :: tt, xd, x1 
+      integer nn, n, nfunct, imin, nmax, np
+      double precision xx(nn), amg(nn), t, xa(nmax,n), aic(n), cycle,
+     1                 acmin, xval(np),fval(np)
+      double precision tt, xd, x1 
 cx      dimension xx(nn),amg(nn),aic(n),xa(nmax,n)
 cx      dimension xval(np),fval(np)
 
@@ -946,7 +946,7 @@ cx    3 format(i10/(3d21.13))
       subroutine trenfn(xa,x,y,n)
 cx      real * 8 xa(1),yy,x,y
 cx      real * 8 xa(n),yy,x,y
-      real(8) :: xa(n), yy, x, y
+      double precision xa(n), yy, x, y
       yy=xa(1)
       if(n.eq.1) go to 20
       do 10 i=2,n
@@ -959,7 +959,7 @@ cx      real * 8 xa(n),yy,x,y
       subroutine cyclfn(xa,x,y,n)
 cx      real * 8 xa(1),yy,x,y,pi
 cx      real * 8 xa(n),yy,x,y,pi
-      real(8) :: xa(n), yy, x, y, pi
+      double precision xa(n), yy, x, y, pi
       data pi/3.14159265358979d0/
       yy=xa(1)
       if(n.eq.1) go to 20
@@ -980,9 +980,9 @@ cx      implicit real * 8 (a-h,o-z)
 cx      dimension x(1),y(1),xa(1)
 
 cx      dimension x(nn),y(nn),xa(nn)
-      integer :: n, nfunct, nn
-      real(8) :: t, xa(nn), x(nn), y(nn)
-      real(8) :: ymin, ymax, xx, yy
+      integer n, nfunct, nn
+      double precision t, xa(nn), x(nn), y(nn)
+      double precision ymin, ymax, xx, yy
 cx      character*1 xo
 cx      data xo/'o'/
 cc      nn=101

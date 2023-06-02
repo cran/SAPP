@@ -2,7 +2,7 @@ cc      program ptspec
       subroutine ptspecf(t,n,t0,tmpr,tmp,prd,nh,nt,is,prb,r1,rwx,rwy,
      & phs,wt,ht,w,h,g)
 c
-      include 'sapp_f.h'
+      include 'sapp.h'
 c
 c     this program provides perodgrams of point process data with
 c     the significant bands ( 0.90, 0.95 and 0.99 ) assuming the
@@ -36,10 +36,10 @@ cx      dimension t(n)
 cx      dimension h(nh+1),g(nh+1),s(nh+1)
 cx      dimension w(nh+1)
 cx      dimension tmpr(nt),wt(nt),ht(nt),gt(nt)
-      integer :: n, nh, nt, is
-      real(8) :: t(n), t0, tmpr(nt), tmp, prd, prb, r1, rwx, rwy,
-     1           phs, wt(nt), ht(nt), w(nh+1), h(nh+1), g(nh+1)
-      real(8) :: s(nh+1), gt(nt), pi, pi2, f, om, rpt
+      integer n, nh, nt, is
+      double precision t(n), t0, tmpr(nt), tmp, prd, prb, r1, rwx, rwy,
+     1                 phs, wt(nt), ht(nt), w(nh+1), h(nh+1), g(nh+1)
+      double precision s(nh+1), gt(nt), pi, pi2, f, om, rpt
 cc      real*4 widthx,widthy
 cc      call input(t,n,t0,pi2,rpt,tmpr,tmp,prd,nh1,nt,is,ipl)
       nh1=nh+1
@@ -78,10 +78,10 @@ cx      dimension t(n)
 cx      dimension h(nh1),g(nh1)
 cx      dimension w(nh1)
 cx      dimension tmpr(nt),wt(nt),ht(nt),gt(nt)
-      integer :: n, nh1, nt
-      real(8) :: h(nh1), g(nh1), w(nh1), t(n), ht(nt), gt(nt), wt(nt),
-     1           rpt, t0, pi2, tmpr(nt)
-      real(8) :: om, a, b, ram
+      integer n, nh1, nt
+      double precision h(nh1), g(nh1), w(nh1), t(n), ht(nt), gt(nt),
+     1                 wt(nt), rpt, t0, pi2, tmpr(nt)
+      double precision om, a, b, ram
       do 120 i=1,nh1
       om=(i-1)*rpt
       w(i)=(i-1)*rpt
@@ -117,8 +117,8 @@ cx      dimension tmpr(nt),wt(nt),ht(nt),gt(nt)
       subroutine smooth(s,h,nh1,is)
 cx      implicit real*8 (a-h,o-z)
 cx      dimension h(nh1),s(nh1)
-      integer :: nh1, is
-      real(8) :: s(nh1), h(nh1)
+      integer nh1, is
+      double precision s(nh1), h(nh1)
       is1=2*is-1
       do 140 i=1,nh1
       ij=0

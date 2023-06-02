@@ -22,12 +22,12 @@ For overview of point process models, 'Statistical Analysis of Point Processes
 Ogata, Y., Katsura, K. and Zhuang, J. (2006) \emph{Computer Science Monographs,
  No.32, TIMSAC84: STATISTICAL ANALYSIS OF SERIES OF EVENTS (TIMSAC84-SASE)
  VERSION 2}. The Institute of Statistical Mathematics.
- \url{http://www.ism.ac.jp/editsec/csm/}
+ \url{https://www.ism.ac.jp/editsec/csm/}
 
 Ogata, Y. (2006)
 \emph{Computer Science Monographs, No.33, Statistical Analysis of Seismicity -
  updated version (SASeies2006).} The Institute of Statistical Mathematics.
- \url{http://www.ism.ac.jp/editsec/csm/}
+ \url{https://www.ism.ac.jp/editsec/csm/}
 }
 
 \keyword{ package }

@@ -3,7 +3,7 @@ cc      program pgraph
      & xtau,y,kn,xl,xx,ydev,ui,cum,sui,xp,xrate,dlt,xtime,yvar,sigma,k,
      & ier)
 c
-      include 'sapp_f.h'
+      include 'sapp.h'
 c
 c     this provides the following several graphical outputs for the
 c     point process data set:
@@ -71,13 +71,13 @@ cx      dimension xl(nn-1),xx(nn-1,6),ui(nn-1),cum(nn-1),sui(nn-1)
 cx      dimension xrate(ipoint+1),xp(4)
 cx      dimension sigma(kmax), erres(kmax),errest(kmax)
 cx      dimension xtime(kmax),yvar(5,kmax),ydev(nn-1)
-      integer :: nfunct, isi, nn, ipoint, kmax, kn, k, ier
-      real(8) :: z(nn), days, h, delta, dmax, xtau(2*nn), y(2*nn),
-     1           xl(nn-1), xx(nn-1,6), ydev(nn-1), ui(nn-1), cum(nn-1),
-     2           sui(nn-1), xp(4), xrate(ipoint+1), dlt, xtime(kmax),
-     3           yvar(5,kmax), sigma(kmax)
-      real(8) :: x(nn), erres(kmax), errest(kmax), tm, ttt, xmin, xmax,
-     1           t, tt
+      integer nfunct, isi, nn, ipoint, kmax, kn, k, ier
+      double precision z(nn), days, h, delta, dmax, xtau(2*nn), y(2*nn),
+     1                 xl(nn-1), xx(nn-1,6), ydev(nn-1), ui(nn-1),
+     2                 cum(nn-1), sui(nn-1), xp(4), xrate(ipoint+1),
+     3                 dlt, xtime(kmax), yvar(5,kmax), sigma(kmax)
+      double precision x(nn), erres(kmax), errest(kmax), tm, ttt, xmin,
+     1                 xmax, t, tt
 c
 cc      call input(nfunct,isi,icnt,z,xmg,xmgd,yb,t,t0,t1,t2,a,ak,c1,p,
 cc     &           ak2,c2,p2,kkx,xmgmax,nn,ipoint,days,h,zd,delta,dmax,ns,
@@ -134,10 +134,10 @@ cc      data xnm/2000*0.0/
 cx      implicit real * 8 (a-h,o-z)
 cx      dimension z(1),x(2*nn),ix(2*nn),y(2*nn)
 cx      dimension z(nn),x(2*nn),ix(2*nn),y(2*nn)
-      integer :: nn, kn
-      real(8) :: z(nn), h, x(2*nn), y(2*nn)
-      integer :: ix(2*nn)
-      real(8) :: xx, shimiz
+      integer nn, kn
+      double precision z(nn), h, x(2*nn), y(2*nn)
+      integer ix(2*nn)
+      double precision xx, shimiz
       i=1
       j=1
       k=0
@@ -182,8 +182,8 @@ c     r. shimizu(1984). "normal approximation for asymmetric distribu-
 c     tions (in japanese)".  proc. inst. statist. math., vol. 32, no.2.
 c
 cx      implicit real * 8 (a-h,o-z)
-      integer :: ix
-      real(8) :: h
+      integer ix
+      double precision h
 c
       shimiz=(33.d0*ix+29.d0-h-(32.d0*ix+31.d0)*(h/(ix+1.d0))**
      &       (1.d0/4.d0))/(9.d0*sqrt(ix+1.d0))
@@ -208,10 +208,10 @@ cx      dimension xx(n-1,6)
 cx      dimension xl(n-1)
 cx      dimension ydev(n-1)
 cx      dimension ui(n-1),cum(n-1),sui(n-1)
-      integer :: n, nfunct, isi, ier
-      real(8) :: z(n), ttt, xl(n-1), xx(n-1,6), ydev(n-1), ui(n-1),
-     1           cum(n-1), sui(n-1)
-      real(8) :: x(n+1), w(n-1), xmin
+      integer n, nfunct, isi, ier
+      double precision z(n), ttt, xl(n-1), xx(n-1,6), ydev(n-1),
+     1                 ui(n-1), cum(n-1), sui(n-1)
+      double precision x(n+1), w(n-1), xmin
 c
       ier=0
       do 100 i=2,n
@@ -261,8 +261,8 @@ cc      call unifrm(x,n1,xw,yw,ttt,w)
 cc      function plsinv(n,k,z,isw)
       double precision function plsinv(n,k,z,isw)
 cx      real*8 a,b,c,d,z,uu,ud
-      integer :: n, k, isw
-      real(8) :: a, b, c, d, z, uu, ud
+      integer n, k, isw
+      double precision a, b, c, d, z, uu, ud
          plsinv=0.0d0
       a=1.d0-1.d0/(9.d0*(n-k+1))
       b=1.d0-1.d0/(9.d0*k)
@@ -284,9 +284,9 @@ cc      dimension x(1),y(1)
 cc      dimension xx(3000,6),yy(3000),nc(6)
 cx      implicit real * 8 (a-h,o-z)
 cx      dimension xx(n,6)
-      integer :: n
-      real(8) :: xx(n,6)
-      real(8) :: stderr(6), plsinv
+      integer n
+      double precision xx(n,6)
+      double precision stderr(6), plsinv
 cx      real* 8 stderr(6)/0.15866d0,0.84134d0,0.022750d0,0.977250d0,
       data stderr /0.15866d0,0.84134d0,0.022750d0,0.977250d0,
      &                  0.0013499d0,0.9986501d0/
@@ -323,9 +323,9 @@ c   by name of the paulson's approximation.
 cc      dimension x(1),y(3000)
 cx      implicit real * 8 (a-h,o-z)
 cx      dimension x(n),y(n)
-      integer :: n
-      real(8) :: x(n), y(n)
-      real(8) :: v, plson
+      integer n
+      double precision x(n), y(n)
+      double precision v, plson
 cx      plson(n,k,v)=
 cx     &    -((1.-1./(9*k))-((n-k+1.)/k*v)**(1./3.)*(1.-1./(9*(n-k+1))))
 cx     &     /sqrt((1./(9*k))+((n-k+1.)/k*v)**(2./3.)*(1./(9*(n-k+1))))
@@ -341,8 +341,8 @@ cx    1 format(1h ,10f13.5)
       return 
       end
       double precision function plson(n,k,v)
-      integer :: n, k
-      real(8) :: v
+      integer n, k
+      double precision v
       plson=
      &    -((1.-1./(9*k))-((n-k+1.)/k*v)**(1./3.)*(1.-1./(9*(n-k+1))))
      &     /sqrt((1./(9*k))+((n-k+1.)/k*v)**(2./3.)*(1./(9*(n-k+1))))
@@ -353,9 +353,9 @@ cc      subroutine unifrm(x,n,xw,yw,ttt,w)
 cc      dimension x(1),xx(5000),y(5000),w(1),ww(5000)
 cx      implicit real * 8 (a-h,o-z)
 cx      dimension x(n),xx(n),y(n),w(n),ww(n)
-      integer :: n
-      real(8) :: x(n), ttt, w(n), xx(n), y(n), ww(n)
-      real(8) :: rmd, x1, x2
+      integer n
+      double precision x(n), ttt, w(n), xx(n), y(n), ww(n)
+      double precision rmd, x1, x2
       rmd=(n+1)/ttt
 cc      open(7,file='out.pgInter1')
       x1=1.35810*sqrt(float(n))/n
@@ -381,10 +381,10 @@ cx      dimension x(1),xx(n1+1),p(4)
 cx      dimension x(n),xx(n1+1),p(4)
 cx      character*1 xl(101),xmi,xii,xtt,xst,bl
 cx      dimension xp(4)
-      integer :: n, n1
-      real(8) :: x(n), t, t1, xp(4), xx(n1+1), dlt
-      real(8) :: p(4), rmd, rmd1, xp1, xp2, xp3, xp4,
-     1           xmax, xmin, xm, x0
+      integer n, n1
+      double precision x(n), t, t1, xp(4), xx(n1+1), dlt
+      double precision p(4), rmd, rmd1, xp1, xp2, xp3, xp4, xmax, xmin,
+     1                 xm, x0
       data p/-2.57583,-1.95996,1.95996,2.57583/
 cx      data xmi,xii,xtt,xst,bl/'-','i','|','*',' '/
 c     write(6,4)
@@ -505,12 +505,12 @@ cx      implicit real * 8 (a-h,o-z)
 cx      dimension x(n),a(kmax),sigm1(kmax),sigm2(kmax),sigc0(kmax),
 cx     &   ak(kmax),avar(kmax),sigma(kmax),xx(16*kmax),amean(kmax)
 cx      dimension erres(kmax),errest(kmax)
-      integer :: n, k, kmax
-      real(8) :: x(n), delta, dmax, t, sigma(kmax), erres(kmax),
-     1           errest(kmax)
-      real(8) :: a(kmax), sigm1(kmax), sigm2(kmax), sigc0(kmax),
-     1           ak(kmax), avar(kmax), xx(16*kmax), amean(kmax),
-     2           dnn, rmd, rt, t0, sig, r
+      integer n, k, kmax
+      double precision x(n), delta, dmax, t, sigma(kmax), erres(kmax),
+     1                 errest(kmax)
+      double precision a(kmax), sigm1(kmax), sigm2(kmax), sigc0(kmax),
+     1                 ak(kmax), avar(kmax), xx(16*kmax), amean(kmax),
+     2                 dnn, rmd, rt, t0, sig, r
 c-----
 cc      nn=t/delta
       dnn=t/delta
@@ -606,9 +606,9 @@ cc      dimension x(2000),y(5)
 cx      dimension sigma(n),erres(n),errest(n)
 cx      dimension sigma(n),erres(n)
 cx      dimension x(n),y(5,n)
-      integer :: n, nn
-      real(8) :: sigma(n), delta, t, erres(n), x(n), y(5,n)
-      real(8) :: xmax, smin, smax, sm, x0
+      integer n, nn
+      double precision sigma(n), delta, t, erres(n), x(n), y(5,n)
+      double precision xmax, smin, smax, sm, x0
 cx      data xmi,xii,xtt,xst,bl,xo/'-','|','|','*',' ','o'/
 cc      write(6,4)
 cx    4 format(1h )
@@ -697,9 +697,9 @@ cc      dimension x(3000),xt(300)
 cc      real*8 zd(3000),x1,x2,xmgd(3000)
 cx      implicit real * 8 (a-h,o-z)
 cx      dimension x(nn),zd(nn),xt(200)
-      integer :: nn, inn
-      real(8) :: x(nn), zd(nn), tm, ttt, xmin, xmax, t
-      real(8) :: xt(200), yi, x1, x2
+      integer nn, inn
+      double precision x(nn), zd(nn), tm, ttt, xmin, xmax, t
+      double precision xt(200), yi, x1, x2
       do 11 i=1,200
       yi=365.25*i
       if(yi.gt.t) go to 12

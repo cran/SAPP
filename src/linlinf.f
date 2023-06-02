@@ -2,7 +2,7 @@ cc     program linlin
       subroutine linlinf(n,x,iopt,t,nn,mm,xx,yy,kkx,kky,kmax,kkc,kkt,
      & nlmax,x1,x2,aic,f,prb,r1,rwx,rwy,phs,px,pg,id,rmd,ee,nl,ier)
 c
-      include 'sapp_f.h'
+      include 'sapp.h'
 c
 c     this program performs the maximum likelihood estimates of linear
 c  intensity models of self-exciting point process with another point
@@ -59,13 +59,13 @@ cc      dimension lf(51,51)
 cx      dimension lf(kmax,kmax)
 cx      dimension px(n,5),pg(n,5)
 cx      dimension id(nlmax),rmd(nlmax),ee(nlmax)
-      integer :: n, iopt, nn, mm, kkx, kky, kmax, kkc, kkt, nlmax,
-     1           id(nlmax), nl, ier
-      real(8) :: x(n), t, xx(nn), yy(nn), x1(n), x2(n), aic, f,
-     1           prb, r1, rwx, rwy, phs, px(n,5), pg(n,5),
-     2           rmd(nlmax), ee(nlmax)
-      integer :: lf(kmax,kmax)
-      real(8) :: prd, xm
+      integer n, iopt, nn, mm, kkx, kky, kmax, kkc, kkt, nlmax,
+     1        id(nlmax), nl, ier
+      double precision x(n), t, xx(nn), yy(nn), x1(n), x2(n), aic, f,
+     1                 prb, r1, rwx, rwy, phs, px(n,5), pg(n,5),
+     2                 rmd(nlmax), ee(nlmax)
+      integer lf(kmax,kmax)
+      double precision prd, xm
 c
       nl = 0
 cx      do 5 i = 1,nlmax
@@ -104,10 +104,10 @@ cx      dimension xx(nn),yy(nn)
 cx      dimension lf(kmax,kmax)
 cx      dimension px(n,5),pg(n,5)
 cx      dimension id(nlmax),rmd(nlmax),ee(nlmax)
-      integer :: n, nn, kkx, kky, kkc, kkt, mm, iopt, kmax,
-     1           lf(kmax,kmax), nlmax, id(nlmax), nl, ier
-      real(8) :: x1(n), xx(nn), yy(nn), t, x(n), aic, f, xm,
-     1           px(n,5), pg(n,5), rmd(nlmax), ee(nlmax)
+      integer n, nn, kkx, kky, kkc, kkt, mm, iopt, kmax, lf(kmax,kmax),
+     1        nlmax, id(nlmax), nl, ier
+      double precision x1(n), xx(nn), yy(nn), t, x(n), aic, f, xm,
+     1                 px(n,5), pg(n,5), rmd(nlmax), ee(nlmax)
 c
       if(n.eq.1) go to 100
       x(1)=sqrt(x(1))
@@ -214,7 +214,7 @@ cx      implicit  real  *8 ( a-h,o-z )
 cx      integer  return,sub
 cc      dimension  x(1) , h(1) , x1(50)
 cc      dimension  g(50)
-cxx      integer :: isw, ipr
+cxx      integer isw, ipr
 cxx      common     / ccc /  isw , ipr
 cc      external funct
 cx      dimension  x(k) , h(k) , x1(k)
@@ -224,13 +224,13 @@ cc      dimension  lf(51,51)
 cx      dimension  lf(kmax,kmax)
 c
 cx      dimension  rmd(nlmax), eee(nlmax), id(nlmax)
-      integer :: k, ig, nn, mm, iopt, kkx, kky, kkc, kkt, kmax,
-     1           lf(kmax,kmax), nlmax, id(nlmax), nl
-      real(8) :: x(k), h(k), ram, ee, xx(nn), yy(nn), t, ff, rmd(nlmax),
-     1           eee(nlmax)
-      integer :: return,sub
-      REAL(8) :: x1(k), g(k), const2, hnorm, ram1, ram2, ram3,
-     1           e1, e2, e3, a1, a2, a3, b1, b2
+      integer k, ig, nn, mm, iopt, kkx, kky, kkc, kkt, kmax,
+     1        lf(kmax,kmax), nlmax, id(nlmax), nl
+      double precision x(k), h(k), ram, ee, xx(nn), yy(nn), t, ff,
+     1                 rmd(nlmax), eee(nlmax)
+      integer return, sub
+      double precision x1(k), g(k), const2, hnorm, ram1, ram2, ram3,
+     1                 e1, e2, e3, a1, a2, a3, b1, b2
 c
 cxx      isw = 1
 cxx      ipr = 7
@@ -495,22 +495,22 @@ cx      dimension  h(n,n) , wrk(n) , s(n)
 cx      dimension  xx(nn),yy(nn)
 cc      dimension  r(31,31)
 cx      dimension  lf(kmax,kmax)
-cxx      integer :: isw, ipr
+cxx      integer isw, ipr
 cxx      common     / ccc /  isw,ipr
 cc      common     / ddd /  r , f , aic , sd
 cx      dimension  px(n)
 cx      dimension  id(nlmax), rmd(nlmax), ee(nlmax)
-      integer :: n, nn, kkx, kky, kkc, kkt, mm, iopt, kmax,
-     1           lf(kmax,kmax), nlmax, id(nlmax), nl, ig 
-      real(8) :: x(n), xx(nn), yy(nn), t, f, xm, px(n), g(n),
-     1           rmd(nlmax), ee(nlmax)
+      integer n, nn, kkx, kky, kkc, kkt, mm, iopt, kmax, lf(kmax,kmax),
+     1        nlmax, id(nlmax), nl, ig 
+      double precision x(n), xx(nn), yy(nn), t, f, xm, px(n), g(n),
+     1                 rmd(nlmax), ee(nlmax)
 c
 cc      external funct
-      real(8) :: tau1, tau2, eps1, eps2, ramda, const1
+      double precision tau1, tau2, eps1, eps2, ramda, const1
       data  tau1 , tau2  /  1.0d-5 , 1.0d-5  /
       data  eps1 , eps2  / 1.0d-5 , 1.0d-5  /
-      real(8) :: dx(n), g0(n), y(n), h(n,n), wrk(n), s(n), sum,
-     1           s1, s2, ss, stem, ds2, gtem, ed, xmb
+      double precision dx(n), g0(n), y(n), h(n,n), wrk(n), s(n), sum,
+     1                 s1, s2, ss, stem, ds2, gtem, ed, xmb
 c
       ramda = 0.5d0
       const1 = 1.0d-70
@@ -732,18 +732,19 @@ cx      dimension g(kkx),gg(kkx),ay(kky),eyi(kky+1),syi(kky+1)
 cx      dimension sy(kky+1),dsy(kky+1),gy(kky),ggy(kky)
 cx      dimension ac(kkc),at(kkt),gc(kkc),gt(kkt),ggc(kkc),ggt(kkt)
 cx      dimension dei(kkx+kky+1)
-      integer :: kk2, ifg, nn, mm, iopt, kkx, kky, kkc, kkt, kmax,
-     1           lf(kmax,kmax)
-      real(8) :: b(kk2), f, h(kk2), xx(nn), yy(nn), t, ff
-      real(8) :: a(kkx), ei(kkx+1), si(kkx+1), s(kkx+1), ds(kkx+1),
-     1           g(kkx), gg(kkx), ay(kky), eyi(kky+1), syi(kky+1),
-     2           sy(kky+1), dsy(kky+1), gy(kky), ggy(kky), ac(kkc), 
-     3           at(kkt), gc(kkc), gt(kkt), ggc(kkc), ggt(kkt),
-     4           dei(kkx+kky+1), pi, t0, wop, c, d, f1, ggwop, ggoc,
-     5           ggod, dxxi, ecdxxi, eii, eddxxi, dxyij, deij, eyii,
-     6           rmdi1, rmdi2, rmdyi1, rmdyi2, rmdci1, rmdti1,
-     7           ramdai, fatxxi, sasum, dsasum, fatyyi, sysum,
-     8           dsysum, scsum, gwop, goc, god, stsum
+      integer kk2, ifg, nn, mm, iopt, kkx, kky, kkc, kkt, kmax,
+     1        lf(kmax,kmax)
+      double precision b(kk2), f, h(kk2), xx(nn), yy(nn), t, ff
+      double precision a(kkx), ei(kkx+1), si(kkx+1), s(kkx+1),
+     1                 ds(kkx+1), g(kkx), gg(kkx), ay(kky), eyi(kky+1),
+     2                 syi(kky+1), sy(kky+1), dsy(kky+1), gy(kky),
+     3                 ggy(kky), ac(kkc),  at(kkt), gc(kkc), gt(kkt),
+     4                 ggc(kkc), ggt(kkt), dei(kkx+kky+1), pi, t0, wop,
+     5                 c, d, f1, ggwop, ggoc, ggod, dxxi, ecdxxi, eii,
+     6                 eddxxi, dxyij, deij, eyii, rmdi1, rmdi2, rmdyi1,
+     7                 rmdyi2, rmdci1, rmdti1, ramdai, fatxxi, sasum,
+     8                 dsasum, fatyyi, sysum, dsysum, scsum, gwop, goc,
+     9                 god, stsum
 c
       pi=3.14159265358979d0
       t0=365.25d0

@@ -1,4 +1,4 @@
-useDynLib(SAPP, .registration = TRUE)
+useDynLib(SAPP, .registration = TRUE, .fixes = "C_")
 
 importFrom("grDevices", "dev.new")
 importFrom("graphics", "abline", "axis", "box", "lines", "par", "plot", "points",

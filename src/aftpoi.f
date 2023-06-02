@@ -21,18 +21,19 @@ c     this program is desined by y.ogata and programed by y.ogata and
 c     k.katsura.  see ogata (1983; j.p.e., vol.31,pp.115-124). 
 c----------------------------------------------------------------------- 
 c
-      include 'sapp_f.h'
+      include 'sapp.h'
 c
 cx      implicit real * 8 (a-h,o-z) 
 cc      real*4 time 
 cc      common/xyod/xdumy,xx(19999) 
 cc      common/y/y(50)
-      integer :: nni, np, nc, nfuncti, nlmax, id(nlmax), nl
-      real(8) :: xx(nni), xini(np+1), zts, zte, ff, x(np,2), g(np,2),
-     1           pa(np), ahaic(nc), t00, ti((np-1)/3), ak((np-1)/3),
-     2           c((np-1)/3),p((np-1)/3),cls((np-1)/3), rmd(nlmax),
-     3           xx1(np,nlmax), h(np,np,2), hf(np,np,2,2)
-      real(8) :: t, t0, t1, t2, t3
+      integer nni, np, nc, nfuncti, nlmax, id(nlmax), nl
+      double precision xx(nni), xini(np+1), zts, zte, ff, x(np,2),
+     1                 g(np,2), pa(np), ahaic(nc), t00, ti((np-1)/3),
+     2                 ak((np-1)/3), c((np-1)/3), p((np-1)/3),
+     3                 cls((np-1)/3), rmd(nlmax), xx1(np,nlmax),
+     4                 h(np,np,2), hf(np,np,2,2)
+      double precision t, t0, t1, t2, t3
 cxx      common t,nn,nfunct 
 cxx      common/range/t0,t1,t2,t3
       common /momori/ t,nn,nfunct 
@@ -95,16 +96,16 @@ card 7 nnn (i10) # of parameters
 card 8 (x(i),i=1,n) (8f10.2) initial estimates 
 c----------------------------------------------------------------------- 
 cx      implicit real * 8 (a-h,o-z) 
-      integer :: n, nnn
-      real(8) :: xini(n), x(n-1)
-      real(8) :: t, t0, t1, t2, t3
+      integer n, nnn
+      double precision xini(n), x(n-1)
+      double precision t, t0, t1, t2, t3
 cxx      common /range/t0,t1,t2,t3 
 cxx      common t,nn,nfunct 
       common /range1/ t0,t1,t2,t3 
       common /momori/ t,nn,nfunct 
 cc      dimension xxxx(50),x(50),xini(50)
 cx      dimension xxxx(n-1),x(n-1),xini(n) 
-      real(8) :: xxxx(n-1)
+      double precision xxxx(n-1)
 cc      n=5 
 cc      read(1,*) (xini(i),i=1,n) 
 cx 1010 format(7f10.4) 
@@ -133,11 +134,11 @@ cc      subroutine dav(n,x,ahaic)
 
 cx      implicit real * 8 (a-h,o-z) 
       external func5,func6,func9,func10
-      integer :: nni, n, ncount, nlmax, id(nlmax), nl
-      real(8) :: xx(nni), x0(n,2), g(n,2), ahaic(ncount), x(n),
-     1           rmd(nlmax), xx1(n,nlmax), h(n,n,2), hf(n,n,2),
-     2           hfi(n,n,2)
-      real(8) :: t, t0, t1, t2, t3, f, aic
+      integer nni, n, ncount, nlmax, id(nlmax), nl
+      double precision xx(nni), x0(n,2), g(n,2), ahaic(ncount), x(n),
+     1                 rmd(nlmax), xx1(n,nlmax), h(n,n,2), hf(n,n,2),
+     2                 hfi(n,n,2)
+      double precision t, t0, t1, t2, t3, f, aic
 cxx      common t,nn,nfunct 
 cxx      common/range/t0,t1,t2,t3 
       common /momori/ t,nn,nfunct 
@@ -156,11 +157,13 @@ cc      write(6,1030)  (x(i),i=1,n)
       do 20 ii=1,n
       x(ii)=x0(ii,1)
    20 continue
+ccx initialize mm to avoid warning
+         mm=4
       if(nfunct.eq.5) mm=3 
       if(nfunct.eq.6) mm=4 
       if(nfunct.eq.9) mm=7 
       if(nfunct.eq.10) mm=10
-      if(mm.lt.n) mm=n 
+      if(mm.lt.n) mm=n
       do 30 ii=1,2
 cc      if(nfunct.eq.5) call davidn(x,n,0,func5) 
 cc      if(nfunct.eq.6) call davidn(x,n,0,func6) 
@@ -193,10 +196,10 @@ cc      subroutine output(n,x,ahaic)
 cx      subroutine output6(n,x,ncount,ahaic,ff)
       subroutine output6(n,x,ff)
 cx      implicit real * 8 (a-h,o-z)
-      integer :: n
-      real(8) :: x(n), ff
-      real(8) :: t, t0, t1, t2, t3, f, aic 
-      real(8) :: x0
+      integer n
+      double precision x(n), ff
+      double precision t, t0, t1, t2, t3, f, aic 
+      double precision x0
 cxx      common t,nn,nfunct 
 cxx      common/range/t0,t1,t2,t3 
 cxx      common/ddd/f,aic 
@@ -259,14 +262,15 @@ c        ig:      error code
 c 
 cx      implicit  real  *8 ( a-h,o-z ) 
 cx      integer  return,sub
-      integer :: return, sub 
+      integer return, sub 
 cc      dimension  x(1) , h(1) , x1(50) 
 cc      dimension  g(50)
 cx      dimension  x(1) , h(1) , x1(k)
-      integer :: nn, k, ig, nlmax, id(nlmax), nl
-      real(8) :: xx(nn), x(k), h(k), ram, ee, rmd(nlmax), xx1(k,nlmax)
-      real(8) :: x1(k), g(k), const2, hnorm, ram1, ram2, ram3, 
-     1           e1, e2, e3, a1, a2, a3, b1, b2
+      integer nn, k, ig, nlmax, id(nlmax), nl
+      double precision xx(nn), x(k), h(k), ram, ee, rmd(nlmax),
+     1                 xx1(k,nlmax)
+      double precision x1(k), g(k), const2, hnorm, ram1, ram2, ram3,
+     1                 e1, e2, e3, a1, a2, a3, b1, b2
 cx      dimension  x(k) , h(k) , x1(k)
 cx      dimension  g(k)
 cx      dimension  xx(nn) 
@@ -558,10 +562,10 @@ c---
 cx      dimension  xx(nni), hfi(n,n)
 cx      dimension  id(nlmax), rmd(nlmax), xx1(n,nlmax) 
 c---
-      integer :: nni, n, m, nlmax, id(nlmax), nl
-      REAL(8) :: xx(nni), x(n), g(m), rmd(nlmax), xx1(n,nlmax), h(n,n),
-     1           hf(n,n), hfi(n,n)
-      real(8) :: f, aic, t, tau1, tau2, eps1, eps2
+      integer nni, n, m, nlmax, id(nlmax), nl
+      double precision xx(nni), x(n), g(m), rmd(nlmax), xx1(n,nlmax),
+     1                 h(n,n), hf(n,n), hfi(n,n)
+      double precision f, aic, t, tau1, tau2, eps1, eps2
       external funct
 cxx      common     / ccc /  isw , ipr 
 cxx      common     / ddd /   f , aic 
@@ -570,8 +574,9 @@ cxx      common t,nn,nfunct
       common /momori/ t,nn,nfunct 
       data  tau1 , tau2  /  1.0d-5 , 1.0d-5  / 
       data  eps1 , eps2  / 1.0d-5 , 1.0d-5  / 
-      real(8) :: dx(n), g0(n), y(n), wrk(n), s(n), ramda, const1, sum,
-     1           s1, s2, ss, ds2, stem, gtem, ed, xm, xmb, hdet
+      double precision dx(n), g0(n), y(n), wrk(n), s(n), ramda, const1,
+     1                 sum, s1, s2, ss, ds2, stem, gtem, ed, xm, xmb,
+     2                 hdet
       ramda = 0.5d0 
       const1 = 1.0d-70 
 c 
@@ -805,10 +810,10 @@ cx      implicit  real * 8  ( a-h , o-z )
 cx      dimension x(mj,mj) 
 cc      dimension  ids(100)
 cx      dimension  ids(mm)
-      integer :: mm, mj
-      real(8) :: x(mj,mj), xdet 
-      integer :: ids(mm)
-      real(8) :: xmaxp, xc
+      integer mm, mj
+      double precision x(mj,mj), xdet 
+      integer ids(mm)
+      double precision xmaxp, xc
       xdet = 1.0d00 
       do 10 l=1,mm 
 c     pivoting at l-th stage 
@@ -877,9 +882,9 @@ c     likelihood function of exp-decay poisson process
 c     lammbda = a1 + a2*exp(-a3*t) 
 c----------------------------------------------------------------------- 
 cx      implicit real * 8 (a-h,o-z)
-      integer :: nni, n, ifg
-      real(8) :: xx(nni), b(n), f, h(n)
-      real(8) :: t, ff, aic
+      integer nni, n, ifg
+      double precision xx(nni), b(n), f, h(n)
+      double precision t, ff, aic
 cc      common/xyod/xdumy,xx(19999) 
 cc      common/y/y(50)
 cxx      common t,nn,nfunct 
@@ -889,7 +894,7 @@ cxx      common/ddd/ff,aic
 cc      dimension b(50),h(50),g(50)
 cx      dimension b(n),h(n),g(n)
 cx      dimension xx(nni)
-      real(8) :: g(n), a1, a2, a3, uni, f1, gg1, gg2, gg3,
+      double precision g(n), a1, a2, a3, uni, f1, gg1, gg2, gg3,
      1          ramdai, sasump, gs1, gs2, gs3
       ifg=0 
       a1=b(1)**2 
@@ -955,9 +960,9 @@ c     likelihood function of the omori's poisson process
 c     lammbda = a1 + a2/(a3+t)**a4 
 c----------------------------------------------------------------------- 
 cx      implicit real * 8 (a-h,o-z) 
-      integer :: nni, n, ifg
-      real(8) :: xx(nni), b(n), f, h(n)
-      real(8) :: ff, aic, t, t0, t1, t2, t3
+      integer nni, n, ifg
+      double precision xx(nni), b(n), f, h(n)
+      double precision ff, aic, t, t0, t1, t2, t3
 cc      common/xyod/xdumy,xx(19999) 
 cxx      common/ddd/ff,aic 
       common /ddd1/ ff,aic 
@@ -970,8 +975,8 @@ cxx      common t,nn,nfunct
 
 cc      dimension b(50),h(50)
 cx      dimension xx(nni),b(n),h(n),g(n)
-      real(8) :: g(n), a1, a2, a3, a4, uni, f1, gg1, gg2,
-     1           gg3, gg4, ramdai, sasump, gs1, gs2, gs3, gs4
+      double precision g(n), a1, a2, a3, a4, uni, f1, gg1, gg2, gg3,
+     1                 gg4, ramdai, sasump, gs1, gs2, gs3, gs4
       ifg=0
       a1=b(1)**2
       a2=b(2)**2
@@ -1074,9 +1079,9 @@ c     a model for detecting the second aftershock
 c     this is not succeeded at the moment (82/11/22) 
 c----------------------------------------------------------------------- 
 cx      implicit real * 8 (a-h,o-z)
-      integer :: nni, n, ifg
-      real(8) :: xx(nni), b(n), f, h(n)
-      real(8) :: ff, aic, t, t0, t1, t2, t3
+      integer nni, n, ifg
+      double precision xx(nni), b(n), f, h(n)
+      double precision ff, aic, t, t0, t1, t2, t3
 cc      common/xyod/xdumy,xx(19999)
 cxx      common/ddd/ff,aic 
       common /ddd1/ ff,aic 
@@ -1088,7 +1093,7 @@ cxx      common t,nn,nfunct
       common /momori/ t,nn,nfunct 
 cc      dimension b(50),h(50)
 cx      dimension xx(nni),b(n),h(n),g(n)
-      real(8) :: g(n), a1, a2, a3, a4, a5, a6, a7, uni, f1, t4,
+      double precision g(n), a1, a2, a3, a4, a5, a6, a7, uni, f1, t4,
      1           gg1, gg2, gg3, gg4, gg5, gg6, gg7, ramdai,
      2           sasump, sasumq, gs1, gs2, gs3, gs4, gs5, gs6, gs7
       ifg=0 
@@ -1278,9 +1283,9 @@ c     this is not succeeded at the moment (82/11/22)
 c----------------------------------------------------------------------- 
 cx      implicit real * 8 (a-h,o-z) 
 cc      common/xyod/xdumy,xx(19999) 
-      integer :: nni, n, ifg
-      real(8) :: xx(nni), b(n), f, h(n)
-      real(8) :: ff, aic, t, t0, t1, t2, t3
+      integer nni, n, ifg
+      double precision xx(nni), b(n), f, h(n)
+      double precision ff, aic, t, t0, t1, t2, t3
 cxx      common/ddd/ff,aic 
       common /ddd1/ ff,aic 
 cc      common/y/y(50) 
@@ -1291,10 +1296,11 @@ cxx      common t,nn,nfunct
       common /momori/ t,nn,nfunct 
 cc      dimension b(50),h(50)
 cx      dimension xx(nni),b(n),h(n),g(n)
-      real(8) :: g(n), a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, uni,
-     1           f1, gg1, gg2, gg3, gg4, gg5, gg6, gg7, gg8, gg9, gg10,
-     2           ramdai, sasump, sasumq, sasumr, t02, t03, t13, t12,
-     3           gs1, gs2, gs3, gs4, gs5, gs6, gs7, gs8, gs9, gs10
+      double precision g(n), a1, a2, a3, a4, a5, a6, a7, a8, a9, a10,
+     1                 uni, f1, gg1, gg2, gg3, gg4, gg5, gg6, gg7, gg8,
+     2                 gg9, gg10, ramdai, sasump, sasumq, sasumr, t02,
+     3                 t03, t12, t13, gs1, gs2, gs3, gs4, gs5, gs6, gs7,
+     4                 gs8, gs9, gs10
       do 111 i=1,10 
       if(b(i).gt.270.d0) go to 50 
   111 continue 
@@ -1554,21 +1560,21 @@ c
 cx      function sf1(x,q) 
       double precision function sf1(x,q)
 cx      implicit real * 8 (a-h,o-z)
-      real(8) :: x, q
+      double precision x, q
       sf1=x**(1.d0-q)/(1.d0-q) 
       return 
       end 
 cx      function sf2(x,q)
       double precision function sf2(x,q)
 cx      implicit real * 8 (a-h,o-z) 
-      real(8) :: x, q, sf1
+      double precision x, q, sf1
       sf2=sf1(x,q)*(log(x)-1.d0/(1.d0-q)) 
       return 
       end 
 cx      function sf3(x,q)
       double precision function sf3(x,q)
 cx      implicit real * 8 (a-h,o-z) 
-      real(8) :: x, q, sf1, sf2
+      double precision x, q, sf1, sf2
       sf3=sf1(x,q)*(log(x))**2-2.d0/(1.d0-q)*sf2(x,q) 
       return 
       end 
@@ -1577,8 +1583,8 @@ c     real function gm*8 (x,q,c)
 cx      real*8 function gm (x,q,c) 
       double precision function gm (x,q,c)
 cx      implicit real * 8 (a-h,o-z) 
-      real(8) :: x, q, c
-      real(8) :: gmi
+      double precision x, q, c
+      double precision gmi
       gm=0.0 
       if(x.eq.c) go to 20 
       gmi=x**(-q) 
@@ -1597,8 +1603,8 @@ c     real function dgm*8 (x,q,c)
 cx      real*8 function dgm (x,q,c)
       double precision function dgm (x,q,c)
 cx      implicit real*8(a-h,o-z) 
-      real(8) :: x, q, c
-      real(8) :: gm, dgmi
+      double precision x, q, c
+      double precision gm, dgmi
       dgm=0.0 
       if(x.eq.c) go to 30 
       dgmi=x**(-q) 
@@ -1624,16 +1630,16 @@ c     fisher information matrix of the modified omori model
 c     lammbda = a1 + a2/(a3+t)**a4 
 c----------------------------------------------------------------------- 
 cx      implicit real * 8 (a-h,o-z)
-      integer :: n
-      real(8) :: b(n), h(n,n)
-      real(8) :: t, t0, t1, t2, t3
+      integer n
+      double precision b(n), h(n,n)
+      double precision t, t0, t1, t2, t3
 cxx      common/range/t0,t1,t2,t3 
 cxx      common t,nn,nfunct 
       common /range1/ t0,t1,t2,t3 
       common /momori/ t,nn,nfunct 
 cc      dimension b(50),h(50,50) 
 cx      dimension b(n),h(n,n) 
-      real(8) :: a1, a2, a3, a4, sf1, sf2, sf3
+      double precision a1, a2, a3, a4, sf1, sf2, sf3
       a1=b(1)**2 
       a2=b(2)**2 
       a3=b(3)**2 
@@ -1667,9 +1673,9 @@ cc      subroutine sizes(n,x)
 cx      implicit real * 8 (a-h,o-z) 
 cc      dimension x(50),cls(20),ti(20) 
 cc      dimension ak(20),p(20),c(20) 
-      integer :: n, kn
-      real(8) :: x(n), t00, ti(kn), ak(kn), c(kn), p(kn), cls(kn)
-      real(8) :: t0, t1, t2, t3
+      integer n, kn
+      double precision x(n), t00, ti(kn), ak(kn), c(kn), p(kn), cls(kn)
+      double precision t0, t1, t2, t3
 cx      dimension x(n),cls(kn),ti(kn)
 cx      dimension ak(kn),p(kn),c(kn) 
 cxx      common/range/t0,t1,t2,t3 

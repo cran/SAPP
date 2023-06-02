@@ -2,7 +2,7 @@ cc      program respoi
       subroutine respoif(z,xmg1,dep1,xp1,yp1,nd,xini,npara,zts,zte,
      &                       tstart,amx1,xmg,dep,xp,yp,ntstar,xx,x,nn)
 c
-      include 'sapp_f.h'
+      include 'sapp.h'
 c
 c-----------------------------------------------------------------------
 c     residual of modified Omori Poisson process
@@ -17,10 +17,10 @@ cc      common t,nn,mm,iappr,nfunct
 cx      dimension z(nd), dep(nd), xmg(nd), xp(nd), yp(nd), xini(npara)
 cx      dimension xx(nd), x(nd)
 cx      dimension xmg1(nd), dep1(nd), xp1(nd), yp1(nd)
-      integer :: nd, npara, ntstar, nn
-      real(8) :: z(nd), xmg1(nd), dep1(nd), xp1(nd), yp1(nd), 
-     1           xini(npara), zts, zte, tstart, amx1, xmg(nd), 
-     2           dep(nd), xp(nd), yp(nd), xx(nd), x(nd), t
+      integer nd, npara, ntstar, nn
+      double precision z(nd), xmg1(nd), dep1(nd), xp1(nd), yp1(nd), 
+     1                 xini(npara), zts, zte, tstart, amx1, xmg(nd),
+     2                 dep(nd), xp(nd), yp(nd), xx(nd), x(nd), t
 c
       do 9 i=1,nd
          xmg(i) = xmg1(i)
@@ -71,9 +71,9 @@ cc      common/epi/ xp(ldata),yp(ldata)
 cc      common /fukasa/dep(ldata)
 cx      dimension z(nd),xx(nd),amg(nd)
 cx      dimension xp(nd),yp(nd),dep(nd)
-      integer :: nd, ntstar, nn
-      real(8) :: z(nd), amg(nd), dep(nd), xp(nd), yp(nd), zts, zte,
-     1           tstart, amx1, xx(nd), t
+      integer nd, ntstar, nn
+      double precision z(nd), amg(nd), dep(nd), xp(nd), yp(nd), zts,
+     1                 zte, tstart, amx1, xx(nd), t
 cc      common t,nn,mm,iappr,nfunct
 cc      common /range/tstart,ntstar
 cc      character*60 hypodata
@@ -140,9 +140,9 @@ cc      common /fukasa/dep(ldata)
 cc      dimension x(ldata)
 cx      dimension a(npara)
 cx      dimension xx(nn), x(nn)
-      integer :: npara, nn
-      real(8) :: a(npara), tstart, xx(nn), x(nn)
-      real(8) :: chtsta, ft, func41, func4p
+      integer npara, nn
+      double precision a(npara), tstart, xx(nn), x(nn)
+      double precision chtsta, ft, func41, func4p
 cx      func41(t,a3)=(log(t+a3)-log(a3))
 cx      func4p(t,a3,a5)=1.d0/(1-a5)*((t+a3)**(1-a5)-a3**(1-a5))
 c
@@ -178,12 +178,12 @@ cx 1005 format(i5,2f12.5,f12.1,f12.5,f8.2,2x,f12.5)
       return
       end
       double precision function func41(t,a3)
-      real(8) :: t, a3
+      double precision t, a3
       func41=(log(t+a3)-log(a3))
       return
       end
       double precision function func4p(t,a3,a5)
-      real(8) :: t, a3, a5
+      double precision t, a3, a5
       func4p=1.d0/(1-a5)*((t+a3)**(1-a5)-a3**(1-a5))
       return
       end

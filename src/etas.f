@@ -2,7 +2,7 @@ cc      program etasap
       subroutine etasapf(xx,xmg,nd,xmag0,amx1,xini,n,zts,zte,
      &  tstart0,nfunct0,iappr0,f,x,g,aic2,id,ee,xx1,nl,nlmax)
 c
-      include 'sapp_f.h'
+      include 'sapp.h'
 c-----------------------------------------------------------------------
 c Maximum likelihood procedure for the ETAS point process model.
 c Subroutine FUNC4 corresponds to the exact likelihood and FUNC9 to the
@@ -21,10 +21,11 @@ cc      common/xyod/xx(ldata),xmg(ldata),xmag0
 cc      common/param/xini(npara),n
 cx      dimension xx(nd),xmg(nd)
 cx      dimension xini(n)
-      integer :: nd, n, nfunct0, iappr0, nlmax, id(nlmax), nl
-      real(8) :: xx(nd), xmg(nd), xmag0, amx1, xini(n), zts, zte,
-     1           tstart0, f, x(n), g(n), aic2, ee(nlmax), xx1(n,nlmax)
-      real(8) :: t, tstart
+      integer nd, n, nfunct0, iappr0, nlmax, id(nlmax), nl
+      double precision xx(nd), xmg(nd), xmag0, amx1, xini(n), zts, zte,
+     1                 tstart0, f, x(n), g(n), aic2, ee(nlmax),
+     2                 xx1(n,nlmax)
+      double precision t, tstart
 cxx      common /range/tstart,ntstar
       common /range3/ tstart,ntstar
       common /kkxy/kkx,kky,kkt
@@ -81,9 +82,9 @@ cc      dimension z(ldata),amg(ldata)
 cc      character*80 hypodata
 cc      common /xyod/xx(ldata),xmg(ldata),xmag0
 cx      dimension  xx(nd),xmg(nd)
-      integer :: nd, nfunct0, iappr0
-      real(8) :: xx(nd), xmg(nd), amx1, zts, zte, tstart0
-      real(8) :: t, tstart, smg, amct, bvl
+      integer nd, nfunct0, iappr0
+      double precision xx(nd), xmg(nd), amx1, zts, zte, tstart0
+      double precision t, tstart, smg, amct, bvl
       common /kkxy/kkx,kky,kkt
 cc      common /fukasa/dep(ldata)
 cxx      common t,nn,mm,iappr,nfunct
@@ -161,10 +162,10 @@ cc      external func4,func9
 cc      common/xyod/xx(ldata),xmg(ldata),xmag0
       external func4,func91
 cx      dimension xx(ldata),xmg(ldata)
-      integer :: ldata, n, nlmax, id(nlmax), nl
-      real(8) :: xx(ldata), xmg(ldata), xmag0, xini(n), ff, x(n),
-     1           g(n), aic20, ee(nlmax), x1(n,nlmax)
-      real(8) :: t, f, aic2
+      integer ldata, n, nlmax, id(nlmax), nl
+      double precision xx(ldata), xmg(ldata), xmag0, xini(n), ff, x(n),
+     1                 g(n), aic20, ee(nlmax), x1(n,nlmax)
+      double precision t, f, aic2
 cxx      common t,nn,mm,iappr,nfunct
       common /etasap/ t,nn,mm,iappr,nfunct
 cc      common/param/xini(npara),n
@@ -258,17 +259,18 @@ cx      dimension  x(n) , dx(n) , g(n) , g0(n) , y(n)
 cx      dimension  h(n,n) , wrk(n) , s(n)
 cx      dimension  xx(nn) , xmg(nn)
 cx      dimension  id(nlmax), ee(nlmax), xx1(n,nlmax)
-      integer :: nn, n, id(nlmax), nl, nlmax
-      real(8) :: xx(nn), xmg(nn), x(n), g(n), ee(nlmax), xx1(n,nlmax)
-      real(8) :: f, aic2, tau1, tau2, eps1, eps2
+      integer nn, n, id(nlmax), nl, nlmax
+      double precision xx(nn), xmg(nn), x(n), g(n), ee(nlmax),
+     1                 xx1(n,nlmax)
+      double precision f, aic2, tau1, tau2, eps1, eps2
 cxx      common /ccc/ isw,ipr
 cxx      common /ddd/ f,aic2
       common /ddd3/ f,aic2
       data  tau1 , tau2  /  1.0d-5 , 1.0d-5  /
       data  eps1 , eps2  / 1.0d-5 , 1.0d-5  /
-      real(8) :: dx(n), g0(n), y(n), h(n,n), wrk(n), s(n), ramda,
-     1           const1, xm, sum, s1, s2, stem, ss, ds2, gtem, ed,
-     2           xmb
+      double precision dx(n), g0(n), y(n), h(n,n), wrk(n), s(n), ramda,
+     1                 const1, xm, sum, s1, s2, stem, ss, ds2, gtem, ed,
+     2                 xmb
       ramda = 0.5d0
       const1 = 1.0d-70
 c
@@ -484,17 +486,17 @@ cc      parameter(npara=5)
 cx      integer  return,sub
 cc      dimension  x(npara) , h(npara) , x1(npara)
 cc      dimension  g(npara)
-      integer :: nn, k, ig, id(nlmax), nl, nlmax
-      real(8) :: xx(nn), xmg(nn), x(k), h(k), ram, ee, eee(nlmax),
-     1           xx1(k,nlmax)
+      integer nn, k, ig, id(nlmax), nl, nlmax
+      double precision xx(nn), xmg(nn), x(k), h(k), ram, ee, eee(nlmax),
+     1                 xx1(k,nlmax)
 cx      dimension  x(k) , h(k) , x1(k)
 cx      dimension  g(k)
 cxx      common /ccc/ isw,ipr
 cx      dimension  xx(nn) , xmg(nn)
 cx      dimension  id(nlmax), eee(nlmax), xx1(k,nlmax)
-      integer :: return, sub
-      real(8) :: x1(k), g(k), const2, hnorm, ram1, ram2, ram3,
-     1           e1, e2, e3, a1, a2, a3, b1, b2
+      integer return, sub
+      double precision x1(k), g(k), const2, hnorm, ram1, ram2, ram3,
+     1                 e1, e2, e3, a1, a2, a3, b1, b2
 c
 cxx      isw = 1
 cxx      ipr=7
@@ -759,9 +761,9 @@ cx      implicit real * 8 (a-h,o-z)
 cc      parameter(ldata=17777, npara=5)
 cc      common/xyod/xx(ldata),xmg(ldata),xmag0
 cx      dimension xx(ldata),xmg(ldata)
-      integer :: ldata, n, ifg
-      real(8) :: xx(ldata), xmg(ldata), b(n), f, h(n)
-      real(8) :: t, fff, aic2, tstart
+      integer ldata, n, ifg
+      double precision xx(ldata), xmg(ldata), b(n), f, h(n)
+      double precision t, fff, aic2, tstart
 cxx      common t,nn,mm,iappr
 cxx      common /ddd/fff,aic2
 cxx      common /range/tstart,ntstar
@@ -771,10 +773,11 @@ cxx      common /range/tstart,ntstar
       common /kkxy/kkx,kky,kkt
 cc      dimension b(npara),h(npara),ggt(npara),gt(npara),at(npara)
 cx      dimension b(n),h(n),ggt(n),gt(n),at(n)
-      real(8) :: ggt(n), gt(n), at(n), a1, a2, a3, a4, a5, ff,
-     1           d1ff, d2ff, d3ff, d4ff, d5ff, rmdti1, ramdai, rmdi,
-     2           rmd1i, rmdmi, rmdli, ft, d3ft, d4ft, d5ft, fs, d1fs,
-     3           d2fs, d3fs, d4fs, d5fs, stsum, g1, g2, g3, g4, g5
+      double precision ggt(n), gt(n), at(n), a1, a2, a3, a4, a5, ff,
+     1                 d1ff, d2ff, d3ff, d4ff, d5ff, rmdti1, ramdai,
+     2                 rmdi, rmd1i, rmdmi, rmdli, ft, d3ft, d4ft, d5ft,
+     3                 fs, d1fs, d2fs, d3fs, d4fs, d5fs, stsum,
+     4                 g1, g2, g3, g4, g5
       ifg=0
       a1=b(1)**2
       a2=b(2)**2
@@ -972,9 +975,9 @@ c-----------------------------------------------------------------------
 cx      implicit real * 8 (a-h,o-z)
 cc      parameter(ldata=17777, npara=5)
 cc      common/xyod/xx(ldata),xmg(ldata),xmag0
-      integer :: ldata, n, ifg
-      real(8) :: xx(ldata), xmg(ldata), b(n), f, h(n)
-      real(8) :: t, fff, aic2, tstart
+      integer ldata, n, ifg
+      double precision xx(ldata), xmg(ldata), b(n), f, h(n)
+      double precision t, fff, aic2, tstart
 cx      dimension xx(ldata),xmg(ldata)
 cxx      common t,nn,mm,iappr
 cxx      common /ddd/fff,aic2
@@ -987,16 +990,17 @@ cx      dimension b(n),h(n)
 cx      dimension xi1(144),xi2(144),wx1(144),wx2(144)
 cx      dimension fi1(144),fi2(144),alf1(144),alf2(144),ci1(144),ci2(144)
 cx      dimension rmd(ldata),rmdc(ldata),rmdm(ldata),rmdl(ldata)
-      integer :: ixhiab
-      real(8) :: xi1(144), xi2(144), wx1(144), wx2(144), fi1(144),
-     1           fi2(144), alf1(144), alf2(144), ci1(144), ci2(144),
-     2           rmd(ldata), rmdc(ldata), rmdm(ldata), rmdl(ldata),
-     3           delta0, xi0, wx0, pi2, delta, a1, a2, a3, a4, a5,
-     4           ff, d1ff, d2ff, d3ff, d4ff, d5ff, rmdi, rmdci, rmdmi,
-     5           rmdli, fi0, ci0, alf0, cpg, cpg3, cpg5, qi0,
-     6           gi0, hi0, blf0, qi1, qi2, gi1, hi1, gi2, hi2, gam,
-     7           blf1, blf2, ramdai, d3ft, d4ft, d5ft, ft, effmag, fs,
-     8           d1fs, d2fs, d3fs, d4fs, d5fs, g1, g2, g3, g4, g5
+      integer ixhiab
+      double precision xi1(144), xi2(144), wx1(144), wx2(144), fi1(144),
+     1                 fi2(144), alf1(144), alf2(144), ci1(144),
+     2                 ci2(144), rmd(ldata), rmdc(ldata), rmdm(ldata),
+     3                 rmdl(ldata), delta0, xi0, wx0, pi2, delta, a1,
+     4                 a2, a3, a4, a5, ff, d1ff, d2ff, d3ff, d4ff, d5ff,
+     5                 rmdi, rmdci, rmdmi, rmdli, fi0, ci0, alf0, cpg,
+     6                 cpg3, cpg5, qi0, gi0, hi0, blf0, qi1, qi2, gi1,
+     7                 hi1, gi2, hi2, gam, blf1, blf2, ramdai, d3ft,
+     8                 d4ft, d5ft, ft, effmag, fs, d1fs, d2fs, d3fs,
+     9                 d4fs, d5fs, g1, g2, g3, g4, g5
       data ixhiab /0/
       save ixhiab,delta0,xi0,xi1,xi2,wx0,wx1,wx2
 c
@@ -1218,8 +1222,8 @@ c***********************************************************************
       subroutine hiab(h,a0,a1,a2,b0,b1,b2)
 cx      implicit real*8(a-h,o-z)
 cx      dimension a1(144),a2(144),b1(144),b2(144)
-      real(8) :: h, a0, a1(144), a2(144), b0, b1(144), b2(144)
-      real(8) :: pi2, eh, ehi, eni, en, s1
+      double precision h, a0, a1(144), a2(144), b0, b1(144), b2(144)
+      double precision pi2, eh, ehi, eni, en, s1
       pi2=1.570796326794397d0
       h=1.d0/32
       eh=exp(h)
@@ -1247,16 +1251,16 @@ cx      real*8 function dbgam(id,q)
 c hitac    real function dbgam*8(id,q)
 cx      implicit real*8(a-h, o-z)
 cx      dimension a(10)
-      integer :: id
-      real(8) :: q
-      real(8) :: a(10)
+      integer id
+      double precision q
+      double precision a(10)
       data a/ 0.99999 99998 71452d0, 0.42278 43615 29813d0,
      1        0.41183 94326 49605d0, 0.08158 87915 49927d0,
      2        0.07416 87114 09713d0, 0.00004 89152 06125d0,
      3        0.01038 02945 70428d0, -.00162 85524 78086d0,
      4        0.00082 46883 39196d0, -.00000 66427 76723d0 /
-      real(8) :: fact, dfac, d2fac, p, x, gamm, gam1, dgam, d2gam,
-     1           eps, gam
+      double precision fact, dfac, d2fac, p, x, gamm, gam1, dgam, d2gam,
+     1                 eps, gam
       fact=1
       dfac=0.0
       d2fac=0.0
@@ -1316,9 +1320,9 @@ c     implicit real*16(a-h, o-z)
 cx      implicit real* 8(a-h, o-z)
 cx      real*8 qq
 cx      dimension a(11),b(11)
-      integer :: id
-      real(8) :: qq
-      real(8) :: a(11), b(11)
+      integer id
+      double precision qq
+      double precision a(11), b(11)
       data a/ -2 98354.32785 74342 13883 04376 59         d0,
      1        -2 38495.39700 18198 87246 87344 23         d0,
      2        -1 17049.47601 21780 68840 38544 45         d0,
@@ -1341,8 +1345,8 @@ cx      dimension a(11),b(11)
      8               1.                                   d0,
      9               0.0                                  d0,
      t               0.0                                  d0 /
-      real(8) :: fact, dfac, d2fac, p, x, gam1, gam2, dga1,
-     1           dga2, d2ga1, d2ga2, eps
+      double precision fact, dfac, d2fac, p, x, gam1, gam2, dga1, dga2,
+     1                 d2ga1, d2ga2, eps
       fact=1
       dfac=0.0
       d2fac=0.0

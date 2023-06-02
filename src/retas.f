@@ -13,7 +13,7 @@ c     Ogata, Y., Matsu'ura S.R., Katsura, K. (1993). submitted to
 c                Geophys. Res. Letters.
 c-----------------------------------------------------------------------
 c
-      include 'sapp_f.h'
+      include 'sapp.h'
 c
 cx      implicit real * 8 (a-h,o-z)
 cc      parameter(ldata=17777, npara=5)
@@ -23,10 +23,10 @@ cc      common /range/tstart,ntstar
 cc      common t,nn,mm,iappr,nfunct
 cx      dimension xx(nn),xmg(nn),xini(n)
 cx      dimension x(nn)
-      integer :: nn, n, ntstar
-      real(8) :: xx(nn), xmg(nn), xmag0, xini(n), zts, zte,
-     1           tstart0, x(nn)
-      REAL(8) :: t, tstart
+      integer nn, n, ntstar
+      double precision xx(nn), xmg(nn), xmag0, xini(n), zts, zte,
+     1                 tstart0, x(nn)
+      double precision t, tstart
 c
 cc      call input
       t=zte-zts
@@ -75,9 +75,9 @@ cc      common/hyp/ xp(ldata),yp(ldata),dep(ldata)
 cc      dimension x(ldata),xmg0(ldata)
 cx      dimension xx(nn),xmg(nn),a(n)
 cx      dimension x(nn),xmg0(nn)
-      integer :: nn, n, ntstar
-      real(8) :: xx(nn), xmg(nn), xmag0, a(n), tstart, x(nn)
-      real(8) :: xmg0(nn), func411, func4pp, chtsta, ft
+      integer nn, n, ntstar
+      double precision xx(nn), xmg(nn), xmag0, a(n), tstart, x(nn)
+      double precision xmg0(nn), func411, func4pp, chtsta, ft
 cx      func41(t,tx,xm,a3,a4)=(log(t-tx+a3)-log(a3))*exp(a4*xm)
 cx      func4p(t,tx,xm,a3,a4,a5)=1.d0/(1.d0-a5)*((t-tx+a3)**(1.d0-a5)
 cx     &      -a3**(1.d0-a5))*exp(a4*xm)
@@ -131,12 +131,12 @@ cx 1002 format(i5,4f12.5)
       return
       end
       double precision function func411(t,tx,xm,a3,a4)
-      real(8) :: t, tx, xm, a3, a4
+      double precision t, tx, xm, a3, a4
       func411=(log(t-tx+a3)-log(a3))*exp(a4*xm)
       return
       end
       double precision function func4pp(t,tx,xm,a3,a4,a5)
-      real(8) :: t, tx, xm, a3, a4, a5
+      double precision t, tx, xm, a3, a4, a5
       func4pp=1.d0/(1.d0-a5)*((t-tx+a3)**(1.d0-a5)
      &      -a3**(1.d0-a5))*exp(a4*xm)
       return

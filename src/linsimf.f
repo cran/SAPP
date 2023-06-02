@@ -3,7 +3,7 @@ cc      program linsim
 cx     & kmax,xx,i1,j1,err)
      & kmax,xx,i1,j1,err,ier)
 c
-      include 'sapp_f.h'
+      include 'sapp.h'
 c
 c     this program performs similation of a self-exciting point process
 c  which is also stimulated by another given point process data; non
@@ -47,10 +47,10 @@ cc      dimension axx(100),axy(100),axz(100)
 cc      dimension ei(100),ej(100),fi(100),fj(100),lf(51,51)
 cx      dimension xx(2*mm),yy(mm+1)
 cx      dimension axx(kxx),axy(kxy),axz(kxz)
-      integer :: kxx, kxy, kxz, mm, kmax, i1, j1, ier
-      real(8) :: t, c, d, axx(kxx), axy(kxy), axz(kxz), yy(mm+1),
-     1           ptxmax, xx(2*mm), err
-      real(8) :: fxxmax, fxymax
+      integer kxx, kxy, kxz, mm, kmax, i1, j1, ier
+      double precision t, c, d, axx(kxx), axy(kxy), axz(kxz), yy(mm+1),
+     1                 ptxmax, xx(2*mm), err
+      double precision fxxmax, fxymax
 c
 cc      call input(kxx,kxy,kxz,t,c,d,axx,axy,axz,yy,mm,ptxmax,kmax)
 c
@@ -79,13 +79,13 @@ cx      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax)
 cc      dimension lf(51,51)
 cx      dimension lf(kmax,kmax)
 cx      real*4r
-      integer :: kxx, kxy, kxz, mm, kmax, i1, j1, ier
-      real(8) :: t, c, d, axx(kxx), axy(kxy), axz(kxz), fxxmax, fxymax,
-     1           xx(2*mm), yy(mm+1), ptxmax, err
-      integer :: lf(kmax,kmax)
-      real(4) :: r
-      real(8) :: ei(kmax), ej(kmax), fi(kmax), fj(kmax), x, uity, duity,
-     1           e, dmx, xity, probx, prob
+      integer kxx, kxy, kxz, mm, kmax, i1, j1, ier
+      double precision t, c, d, axx(kxx), axy(kxy), axz(kxz), fxxmax,
+     1                 fxymax, xx(2*mm), yy(mm+1), ptxmax, err
+      integer lf(kmax,kmax)
+      real r
+      double precision ei(kmax), ej(kmax), fi(kmax), fj(kmax), x, uity,
+     1                 duity, e, dmx, xity, probx, prob
 c
 c----------
       ier=0
@@ -202,11 +202,11 @@ cx      dimension axx(1),axy(1),ei(1),ej(1),fi(1),fj(1)
 cx      dimension xx(1),yy(1)
 cx      dimension axx(kxx),axy(kxy),ei(1),ej(1),fi(1),fj(1)
 cx      dimension xx(i),yy(j)
-      integer :: i, j, kxx, kxy
-      real(8) :: x, duity, xx(i), yy(j), axx(kxx), axy(kxy), c, d,
-     1           ei(1), ej(1), fi(1), fj(1), ptxmax
-      real(8) :: bxx(kxx), bxy(kxy), cxp, cyp, cx, cy, dxxi, ecdxxi,
-     1           dyyj, ecdyyj, xity
+      integer i, j, kxx, kxy
+      double precision x, duity, xx(i), yy(j), axx(kxx), axy(kxy), c, d,
+     1                 ei(1), ej(1), fi(1), fj(1), ptxmax
+      double precision bxx(kxx), bxy(kxy), cxp, cyp, cx, cy, dxxi,
+     1                 ecdxxi, dyyj, ecdyyj, xity
       ixf=1
       iyf=1
       cxp=0.0
@@ -253,10 +253,11 @@ cx      dimension ei(kmax),ej(kmax),fi(kmax),fj(kmax)
 cx      dimension lf(kmax,kmax)
 cx      dimension xx(1),yy(1)
 cx      dimension xx(i),yy(j)
-      integer :: i, j, kxx, kxy, kxz, kmax, lf(kmax,kmax)
-      real(8) :: x, xity, axx(kxx), axy(kxy), axz(kxz), c, d, ei(kmax),
-     1           ej(kmax), fi(kmax), fj(kmax), xx(i), yy(j)
-      real(8) :: dxxi, ecdxxi, ff, dyyj, ecdyyj, ptx
+      integer i, j, kxx, kxy, kxz, kmax, lf(kmax,kmax)
+      double precision x, xity, axx(kxx), axy(kxy), axz(kxz), c, d,
+     1                 ei(kmax), ej(kmax), fi(kmax), fj(kmax), xx(i),
+     2                 yy(j)
+      double precision dxxi, ecdxxi, ff, dyyj, ecdyyj, ptx
 
       if(i.eq.0) go to 30
       dxxi=x-xx(i)

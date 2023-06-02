@@ -1,8 +1,9 @@
 cc      program main
       subroutine etasimf(ic,bvalue,tstart,nd,ctmg,rfmg,a,b,c,d,p,
-     &                   xm,zz,xx,probx)
+cx     &                   xm,zz,xx,probx)
+     &                   xm,zz,xmag,xx,probx)
 c
-      include 'sapp_f.h'
+      include 'sapp.h'
 c
 cx      implicit real*8(a-h,o-z)
 cx      real*4 r
@@ -14,11 +15,11 @@ cc      data nd / 1000 /
 c     data xm / ndata*0.0 /
 cc      dimension xx(ndata),xm(ndata),zz(ndata)
 cx      dimension xx(nd),xm(nd),zz(nd)
-      integer :: ic, nd
-      real(8) :: bvalue, tstart, ctmg, rfmg, a, b, c, d, p, xm(nd),
-     1           zz(nd), xx(nd), probx
-      real(4) :: r
-      real(8) :: x, xity, uity, e, zr, t
+      integer ic, nd
+      double precision bvalue, tstart, ctmg, rfmg, a, b, c, d, p,
+     1                 xm(nd), zz(nd), xmag(nd), xx(nd), probx
+      real r
+      double precision x, xity, uity, e, zr, t
 cc      open(unit=2,file='etasim.open')
 cc      read(2,*) ic,bvalue
 cc      read(2,*) tstart,nd
@@ -126,6 +127,7 @@ cx     &       ';   b-value=',f4.2)
 cx 1006 format(' ETAS parameter; mu,K_0,c,alpha,p =',5f8.5)
 cx 1005 format(1h ,6f13.4)
 cc      stop
+      xmag(1:nd) = xm(1:nd)
       return
       end
 c
@@ -134,8 +136,8 @@ cc      subroutine fx(i,x,a,b,c,d,p,rfmg,xx,xm,xity)
 cx      implicit real*8(a-h,o-z)
 cx      dimension xx(1),xm(1)
 cx      dimension xx(i),xm(i)
-      integer :: i
-      real(8) :: x, a, b, c, d, p, rfmg, xx(i), xm(i), xity
+      integer i
+      double precision x, a, b, c, d, p, rfmg, xx(i), xm(i), xity
       xity=a
 ctren xity=a-x*0.2821d-6
       do 10 j=1,i
@@ -144,21 +146,11 @@ cx   10 xity=xity+b/(x-xx(j)+c)**p*exp(d*(xm(j)-rfmg))
    10 continue
       return
       end
-      subroutine pseud0(r)
-c     generation of pseudo-random numbers
-c     data ir/584287/
-      data ir/574289/
-      ir=ir*48828125
-cx      if(ir) 10,20,20
-      if(ir.lt.0) go to 10
-      if(ir.ge.0) go to 20
-   10 ir=(ir+2147483647)+1
-   20 r=float(ir)*0.4656613e-9
-      return
-      end
 cc      subroutine pseudo(random)
       subroutine pseudo(random,ix,iy,iz)
 c     wichmann+hill (1982) Appl. Statist 31
+      integer ix,iy,iz
+      real random
 cc      data ix,iy,iz /1992,1111,1151/
       ix=171*mod(ix,177)-2*(ix/177)
       iy=172*mod(iy,176)-35*(iy/176)
